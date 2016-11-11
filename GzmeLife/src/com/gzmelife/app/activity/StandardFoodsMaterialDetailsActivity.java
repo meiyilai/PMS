@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.x;
-import org.xutils.common.Callback.CancelledException;
 import org.xutils.common.Callback.CommonCallback;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
@@ -18,19 +17,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.adapter.GalleryAdapter;
-import com.gzmelife.app.adapter.StandardFoodMaterialAdapter;
 import com.gzmelife.app.adapter.GalleryAdapter.OnRecyclerViewItemClickListener;
 import com.gzmelife.app.adapter.MyFoodMaterialChildAdapter;
 import com.gzmelife.app.bean.CategoryFirstBean;
@@ -40,16 +35,17 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLogger;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.bean.TimeNode;
 import com.gzmelife.app.views.GridViewForScrollView;
 
 /**
- * 界面 购物车 添加标准食材库
+ * 界面【购物车】添加标准食材库
  *
  * 个人中心-三级食材(食材库管理)
  */
 @ContentView(R.layout.activity_standard_foods_material_details)
 public class StandardFoodsMaterialDetailsActivity extends BaseActivity implements android.view.View.OnClickListener {
+
 	MyLogger HHDLog = MyLogger.HHDLog();
 
 	@ViewInject(R.id.tv_title)
@@ -58,16 +54,12 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 	TextView tv_selectNum;
 	@ViewInject(R.id.tv_all)
 	TextView tv_all;
-
 	@ViewInject(R.id.layout_manage)
 	View layout_manage;
-
 	@ViewInject(R.id.rv_goodfood)
 	RecyclerView rv_goodfood;
-
 	@ViewInject(R.id.iv_car)
 	ImageView iv_car;
-
 	@ViewInject(R.id.gv_food)
 	GridViewForScrollView gv_food;
 
@@ -78,7 +70,7 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 	private List<LocalFoodMaterialLevelThree> foods; // 三级食材
 	/** 选中了的食材的名字 */
 	private ArrayList<String> selectedList = new ArrayList<String>();
-	/** 选中了的食材的名字 */
+	/** 选中了的食材的UID */
 	private ArrayList<String> selectedListID = new ArrayList<String>();
 
 	private int p;
@@ -106,8 +98,7 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 	}
 
 	private void getIntentData() {
-		category = (CategoryFirstBean) getIntent().getSerializableExtra(
-				"category");
+		category = (CategoryFirstBean) getIntent().getSerializableExtra("category");
 		filePath = getIntent().getStringExtra("filePath");
 		ChildPosition = getIntent().getIntExtra("ChildPosition", 0);
 		timeNode = (TimeNode) getIntent().getSerializableExtra("timeNode");
@@ -119,16 +110,18 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 		state = getIntent().getBooleanExtra("isEdt", false);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("界面【标准食材库“二级 展现”&购物车】");
+	}
+
 	@SuppressWarnings("deprecation")
 	private void initView() {
-
-		tv_title.setText(category.getSecondCategorieList().get(ChildPosition)
-				.getScName());
-
-		// 控制界面显示三个，不让用户随意滑动
-		rv_goodfood.setOnScrollListener(new OnScrollListener() {
+		tv_title.setText(category.getSecondCategorieList().get(ChildPosition).getScName());
+		rv_goodfood.setOnScrollListener(new OnScrollListener() {// 控制界面显示三个，不让用户随意滑动
+			//
 		});
-
 		tv_all.setOnClickListener(this);
 	}
 
@@ -156,7 +149,6 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 			// intent.putExtra("listId", listId);
 			// setResult(RESULT_OK, intent);
 			// StandardFoodsMaterialDetailsActivity.this.finish();
-
 			// }
 
 			if (selectedList.size() == 0) {
@@ -165,8 +157,7 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 				int c = count + selectedList.size();
 				if (c <= 5) {
 					LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();
-					bean1.setName(category.getFcName());
-
+					bean1.setName(category.getFcName());//一级分类名称20161109
 					/** 20161026缓存选中的食材的名称 */
 					ArrayList<String> name = new ArrayList<String>();
 					/** 20161026缓存选中的食材的UID */
@@ -175,30 +166,30 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 						LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
 						bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 						bean2.setName(selectedList.get(i));
-						bean2.setuid(selectedListID.get(i));
+						bean2.setUid(selectedListID.get(i));
+						HHDLog.e("这里需要保存UID到本地？=" + selectedListID.get(i) + "_" + selectedList.get(i));
 						FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 						name.add(selectedList.get(i));
 						uid.add(selectedListID.get(i));
 						Intent intent = new Intent();
 
-						System.out.println("===name===" + name);
-						System.out.println("===uid===" + uid);
+						HHDLog.v("食材的名称：" + name);
+						HHDLog.v("食材的UID：" + uid);
 						setResult(RESULT_OK, intent);
 					}
 					// Intent intents = new Intent(
 					// StandardFoodsMaterialDetailsActivity.this,
 					// AddStepActivity.class);
 					Intent intents = new Intent();
-//					intents.putExtra("mList", name);
 					intents.putExtra("mlistMore", name);
-					intents.putExtra("mlisetMoreID",uid);
+					intents.putExtra("mlisetMoreID", uid);
 					intents.putExtra("timeNode", timeNode);
 					intents.putExtra("startTime", startTime);
 					intents.putExtra("endTime", endTime);
 					intents.putExtra("step", step);
 					intents.putExtra("isEdt", state);
 					intents.putExtra("filePath", filePath);
-//					HHDLog.e("第一个食材名称="+name.get(0).toString()+"，一个食材UID="+uid.get(0).toString()+"，timeNode="+timeNode+"，startTime="+startTime+"，endTime="+endTime+"，step="+step+"，isEdt="+state+"，filePath="+filePath);
+					HHDLog.v("mlistMore=" + name.get(0) + "_" + name.size() + "，mlisetMoreID=" + uid.get(0) + "_" + uid.size() + "，timeNode=" + timeNode + "，startTime=" + startTime + "，endTime=" + endTime + "，step=" + step + "，isEdt=" + state + "，filePath=" + filePath);
 					setResult(RESULT_OK, intents);
 
 					// startActivity(intents);
@@ -265,8 +256,7 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 		// }
 		showDlg();
 		getById(position);
-		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
-				this);
+		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 		linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		// 控制初始选择显示的Item
 		p = position;
@@ -282,22 +272,18 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 
 		// 设置适配器
 		galleryAdapter = new GalleryAdapter(this, mDatas, ChildPosition);
-		galleryAdapter
-				.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
-					@Override
-					public void onItemClick(View view, int position, int pos) {
-						isButton(pos, view);
-						System.out.println("position==" + position + "pos==="
-								+ pos+"ChildPosition===="+ChildPosition);
-						for (int i = 0; i < rv_goodfood.getChildCount(); i++) {
-							rv_goodfood.getChildAt(i).findViewById(R.id.tv)
-									.setSelected(false);
-							tv_title.setText(category.getSecondCategorieList()
-									.get(pos).getScName());
-							getById(position);
-						}
-					}
-				});
+		galleryAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
+			@Override
+			public void onItemClick(View view, int position, int pos) {
+				isButton(pos, view);
+				HHDLog.i("position==" + position + "pos===" + pos + "ChildPosition====" + ChildPosition);
+				for (int i = 0; i < rv_goodfood.getChildCount(); i++) {
+					rv_goodfood.getChildAt(i).findViewById(R.id.tv).setSelected(false);
+					tv_title.setText(category.getSecondCategorieList().get(pos).getScName());
+					getById(position);
+				}
+			}
+		});
 		rv_goodfood.setAdapter(galleryAdapter);
 
 		// gvFoodAdapter = new MyFoodMaterialChildAdapter(context, foods, 1, new
@@ -332,42 +318,41 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 		x.http().post(params, new CommonCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
-				Log.i(TAG, "getById-->onSuccess"+result);
+				//Log.i(TAG, "getById-->onSuccess"+result);
+				HHDLog.v("getById-->onSuccess"+result);
 				closeDlg();
 				Gson gson = new Gson();
 				JSONObject obj;
 				try {
 					obj = new JSONObject(result);
-					foods = gson.fromJson(obj.getJSONObject("data")
-							.getJSONArray("foodStores").toString(),
+					foods = gson.fromJson(obj.getJSONObject("data").getJSONArray("foodStores").toString(),
 							new TypeToken<List<LocalFoodMaterialLevelThree>>() {
+								//
 							}.getType());
 
-					gvFoodAdapter = new MyFoodMaterialChildAdapter(context,
-							foods, 1,
-							new MyFoodMaterialChildAdapter.OnReceiver() {
-								@Override
-								public void onCheckChange(String id, String id1,
-										boolean isChecked) {
-									
-									if (isChecked) {
-										selectedList.add(id);
-										selectedListID.add(id1);
-										Log.i(TAG, "选择 "+selectedList.get(0));
-										Log.i(TAG, "选择 "+selectedListID.get(0));
-									} else {
-										selectedList.remove(id);
-										selectedListID.remove(id1);
-									}
-									tv_selectNum.setText(""
-											+ selectedList.size());
-								}
-							});
+					gvFoodAdapter = new MyFoodMaterialChildAdapter(context, foods, 1, new MyFoodMaterialChildAdapter.OnReceiver() {
+						@Override
+						public void onCheckChange(String name, String id, boolean isChecked) {
+							if (isChecked) {
+								selectedList.add(name);
+								selectedListID.add(id);
+								HHDLog.v("选择：名称-》" + name + "_UID-》" + id);
+
+								//Log.i(TAG, "选择 "+selectedList.get(0));
+								//Log.i(TAG, "选择 "+selectedListID.get(0));
+							} else {
+								selectedList.remove(name);
+								selectedListID.remove(id);
+							}
+							tv_selectNum.setText("" + selectedList.size());
+						}
+					});
 					gvFoodAdapter.setClickable(true);
 					gv_food.setAdapter(gvFoodAdapter);
 					gvFoodAdapter.notifyDataSetChanged();
-					
-					Log.i(TAG, foods.get(0).getuid());
+
+					HHDLog.v(foods.get(0).getUid());
+					//Log.i(TAG, foods.get(0).getUid());
 
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -376,19 +361,16 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 

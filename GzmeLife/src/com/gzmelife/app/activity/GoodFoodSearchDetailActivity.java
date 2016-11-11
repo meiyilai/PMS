@@ -28,8 +28,12 @@ import com.gzmelife.app.bean.SearchFoodBean;
 import com.gzmelife.app.bean.SearchMenuBookBean;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
 public class GoodFoodSearchDetailActivity extends BaseActivity{
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private ListView lv_food;
 	LvfoodSearchAdapter lvFoodSearchAdapter;
 	TextView tv_title;
@@ -107,6 +111,7 @@ public class GoodFoodSearchDetailActivity extends BaseActivity{
 					e.printStackTrace();
 				}
 				System.out.println("======result======>>>>" + result.toString());
+				HHDLog.e("1"+result.toString());
 			}
 
 			@Override

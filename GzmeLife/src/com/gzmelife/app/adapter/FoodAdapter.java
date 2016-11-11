@@ -20,6 +20,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+
+/**
+ * 步骤（时间节点）的食材的Adapter
+ */
 public class FoodAdapter extends BaseAdapter {
 	ViewHolder viewHolder;
 	Context context;

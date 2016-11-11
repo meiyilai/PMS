@@ -6,6 +6,7 @@ import java.util.List;
 import com.gzmelife.app.R;
 import com.gzmelife.app.activity.GoodFoodSearchActivity;
 import com.gzmelife.app.bean.SearchAutoData;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class SearchsAutoAdapter extends BaseAdapter {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private Context mContext;
 	private ArrayList<SearchAutoData> mOriginalValues;// 所有的Item
 	public List<SearchAutoData> mObjects;// 过滤后的item
@@ -43,7 +47,8 @@ public class SearchsAutoAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		Log.i("cyl", "getCount");
+		HHDLog.v("搜索结果的Adapter");
+		//Log.i("cyl", "getCount");
 		return null == mObjects ? 0 : mObjects.size();
 	}
 

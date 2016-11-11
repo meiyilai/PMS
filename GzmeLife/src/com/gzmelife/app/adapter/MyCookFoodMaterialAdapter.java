@@ -17,6 +17,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.GridViewForScrollView;
 
 /**
@@ -24,6 +25,8 @@ import com.gzmelife.app.views.GridViewForScrollView;
  */
 @SuppressLint("InflateParams")
 public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 
 	private String TAG="MyCookFoodMaterialAdapter";
 	private List<LocalFoodMaterialLevelOne> parentList;
@@ -113,25 +116,22 @@ public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent) {
-		MyLog.d("--->child:" + groupPosition + "," + childPosition);
+	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+		HHDLog.v("--->child:" + groupPosition + "," + childPosition);
 		ViewHolderChild viewHolderChild;
 		if (convertView == null) {
 			viewHolderChild = new ViewHolderChild();
-			convertView = inflater.inflate(R.layout.item_lv_food_material_2,
-					null);
-			viewHolderChild.gv_data = (GridViewForScrollView) convertView
-					.findViewById(R.id.gv_data);
+			convertView = inflater.inflate(R.layout.item_lv_food_material_2, null);
+			viewHolderChild.gv_data = (GridViewForScrollView) convertView.findViewById(R.id.gv_data);
 			convertView.setTag(viewHolderChild);
 		} else {
 			viewHolderChild = (ViewHolderChild) convertView.getTag();
 		}
 
 		String key = parentList.get(groupPosition).getId() + "";
-		Log.i(TAG, "修改步骤UID  name:"+parentList.get(groupPosition).getName()+"--：id："+parentList.get(groupPosition).getId());
+		HHDLog.v("修改步骤UID  name:"+parentList.get(groupPosition).getName()+"--：id："+parentList.get(groupPosition).getId());
 		List<LocalFoodMaterialLevelThree> list = map.get(key);
-		MyLog.d("--->list.size:" + (list == null ? 0 : list.size()));
+		HHDLog.v("--->list.size:" + (list == null ? 0 : list.size()));
 		MyCookFoodMaterialChildAdapter adapter = new MyCookFoodMaterialChildAdapter(
 				context, list, flag,
 				new MyCookFoodMaterialChildAdapter.OnReceiver() {
@@ -140,7 +140,8 @@ public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
 						if (isChecked) {
 							selectedList.add(name);
 							selectedListUID.add(id);
-							Log.i(TAG, "选择:"+selectedList.get(0)); 
+							HHDLog.v("选择名称："+name);
+							HHDLog.v("选择UID："+id);
 						} else {
 							selectedList.remove(name);
 							selectedListUID.remove(id);

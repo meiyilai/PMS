@@ -40,7 +40,7 @@ import com.gzmelife.app.tools.MyLog;
 import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.PmsFile;
 import com.gzmelife.app.tools.ShowDialogUtil;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.bean.TimeNode;
 import com.gzmelife.app.views.ListViewForScrollView;
 import com.gzmelife.app.views.TipConfirmView;
 
@@ -80,12 +80,13 @@ import android.widget.TextView;
 @ContentView(R.layout.activity_cook_book_detail)
 
 /**
- * 20161011编辑菜谱(保存)
+ * 界面【菜谱详情&编辑菜谱(保存)】
  */
 public class CookBookDetailActivity extends BaseActivity implements OnClickListener {
 
+	/** 20161013缓存自动命名的字符串 */
 	private String smartFileName = null;
-	/** 20161013存放时间节点每个食物 */
+	/** 20161013存放时间节点每个食物（用于智能命名） */
 	ArrayList<TimeNodeFood> timeNodeFoodList = new ArrayList<>();
 
 	MyLogger HHDLog=MyLogger.HHDLog();
@@ -111,6 +112,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	Button btn_etCookBook;
 	@ViewInject(R.id.tv_describe)
 	TextView tv_describe;
+	/** 相机图标 */
 	@ViewInject(R.id.iv_edtPhoto)
 	ImageView iv_edtPhoto;
 	@ViewInject(R.id.iv_titleLeft)
@@ -119,6 +121,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	LinearLayout ll3;
 	@ViewInject(R.id.ll_bottom)
 	LinearLayout ll_bottom;
+	/** 保存按钮 */
 	@ViewInject(R.id.btn_titleRight)
 	Button btn_titleRight;
 	@ViewInject(R.id.tv_title_left)
@@ -150,11 +153,10 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	private int position;
 	private boolean isChick = false;
-	/** 上个界面传的状态 */
+	/** 标记状态（编辑步骤、添加步骤）：true=编辑步骤 */
 	private boolean state = false;
-	// 菜谱ID
+	/** 菜谱ID */
 	private String cookId;
-
 	/** 20161012PMS菜谱结构 */
 	private PmsFile pmsFile;
 
@@ -178,26 +180,24 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+		HHDLog.v(" ");
 		context = this;
 		detail = this;
 		initView();
 		cookId = getIntent().getStringExtra("cookId");
-		System.out.println("cookId====" + cookId);
 		state = getIntent().getBooleanExtra("state", false);
 		position = getIntent().getIntExtra("position", 0);
 		// listTimeNode.add((TimeNode) getIntent()
 		// .getSerializableExtra("timeNode"));
 		timeNode = (TimeNode) getIntent().getSerializableExtra("timeNode");
-		System.out.println("timeNode=" + timeNode);
 		// cookBookStopAdapter.notifyDataSetChanged();
-		Log.i(TAG, "onCreate-->state:" + String.valueOf(state));
-		System.out.println("state=" + String.valueOf(state));
+		HHDLog.v("cookId="+cookId+"，timeNode="+timeNode+"，state="+String.valueOf(state)+"，cookId="+cookId);
 		if (state) {
-			getFileInfo1();/** 编辑保存后返回之后显示 */
+			getFileInfo1();/** “编辑菜谱”保存后返回之后显示 */
 			setType(true);
 		} else {
 			setType(false);
-			getFileInfo();/** 私厨界面进入菜谱详情界面时执行 */
+			getFileInfo();/** 非编辑状态的“菜谱详情”界面 */
 		}
 
 		if (KappAppliction.getLiLogin() == 1) {
@@ -208,28 +208,32 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			return;
 		}
 		// update();
-		Log.i(TAG, "=============================>onCreate");
+		//Log.i(TAG, "=============================>onCreate");
 	}
 
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		super.onRestart();
-		Log.i(TAG, "=============================>onRestart");
+
+		{	/* TODO:这里实现新插入步骤判别间隙5秒20161111 */
+			update();
+			//cookBookStopAdapter.notifyDataSetInvalidated();
+		}
+
+		HHDLog.v(" ");
 	}
 
 	@Override
 	protected void onResume() {
-		Log.i(TAG, "=============================>onResume");
-		// update();
 		super.onResume();
+		HHDLog.v("界面【菜谱详情&编辑菜谱】");
 	}
 
 	@Override
 	protected void onStop() {
-		Config.Name = null;
-		Log.i(TAG, "=============================>onStop");
 		super.onStop();
+		Config.Name = null;
+		HHDLog.v(" ");
 	}
 
 	private void initView() {
@@ -247,18 +251,20 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 		iv_photo.setOnClickListener(this);
 		setType(false);
+		HHDLog.v(" ");
 	}
 
-	/** 是否为编辑状态：false=不是编辑*/
+	/** 是否为编辑状态：true=编辑状态*/
 	private void setType(boolean isEdt) {
+		HHDLog.v("是否为编辑状态="+isEdt);
 		cookBookStopAdapter.setEdt(isEdt);
+		iv_edtPhoto.setVisibility(isEdt ? View.VISIBLE : View.GONE);
+		btn_titleRight.setVisibility(isEdt ? View.VISIBLE : View.GONE);
 		btn_etCookBook.setVisibility(isEdt ? View.INVISIBLE : View.VISIBLE);
 		// tv_describe.setVisibility(isEdt ? View.VISIBLE : View.GONE);
-		iv_edtPhoto.setVisibility(isEdt ? View.VISIBLE : View.GONE);
 		iv_edtPhoto.setOnClickListener(this);
 		ll3.setVisibility(isEdt ? View.GONE : View.VISIBLE);
 		ll_bottom.setVisibility(isEdt ? View.GONE : View.VISIBLE);
-		btn_titleRight.setVisibility(isEdt ? View.VISIBLE : View.GONE);
 		btn_titleRight.setOnClickListener(this);
 		iv_titleRight.setVisibility(isEdt ? View.GONE : View.VISIBLE);
 		tv_title.setText(isEdt ? "编辑菜谱" : "菜谱详情");
@@ -276,18 +282,18 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 		et_describe.setEnabled(isEdt);
 	}
 
-	/** 长按删除 */
+	/** 设置为可以长按删除步骤（时间节点） */
 	private void isLongChick(boolean isEdt) {
 		if (isEdt == true) {
 			lv_step.setOnItemLongClickListener(new OnItemLongClickListener() {
-
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-					// TODO Auto-generated method stub
+					HHDLog.v(" ");
 					if (listTimeNode.size() > 1) {
 						TipConfirmView.showConfirmDialog(context, "是否确认删除?", new OnClickListener() {
 							@Override
 							public void onClick(View v) {
+								HHDLog.v(" ");
 								TipConfirmView.dismiss();
 								listTimeNode.remove(position);
 								KappUtils.showToast(context, "步骤删除成功");
@@ -304,10 +310,8 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 		} else if (isEdt == false) {
 			lv_step.setOnItemLongClickListener(new OnItemLongClickListener() {
-
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-					// TODO Auto-generated method stub
 					// TipConfirmView.showConfirmDialog(context, "是否确认删除?",
 					// new OnClickListener() {
 					// @Override
@@ -330,7 +334,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	int a = 0, b = 0;
 
 	private void sendFileToPMS() {
-		Log.i(TAG, "sendFileToPMS-->");
+		HHDLog.v(" ");
 		handler.sendEmptyMessage(0);
 
 		if (socketTool == null) {
@@ -349,7 +353,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 							/** 暂停上传 */
 							if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
 								closePDlg();
-								System.out.println("上传失败停止" + 1 + "");
+								HHDLog.v("上传失败停止" + 1 + "");
 							}
 							// timeCntHeart++;
 							// timeCntHeartNow++;
@@ -365,7 +369,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 							break;
 						case 0:
 							closePDlg();
-							System.out.println("上传失败停止" + 20 + "");
+							HHDLog.v("上传失败停止" + 20 + "");
 							break;
 					}
 				}
@@ -414,6 +418,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	}
 
 	public void closePDlg() {
+		HHDLog.v(" ");
 		if (pDlg != null && pDlg.isShowing()) {
 			pDlg.dismiss();
 		}
@@ -437,12 +442,11 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					break;
 				case 2:
 					KappUtils.showToast(context, "上传文件到智能锅成功");
-
 					smartPotStatu smart = new smartPotStatu();
 					smart.setDirty();
 					break;
 				case 50000:
-					KappUtils.showToast(context, "微波炉拒绝接受上传文件");
+					KappUtils.showToast(context, "智能锅拒绝接受上传文件");
 					closePDlg();
 					// socketTool.closeSocket();
 					break;
@@ -454,8 +458,8 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	@Override
 	protected void onDestroy() {
-
 		super.onDestroy();
+		HHDLog.v(" ");
 		if (socketTool != null) {
 			socketTool.closeSocket();
 			socketTool = null;
@@ -469,6 +473,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.btn_uploading:
+				HHDLog.v(" ");
 				// if (KappAppliction.state == 1) {
 				// sendFileToPMS();
 				// } else if (KappAppliction.state == 2) {
@@ -487,16 +492,19 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.iv_titleRight:
+				HHDLog.v(" ");
 				showSharp();
 				break;
 
 			case R.id.btn_sharp:
+				HHDLog.v(" ");
 				isSharp = true;
 				showSharp2();
 				sharpPopupWindow.dismiss();
 				break;
 
 			case R.id.btn_upload:
+				HHDLog.v(" ");
 				// if (KappAppliction.state == 1) {
 				// sendFileToPMS();
 				// } else if (KappAppliction.state == 2) {
@@ -511,10 +519,13 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				}
 				sharpPopupWindow.dismiss();
 				break;
+
 			case R.id.btn_cancel:
 				sharpPopupWindow.dismiss();
 				break;
+
 			case R.id.btn_wechat:
+				HHDLog.v(" ");
 				Log.i(TAG, "点击btn_wechat");
 				flag = 1;
 				if (KappAppliction.getLiLogin() == 1) {
@@ -533,11 +544,10 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					startActivity(intent);
 					CookBookDetailActivity.this.finish();
 				}
-
 				break;
 
 			case R.id.btn_wechat2:
-				Log.i(TAG, "点击btn_wechat2");
+				HHDLog.v(" ");
 				flag = 2;
 				if (KappAppliction.getLiLogin() == 1) {
 					// 1
@@ -591,9 +601,10 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					startActivity(intent);
 					CookBookDetailActivity.this.finish();
 				}
-
 				break;
+
 			case R.id.btn_upload2:
+				HHDLog.v(" ");
 				// 上传文件到后台
 				if (KappAppliction.getLiLogin() == 1) {
 					if (stat == false) {
@@ -610,10 +621,14 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					CookBookDetailActivity.this.finish();
 				}
 				break;
+
 			case R.id.btn_sharp2:
+				HHDLog.v(" ");
 				showSharp2();
 				break;
+
 			case R.id.btn_etCookBook:/** 编辑菜谱按钮 */
+				HHDLog.v(" ");
 				editString = file.getName().substring(0, file.getName().lastIndexOf("."));
 				Log.i(TAG, "filename--->" + file.getName());
 				if (TextUtils.isEmpty(Config.Name)) {
@@ -623,11 +638,12 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					et_name.setText(Config.Name);
 					Log.i(TAG, "Config.Name!=null--->et_name-->" + Config.Name);
 				}
-
 				setType(true);
 				isLongChick(true);
 				break;
+
 			case R.id.iv_titleLeft:
+				HHDLog.v(" ");
 				if (btn_etCookBook.getVisibility() == View.VISIBLE) {
 					Intent mIntent = new Intent();
 					setResult(REQUEST_CODE, mIntent);
@@ -639,12 +655,15 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					getFileInfo();
 				}
 				break;
+
 			case R.id.iv_edtPhoto:
+				HHDLog.v(" ");
 				cameraUtil = new CameraUtil(this, this);
 				cameraUtil.toCameraPhoto(true);
 				break;
 
 			case R.id.btn_titleRight:/** 保存按钮 */
+				HHDLog.v(" ");
 				if (TextUtils.isEmpty(et_name.getText().toString().trim())) {
 					KappUtils.showToast(context, "菜谱名不能为空！");
 					return;
@@ -666,13 +685,13 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.iv_photo:
+				HHDLog.v(" ");
 				if (CookBookDetailActivity.ivState == false) {
 					Intent intent = new Intent(CookBookDetailActivity.this, ImageShower.class);
 					startActivity(intent);
 				} else {
 
 				}
-
 				break;
 		}
 	}
@@ -683,7 +702,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	 * @param //headpath
 	 */
 	private void uploadTempFile(String filepath, String fileName) {
-		Log.i(TAG, "uploadTempFile(String filepath, String fileName)-->" + filepath + "--" + fileName);
+		HHDLog.v(" "+"uploadTempFile(String filepath, String fileName)-->" + filepath + "--" + fileName);
 		RequestParams entity = new RequestParams(UrlInterface.URL_PMSFILETEMPPORARY);
 		MyLog.i(TAG, "路径：" + UrlInterface.URL_PMSFILETEMPPORARY);
 		entity.setMultipart(true);
@@ -816,7 +835,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	 * @param //headpath
 	 */
 	private void checkPmsFile(String fileName) {
-		Log.i(TAG, "checkPmsFile(fileName)-->" + fileName);
+		HHDLog.v(" "+"checkPmsFile(fileName)-->" + fileName);
 		fileName = fileName.replace(".pms", "");
 		RequestParams entity = new RequestParams(UrlInterface.URL_PMSFILECHECK);
 		MyLog.i(TAG, "路径：" + UrlInterface.URL_PMSFILECHECK);
@@ -901,11 +920,8 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	 * @param //headpath
 	 */
 	private void uploadHeadPortrait(String filepath, String fileName, String type) {
-
 		fileName = fileName.replace(".pms", "");
-		Log.i(TAG, "uploadHeadPortrait-->");
-		Log.i(TAG, "uploadHeadPortrait-->filepath:" + filepath + "fileName:" + fileName + "type" + type);
-
+		HHDLog.v(" "+"uploadHeadPortrait-->filepath:" + filepath + "fileName:" + fileName + "type" + type);
 		RequestParams entity = new RequestParams(UrlInterface.URL_PMSFILEUPLOADBYBYTE);
 		MyLog.i(TAG, "路径：" + UrlInterface.URL_PMSFILEUPLOADBYBYTE);
 		entity.setMultipart(true);
@@ -973,9 +989,10 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 		});
 	}
 
+	/** 弹出窗口 */
 	private void showSharp() {
-		sharpPopupWindow = new PopupWindow(new View(context), LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-				true);
+		HHDLog.v(" ");
+		sharpPopupWindow = new PopupWindow(new View(context), LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		final View view = getLayoutInflater().inflate(R.layout.layout_sharp_window, null);
 		view.findViewById(R.id.btn_sharp).setOnClickListener(this);
 		view.findViewById(R.id.btn_upload).setOnClickListener(this);
@@ -984,7 +1001,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 		sharpPopupWindow.setTouchInterceptor(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				Log.i("mengdd", "onTouch : ");
+				HHDLog.v("onTouch : ");
 				return false;
 				// 这里如果返回true的话，touch事件将被拦截
 				// 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
@@ -1015,9 +1032,10 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 		});
 	}
 
+	/** 弹出窗口 */
 	private void showSharp2() {
-		sharpPopupWindow2 = new PopupWindow(new View(context), LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT,
-				true);
+		HHDLog.v(" ");
+		sharpPopupWindow2 = new PopupWindow(new View(context), LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		View view = getLayoutInflater().inflate(R.layout.layout_sharp_window2, null);
 		view.findViewById(R.id.btn_wechat).setOnClickListener(this);
 		view.findViewById(R.id.btn_wechat2).setOnClickListener(this);
@@ -1055,6 +1073,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	/** 根据菜谱名获取相应菜谱的数据 */
 	void getfileInfoByName1(String name) {
+		HHDLog.v(" ");
 		// filePath = getIntent().getStringExtra("filePath");
 		// filePath=name;
 		filePath = FileUtil.PMSPATH + name;
@@ -1064,7 +1083,8 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			KappUtils.showToast(context, "无文件");
 			return;
 		}
-		MyLog.i(TAG, "--->" + file.getName());
+		HHDLog.v(file.getName());
+		//MyLog.i(TAG, "--->" + file.getName());
 		if (!file.getName().endsWith(".pms") && !file.getName().endsWith(".PMS")) {
 			TipConfirmView.showConfirmDialog2(context, "不是PMS格式的文件，无法打开", new OnClickListener() {
 				@Override
@@ -1166,8 +1186,9 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 		}
 	}
 
-	/** 编辑保存后返回之后显示 */
+	/** “编辑菜谱”保存后返回之后显示 */
 	private void getFileInfo1() {
+		HHDLog.v("编辑状态");
 		filePath = getIntent().getStringExtra("filePath");
 		if (filePath != null) {
 			file = new File(filePath);
@@ -1263,8 +1284,9 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 		}
 	}
 
-	/** 获取菜谱文件信息 */
+	/** 非编辑状态的界面（获取菜谱文件信息） */
 	private void getFileInfo() {
+		HHDLog.v(" ");
 		filePath = getIntent().getStringExtra("filePath");
 		if (filePath != null) {
 			file = new File(filePath);
@@ -1272,7 +1294,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			KappUtils.showToast(context, "无文件");
 			return;
 		}
-		MyLog.i(TAG, "--->" + file.getName());
+		HHDLog.v(file.getName());
 		if (!file.getName().endsWith(".pms") && !file.getName().endsWith(".PMS")) {
 			TipConfirmView.showConfirmDialog2(context, "不是PMS格式的文件，无法打开", new OnClickListener() {
 				@Override
@@ -1356,8 +1378,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					}
 				}
 				listTimeNode.addAll(pmsFile.listTimeNode);
-				//加自动生成菜谱名称
-				/** 按重量排序食材排序 */
+				/** 20161013加自动生成菜谱名称//按重量排序食材排序 */
 				for (int i = 0; i < timeNodeFoodList.size() - 1; i++) {
 					for (int j = 1; j < timeNodeFoodList.size() - i; j++) {
 						TimeNodeFood max = new TimeNodeFood();
@@ -1399,6 +1420,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	 * @param position 当前的List位置
 	 */
 	public void edtStep(TimeNode timeNode, int startTime, int endTime, boolean isEdt, int position) {
+		HHDLog.v(" ");
 		// update();
 		intFlag = 1;
 		Intent intent = new Intent(context, AddStepActivity.class);
@@ -1423,6 +1445,9 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			}
 			iv_photo.setDrawingCacheEnabled(false);
 			startActivityForResult(intent, EDT_STEP_REQUESTCODE);
+
+			HHDLog.v("timeNode.Tips=" + timeNode.Tips + "，timeNode=" + timeNode + "，startTime=" + startTime + "，endTime=" + endTime + "，isEdt=" + isEdt + "，position=" + position);
+
 			// CookBookDetailActivity.this.finish();
 		} else {
 			intent.putExtra("timeNode", timeNode);
@@ -1435,6 +1460,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	}
 
 	public void getData(int position, TimeNode timeNode) {
+		HHDLog.v(" ");
 		// position = arg2.getIntExtra("position", 0);
 
 		listTimeNode = new ArrayList<TimeNode>();
@@ -1446,41 +1472,46 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	}
 
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+	protected void onActivityResult(int arg0, int arg1, Intent intent) {
 		if (arg1 == RESULT_OK) {
 			int position;
 			switch (arg0) {
 				case EDT_STEP_REQUESTCODE:
-					position = arg2.getIntExtra("position", 0);
-					listTimeNode.set(position, (TimeNode) arg2.getSerializableExtra("timeNode"));
+					position = intent.getIntExtra("position", 0);
+					listTimeNode.set(position, (TimeNode) intent.getSerializableExtra("timeNode"));
 					cookBookStopAdapter.notifyDataSetChanged();
-					this.pmsFile.getTimeNode().set(position, (TimeNode) arg2.getSerializableExtra("timeNode"));
+					this.pmsFile.getTimeNode().set(position, (TimeNode) intent.getSerializableExtra("timeNode"));
 					//updates();
+					HHDLog.v("EDT_STEP_REQUESTCODE ");
 					break;
 				case ADD_STEP_REQUESTCODE:
-					position = arg2.getIntExtra("position", 0);
-					listTimeNode.add(position + 1, (TimeNode) arg2.getSerializableExtra("timeNode"));
+					position = intent.getIntExtra("position", 0);
+					listTimeNode.add(position + 1, (TimeNode) intent.getSerializableExtra("timeNode"));
+					//TimeNode tn=(TimeNode) intent.getSerializableExtra("timeNode");//20161110调试用
+					//HHDLog.v("新添加的步骤（时间节点）的开始时间="+tn.times);
 					cookBookStopAdapter.notifyDataSetChanged();
-					this.pmsFile.getTimeNode().add(position + 1, (TimeNode) arg2.getSerializableExtra("timeNode"));
+					this.pmsFile.getTimeNode().add(position + 1, (TimeNode) intent.getSerializableExtra("timeNode"));
 					//updates();
+					HHDLog.v("ADD_STEP_REQUESTCODE ");
 					break;
 				default:
-					String path = cameraUtil.getImgPath(arg0, arg1, arg2);
+					String path = cameraUtil.getImgPath(arg0, arg1, intent);
 					bitmap = BitmapFactory.decodeFile(path);
 					iv_photo.setImageBitmap(bitmap);
+					HHDLog.v("default ");
 					break;
 			}
 		}
-		super.onActivityResult(arg0, arg1, arg2);
+		super.onActivityResult(arg0, arg1, intent);
 	}
 
 	private void upDatePMSTimeNode(int position,TimeNode tn) {
-
+		HHDLog.v(" ");
 	}
 
 	/** 保存编辑后的菜谱//Lotus 2016-07-26 只使用旧名称 */
 	public void update() {
-		Log.i(TAG, "update()");
+		HHDLog.v(" ");
 		// if (btn_etCookBook.getVisibility() == View.GONE) {
 		// isLongChick(true);
 		// } else {
@@ -1602,11 +1633,9 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			// }
 			// 为了节省IO流的开销，需要关闭
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("写入失败1");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("写入失败2");
 		}
@@ -1614,7 +1643,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
+		HHDLog.v(" ");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent mIntent = new Intent();
 			setResult(REQUEST_CODE, mIntent);
@@ -1780,6 +1809,4 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			e.printStackTrace();
 		}
 	}
-
-
 }

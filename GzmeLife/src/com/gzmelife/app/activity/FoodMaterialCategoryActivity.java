@@ -26,10 +26,14 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.adapter.StandardFoodMaterialAdapter;
 import com.gzmelife.app.bean.CategoryFirstBean;
+import com.gzmelife.app.tools.MyLogger;
 
 @SuppressLint("InflateParams")
 @ContentView(R.layout.activity_food_material_category)
 public class FoodMaterialCategoryActivity extends BaseActivity implements OnClickListener {
+
+	MyLogger HHDLog =MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	private TextView tv_title;
 	@ViewInject(R.id.tv_title_left)
@@ -50,6 +54,7 @@ public class FoodMaterialCategoryActivity extends BaseActivity implements OnClic
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("测试20161103_2307");
 
 		RequestParams params = new RequestParams(UrlInterface.URL_FOOD_MATERIAL_LIB);
 		showDlg();

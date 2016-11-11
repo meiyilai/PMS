@@ -1,9 +1,5 @@
 package com.gzmelife.app.tools;
 
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
-
 /*
  * Copyright (C) 2008 The Android Open Source Project
  *
@@ -20,14 +16,21 @@ import android.os.SystemClock;
  * limitations under the License.
  */
 
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
+
 /**
+ *
+ * 倒计时类
+ *
  * Schedule a countdown until a time in the future, with
  * regular notifications on intervals along the way.
  *
  * Example of showing a 30 second countdown in a text field:
  *
  * <pre class="prettyprint">
- * new CountDownTimer(30000, 1000) {
+ * new CountDownTimerUtil(30000, 1000) {
  *
  *     public void onTick(long millisUntilFinished) {
  *         mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -50,19 +53,17 @@ public abstract class CountDownTimerUtil {
     /**
      * Millis since epoch when alarm should stop.
      */
+    /** 在未到的毫秒 */
     private final long mMillisInFuture;
 
     /**
      * The interval in millis that the user receives callbacks
      */
+    /** 倒计时间隔 */
     private final long mCountdownInterval;
 
+    /** 停止的毫秒 */
     private long mStopTimeInFuture;
-
-    /**
-    * boolean representing if the timer was cancelled
-    */
-    private boolean mCancelled = false;
 
     /**
      * @param millisInFuture The number of millis in the future from the call
@@ -79,8 +80,12 @@ public abstract class CountDownTimerUtil {
     /**
      * Cancel the countdown.
      */
-    public synchronized final void cancel() {
-        mCancelled = true;
+    public final void cancel() {
+        mHandler.removeMessages(MSG);
+    }
+
+    /** 暂停计时 */
+    public final void onPause(){
         mHandler.removeMessages(MSG);
     }
 
@@ -88,7 +93,6 @@ public abstract class CountDownTimerUtil {
      * Start the countdown.
      */
     public synchronized final CountDownTimerUtil start() {
-        mCancelled = false;
         if (mMillisInFuture <= 0) {
             onFinish();
             return this;
@@ -121,10 +125,7 @@ public abstract class CountDownTimerUtil {
         public void handleMessage(Message msg) {
 
             synchronized (CountDownTimerUtil.this) {
-                if (mCancelled) {
-                    return;
-                }
-
+                /** 剩下的毫秒 */
                 final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
 
                 if (millisLeft <= 0) {
@@ -133,10 +134,12 @@ public abstract class CountDownTimerUtil {
                     // no tick, just delay until done
                     sendMessageDelayed(obtainMessage(MSG), millisLeft);
                 } else {
+                    /** 最后一个开始 */
                     long lastTickStart = SystemClock.elapsedRealtime();
                     onTick(millisLeft);
 
                     // take into account user's onTick taking time to execute
+                    /** 延迟 */
                     long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
 
                     // special case: user's onTick took more than interval to

@@ -2,13 +2,18 @@ package com.gzmelife.app.bean;
 
 /**
  * Created by HHD on 2016/10/14.
+ *
+ * 智能自动命名bean
  */
 
 public class TimeNodeFood {
+    /** 食材名称 */
     private String name;
+    /** 食材重量 */
     private int weight;
 
     public TimeNodeFood() {
+        //
     }
 
     public TimeNodeFood(String name, int weight) {

@@ -40,12 +40,17 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.GridViewForScrollView;
 
 /** 美食-三级食材(美食) */
 @ContentView(R.layout.activity_cook_book_standard_food_material_details)
 public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 		implements android.view.View.OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.tv_selectNum)
@@ -121,10 +126,10 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 
 	@Override
 	public void onClick(View v) {
-		Log.i(TAG, "onClick");
+		HHDLog.v("onClick");
 		switch (v.getId()) {
 		case R.id.btn_titleRight:
-			Log.i(TAG, "onClick ->btn_titleRight");
+			HHDLog.v("onClick ->btn_titleRight");
 			if (btn_titleRight.getText().toString().equals("编辑")) {
 				clearSelect();
 				btn_titleRight.setText("取消");
@@ -136,7 +141,7 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 			}
 			break;
 		case R.id.btn_add:
-			Log.i(TAG, "onClick ->btn_add");
+			HHDLog.v("onClick ->btn_add");
 			if (selectedList.size() == 0) {
 				KappUtils.showToast(context, "请选择食材");
 			} else {
@@ -145,9 +150,10 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 
 				for (int i = 0; i < selectedList.size(); i++) {
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
-					bean2.setPid(FoodMaterialDAO
-							.saveLocalFoodMaterialLevelOne(bean1));
+					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(selectedList.get(i));
+					HHDLog.e("这里需要保存UID到本地？");
+					//bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}
 				KappUtils.showToast(context, "食材添加成功");
@@ -156,7 +162,7 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 			}
 			break;
 		case R.id.tv_all:
-			Log.i(TAG, "onClick ->tv_all");
+			HHDLog.v("onClick ->tv_all");
 			if (selectedList.size() == foods.size()) {
 				clearSelect();
 			} else/* if (selectedList.size() == 0) */{
@@ -251,15 +257,14 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 	}
 
 	private void getById(int position) {
-		RequestParams params = new RequestParams(
-				UrlInterface.URL_FOOD_CATEGORY_ID);
+		RequestParams params = new RequestParams(UrlInterface.URL_FOOD_CATEGORY_ID);
 		params.addBodyParameter("categoryId", position + "");
 		params.addBodyParameter("standardStatus", 1 + "");
 		x.http().post(params, new CommonCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
 				closeDlg();
-				Log.i(TAG, "net getById->onSuccess:"+result);
+				HHDLog.v("net getById->onSuccess:"+result);
 				Gson gson = new Gson();
 				JSONObject obj;
 				try {
@@ -273,15 +278,13 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 							foods, 1,
 							new MysFoodMaterialChildAdapter.OnReceiver() {
 								@Override
-								public void onCheckChange(String id,
-										boolean isChecked) {
+								public void onCheckChange(String id, boolean isChecked) {
 									if (isChecked) {
 										selectedList.add(id);
 									} else {
 										selectedList.remove(id);
 									}
-									tv_selectNum.setText(""
-											+ selectedList.size());
+									tv_selectNum.setText("" + selectedList.size());
 								}
 							});
 					gvFoodAdapter.setClickable(false);
@@ -294,19 +297,16 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 

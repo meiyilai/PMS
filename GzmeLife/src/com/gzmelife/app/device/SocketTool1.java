@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.activity.CheckUpdateActivity;
@@ -29,6 +30,7 @@ import com.gzmelife.app.tools.DataUtil;
 import com.gzmelife.app.tools.FileUtils;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLogger;
+import com.gzmelife.app.views.TipConfirmView;
 
 import static com.gzmelife.app.device.Config.bufDownFileCancel;
 import static com.gzmelife.app.device.Config.bufFileCancel;
@@ -39,10 +41,9 @@ import static com.gzmelife.app.device.Config.bufFileCancel;
  *
  * 服务启动心跳
  */
-public class SocketTool {
+public class SocketTool1 {
 
     MyLogger HHDLog=MyLogger.HHDLog();
-
     private String TAG = "SocketTool";
     private Socket socket;
     private OutputStream output;
@@ -52,11 +53,16 @@ public class SocketTool {
     public static HeartTimeCount heartTimer;
     private OnReceiver receiver;
 
+
+    /** 缓存指令 */
+    private byte[] instructionTemp = new byte[2];
+    /** 标记每条指令是否首次发送，用于避开PMS和其他设备通讯：true=是首次 */
+    private boolean isFirst = true;
     /** 当前是否正在发送命令：true=发送状态 */
     private boolean isSendCMD = false;
     /** 若指令发送不成功，3S后重发指令*/
     private int timeCnt = 0;
-    /** 用于存储重发一帧数据 */
+    /** 缓存重发一帧指令 */
     private byte[] bufLastTemp;
     /** 记录重发次数，若超过3次则进行重连的操作*/
     private int MaxReCnt = 0;
@@ -86,7 +92,7 @@ public class SocketTool {
     /** 缓存传到PMS的文件 */
     private byte[] bufSendFile = new byte[10 * 1024 * 1024];
     /** 一次最大发送到PMS的大小 */
-     private int MaxPacket = 2 * 1024;
+    private int MaxPacket = 2 * 1024;
     /** PMS中菜谱文件列表 */
     private List<String> downFileList = new ArrayList<String>();
     /** PMS中录波文件列表 */
@@ -131,11 +137,13 @@ public class SocketTool {
                     e.printStackTrace();
                 }
             }
+
             {/** 具体接收业务 */
                 byte[] resultTemp = new byte[512 * 3];
                 int len = -1;
                 try {
                     if (input != null || !socket.isClosed() || socket.isConnected()) {
+                        /**TODO:读进来2.8 */
                         len = input.read(resultTemp);
                     } else {
                         //
@@ -148,7 +156,6 @@ public class SocketTool {
                         for (int i = 0; i < len; i++) {
                             result[i] = resultTemp[i];
                         }
-
                         HHDLog.i("读进---------------------------数据长度="+result.length);
                         System.out.println("\r\n接收---------------------------------------------------------------------------");
                         for (int i = 0; i < result.length; i++) {
@@ -166,9 +173,41 @@ public class SocketTool {
                         System.out.println("\r\n接收---------------------------------------------------------------------------");
                         System.out.println(" ");
 
+
+
+                        {//20160929
+                            /**TODO:1.7 取出isFirst*/
+                            if (isFirst){
+                                HHDLog.v("read里面isFirst="+isFirst);
+
+                                if (result[5] != (byte) 0){//不等于空
+                                    HHDLog.v("不等于空result[5]="+byte2HexString(result[5]));
+                                    /**TODO:1.8 判断IP地址（isFirst=true） */
+                                    if (result[5]!=Config.clientPort){/**TODO:1.10 IP地址非己*/
+                                        /**TODO:1.11 提示*/
+                                        TipConfirmView.showConfirmDialog2(context, "其他用户正在操作，请几秒后再来~", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                TipConfirmView.dismiss();
+                                            }
+                                        });
+                                        return;/**TODO:1.11 不做任何*/
+                                    }
+                                } else {
+                                    /**TODO:1.9 重发帧（IP地址是己） */
+                                    sendFrame(bufLastTemp);
+                                }
+
+                            } else {
+                                HHDLog.v("read里面isFirst="+isFirst);
+                                /**TODO:不判断地址（isFirst=false）*/
+                            }
+                        }
+
                         android.os.Message msg = new android.os.Message();
                         msg.obj = result;//20161027把接收的数据封装为消息对象
                         checkDataHandler.sendMessage(msg);
+
 
 //                        {
 //                                /** 接收的总长度（有可能是两帧） */
@@ -235,65 +274,67 @@ public class SocketTool {
                 }
             }
             this.setMsg(msg);
-            {/** 具体发送业务 */
 
-//                if (){
-//
-//                }
-
-                if (socket == null || output == null || socket.isClosed()) {
-                    if (socket == null) {
-                        //
-                    } else {
-                        //
-                    }
-                    if (receiver != null) {
-                        receiver.onFailure(0);
-                    }
-                    return;
-                }
-                try {
-                    for (int i = 0; i < msg.length; i++) {
-                        //
-                    }
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                try {
-                    if (msg != null) {
-                        output.write(msg);
-                        output.flush();
-
-                        System.out.println("\r\n发送---------------------------------------------------------------------------");
-                        for (int i = 0; i < msg.length; i++) {
-                            if (i == 3) {
-                                System.out.print("【 ");
-                            }
-                            if (i == 5) {
-                                System.out.print("】 | ");
-                            }
-                            if (i == 6) {
-                                System.out.print("| ");
-                            }
-                            System.out.print(byte2HexString(msg[i]) + " ");
+            /** TODO:不是第一次发送（isFirst=false）2.6 */
+            if (!isFirst) {
+                {/** 具体发送业务 */
+                    if (socket == null || output == null || socket.isClosed()) {
+                        if (socket == null) {
+                            //
+                        } else {
+                            //
                         }
-                        System.out.println("\r\n发送---------------------------------------------------------------------------");
-                        System.out.println(" ");
-                        HHDLog.i("写出数据长度="+msg.length);
-
-                    } else {
+                        if (receiver != null) {
+                            receiver.onFailure(0);
+                        }
                         return;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return;
+                    try {
+                        for (int i = 0; i < msg.length; i++) {
+                            //
+                        }
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                    try {
+                        if (msg != null) {
+                            /** TODO: 写出去 2.7 */
+                            output.write(msg);
+                            output.flush();
+
+                            System.out.println("\r\n发送---------------------------------------------------------------------------");
+                            for (int i = 0; i < msg.length; i++) {
+                                if (i == 3) {
+                                    System.out.print("【 ");
+                                }
+                                if (i == 5) {
+                                    System.out.print("】 | ");
+                                }
+                                if (i == 6) {
+                                    System.out.print("| ");
+                                }
+                                System.out.print(byte2HexString(msg[i]) + " ");
+                            }
+                            System.out.println("\r\n发送---------------------------------------------------------------------------");
+                            System.out.println(" ");
+                            HHDLog.i("写出数据长度="+msg.length);
+
+                        } else {
+                            return;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return;
+                    }
                 }
-            }
+            }/** TODO:1.6 跳过只改flag */
             flag=false;
             this.notify();
+            HHDLog.v("isFirst="+isFirst);
+
         }
 
     }
@@ -341,22 +382,62 @@ public class SocketTool {
 
     /**
      * 封装发送帧数据功能（发送后启动接收线程）
+     *
      * 用到地方：发指令、数据指令、重发指令和数据指令
      *
      * @param frameData 帧数据（拼接好的数据）
      */
     private void sendFrame(byte[] frameData){
+        /** TODO:待测试流程
+         */
+//        switch (frameData[3]) {
+//            case (byte) 0xF4:
+//                break;
+//            default:
+//                break;
+//        }
+
+        /**TODO:1.1 取本次指令2.1*/
+        HHDLog.v("缓存指令="+byte2HexString(instructionTemp[0])+" "+byte2HexString(instructionTemp[1]));
+        HHDLog.v("本次指令="+byte2HexString(frameData[3])+" "+byte2HexString(frameData[4]));
+        /**TODO:1.2 对比上次指令2.2*/
+        if (frameData[3] == instructionTemp[0]) {
+            /**TODO:对比：相同 2.3*/
+            if (frameData[4] == instructionTemp[1]) {
+                /**TODO:缓存本次指令2.4*/
+                instructionTemp[0]=frameData[3];
+                instructionTemp[1]=frameData[4];
+                /**TODO:isFirst=false2.5*/
+                isFirst=false;//20161028不是首次
+                HHDLog.v("isFirst="+isFirst);
+            }
+        } else {/**TODO:1.3 对比：不相同*///20161028不相同就保存此次指令
+            /**TODO:1.4 缓存本次指令*/
+            instructionTemp[0]=frameData[3];
+            instructionTemp[1]=frameData[4];
+            /**TODO:1.5 isFirst=true*/
+            isFirst=true;//20161028是首次
+            HHDLog.v("isFirst="+isFirst);
+        }
+
+
+
+
         Message msg=new Message(frameData);
-        ReceiveRunnable receiveRunnable=new ReceiveRunnable(msg);
-        Thread receiveThread = new Thread(receiveRunnable);
-        receiveThread.start();
+
+        String s=byte2HexString(frameData[0]);
+        HHDLog.v("frameData="+s);
 
         SendRunnable sendRunnable =new SendRunnable(msg);
         Thread sendThread=new Thread(sendRunnable);
         sendThread.start();
+
+        ReceiveRunnable receiveRunnable=new ReceiveRunnable(msg);
+        Thread receiveThread = new Thread(receiveRunnable);
+        receiveThread.start();
     }
 
-    public SocketTool(Context context, OnReceiver onReceiver) {
+    public SocketTool1(Context context, OnReceiver onReceiver) {
         this.context = context;
         this.receiver = onReceiver;
     }
@@ -368,7 +449,7 @@ public class SocketTool {
      * @param activity
      * @param onReceiver
      */
-    public SocketTool(Context context, Activity activity, OnReceiver onReceiver) {
+    public SocketTool1(Context context, Activity activity, OnReceiver onReceiver) {
         this.context = context;
         this.activity = activity;
         this.receiver = onReceiver;
@@ -541,7 +622,7 @@ public class SocketTool {
                             ACK(frmIndex);
                             splitInstruction(Config.bufListFile, bufACK);
                         } else {
-                            splitInstruction(Config.bufListFileOver, null);
+                            splitInstruction(Config.bufListFileOver,null);
                         }
                     } else {
                         if (downFileList.size() < fileNum) { // 加帧判断
@@ -549,7 +630,7 @@ public class SocketTool {
                             ACK(frmIndex);
                             splitInstruction(Config.bufListFile, bufACK);
                         } else {
-                            splitInstruction(Config.bufListFileOver, null);
+                            splitInstruction(Config.bufListFileOver,null);
                         }
                     }
                 } else if (buf[4] == 0x02) { // 遍历完成
@@ -567,7 +648,7 @@ public class SocketTool {
             case (byte) 0xF4: // 上召文件
                 if (buf[4] == 0x01) { // 得到文件数据
                     if (Config.cancelTransfer) {/** 21061009取消传输 */
-                        splitInstruction(bufFileCancel, null);
+                        splitInstruction(bufFileCancel,null);
                         return;
                     }
                     downloadCookbook(buf);
@@ -615,7 +696,7 @@ public class SocketTool {
                 } else if (buf[4] == 0x01) { // 发送文件一帧，得到确认
                     if (buf[6] == 0x01) {
                         if (Config.cancelTransfer) {/** 21061009取消传输 */
-                            splitInstruction(bufDownFileCancel, null);
+                            splitInstruction(bufDownFileCancel,null);
                             return;
                         }
                         Config.frmIndex++;
@@ -627,7 +708,7 @@ public class SocketTool {
                         if (Config.numDownZie > Config.numDownNow) {
                             uploadFile( Config.frmIndex);
                         } else {
-                            splitInstruction(Config.bufDownFileStop, null);
+                            splitInstruction(Config.bufDownFileStop,null);
                         }
                     } else if (buf[6] == 0x00) {
                         uploadFile( Config.frmIndex);
@@ -745,7 +826,7 @@ public class SocketTool {
      *
      * @param instruction 指令（除SocketTool有5处用到）
      */
-    public void splitInstruction(byte[] instruction) {//splitInstruction
+    public void splitInstruction_原版(byte[] instruction) {//splitInstruction
         int addNum = 0;
         byte[] bufTemp = new byte[instruction.length + 5];
         bufTemp[0] = (byte) 0xA5;
@@ -853,7 +934,6 @@ public class SocketTool {
         }
     }
 
-
     /** F4 01
      * PMS（菜谱）-》手机（菜谱）
      *
@@ -874,7 +954,7 @@ public class SocketTool {
             receiver.onSuccess(null, 3, numUpNow, bufRecFile.length);
         }
         if (numUpNow == bufRecFile.length) {//20160928需要修改：帧序号=文件的长度/每帧大小
-            splitInstruction(Config.bufFileStop, null);
+            splitInstruction(Config.bufFileStop,null);
         } else {
             frmIndex++;
             ACK(frmIndex);
@@ -1042,7 +1122,7 @@ public class SocketTool {
                 /** 当前解析帧的长度数据的长度L=功能码+子功能码+数据域长度 */
                 /** 正确完整的一帧数据的长度（多帧数据重叠时） */
                 int frameLen = (DataUtil.hexToTen(result[1]) + DataUtil.hexToTen(result[2]) * 256)+4;
-                HHDLog.d("Len+4=" + frameLen);
+//                HHDLog.d("Len+4=" + frameLen);
 
                 /** 校验算术和 */
                 int checkSUM = 0;
@@ -1050,16 +1130,14 @@ public class SocketTool {
                 /** 接收的总长度（有可能是两帧） */
                 int receiveLen = 0;
                 receiveLen = result.length;
-                HHDLog.d("接收的总长度（有可能是两帧）=" + receiveLen);
+//                HHDLog.d("接收的总长度（有可能是两帧）=" + receiveLen);
 
                 /** 是否校验结束：false=校验结束 */
                 boolean isCheck = true;
                 while (isCheck) {
                     if (isAgain) {
-
                         if (result[0] == (byte) 0xA5) {//是A5开头
                             if (frameLen>=num){//限制接收的长度为有效长度
-
                                 if (num < 3) {//拼接前三
                                     bufTemp[num] = result[num];
                                     num++;
@@ -1100,9 +1178,6 @@ public class SocketTool {
                                         }
                                     }
                                 }
-
-
-
                             } else {
                                 //
                             }
@@ -1158,7 +1233,7 @@ public class SocketTool {
                                 Looper.prepare();
                                 closeSocket();
                                 initClientSocket();
-                                splitInstruction(Config.bufConnect, null);
+                                splitInstruction(Config.bufConnect,null);
                                 new Handler().postDelayed(new Runnable() {/** 延迟2秒执行此线程 */
                                 @Override
                                 public void run() {
@@ -1189,6 +1264,8 @@ public class SocketTool {
 
     /**
      * 心跳计时类（重发指令、心跳）
+     *
+     * 可以尝试单例设计模式（解决心跳加快问题）
      */
     class HeartTimeCount extends CountDownTimer {
         /**
@@ -1226,7 +1303,6 @@ public class SocketTool {
                             MaxReCnt++;
 //                            sendMessage(bufLastTemp);
                             sendFrame(bufLastTemp);
-
                             isSendCMD = true;
                             timeCnt = 0;
                             RecTimeOut = false;
@@ -1241,9 +1317,9 @@ public class SocketTool {
                             }
                         }
                         Config.timeCntHeart++;/** 心跳计时，30S无操作发送心跳指令 */
-                        HHDLog.v("当前心跳时间（timeCntHeart）="+Config.timeCntHeart);
+//                        HHDLog.v("当前心跳时间="+Config.timeCntHeart);
                         if (Config.timeCntHeart >= 30) {
-                            splitInstruction(Config.bufHearbeat, null);
+                            splitInstruction(Config.bufHearbeat,null);
 //                            Config.timeCntHeart = 0;
                         }
                     }

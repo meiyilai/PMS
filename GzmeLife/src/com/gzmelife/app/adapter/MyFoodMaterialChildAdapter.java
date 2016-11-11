@@ -15,6 +15,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 
 /**
+ * 菜谱二级列表的每个食材的Adapter（适配器）
  */
 @SuppressLint("InflateParams")
 public class MyFoodMaterialChildAdapter extends BaseAdapter {
@@ -32,9 +33,7 @@ public class MyFoodMaterialChildAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	
 	/** flag 0:返回选择的id，1：返回选择的名字 */
-	public MyFoodMaterialChildAdapter(Context context,
-			List<LocalFoodMaterialLevelThree> list, int flag,
-			OnReceiver onReceiver) {
+	public MyFoodMaterialChildAdapter(Context context, List<LocalFoodMaterialLevelThree> list, int flag, OnReceiver onReceiver) {
 		super();
 		this.context = context;
 		this.list = list;
@@ -64,10 +63,8 @@ public class MyFoodMaterialChildAdapter extends BaseAdapter {
 		final ViewHolder viewHolder;
 		if (null == convertView) {
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(
-					R.layout.item_lv_my_foodmaterial_child, null);
-			viewHolder.cb_taste = (CheckBox) convertView
-					.findViewById(R.id.cb_taste);
+			convertView = inflater.inflate(R.layout.item_lv_my_foodmaterial_child, null);
+			viewHolder.cb_taste = (CheckBox) convertView.findViewById(R.id.cb_taste);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -87,7 +84,7 @@ public class MyFoodMaterialChildAdapter extends BaseAdapter {
 				 onReceiver.onCheckChange(bean.getId() + "",bean.getId() + "",
 				 list.get(position).isChecked());
 				 } else if (flag == 1) {
-				 onReceiver.onCheckChange(bean.getName(),bean.getuid() + "",
+				 onReceiver.onCheckChange(bean.getName(),bean.getUid() + "",
 //				 onReceiver.onCheckChange(bean.getId()+ "",
 				 list.get(position).isChecked());
 				 }

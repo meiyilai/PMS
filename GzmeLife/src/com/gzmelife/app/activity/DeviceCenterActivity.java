@@ -86,6 +86,7 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 						&& connectDeviceBean.getWifiName().equals(new EspWifiAdminSimple(context).getWifiConnectedSsid())
 						&& connectDeviceBean.getIp().equals(Config.SERVER_HOST_IP)) {
 					KappUtils.showToast(context, "当前已连接该设备");
+					DeviceCenterActivity.this.finish();//20161028
 					return;
 				}
 				Config.SERVER_HOST_NAME = "";
@@ -204,7 +205,7 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 					break;
 				case 2: // PMS连接成功
 					KappUtils.showToast(context, "与PMS连接成功");
-					socketTool.splitDataInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
+					socketTool.splitInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
 					System.out.print("----对时功能4----"+new DateUtil().getCurrentTime());
 					KappAppliction.state=1;
 					if (connectDeviceBean != null) {

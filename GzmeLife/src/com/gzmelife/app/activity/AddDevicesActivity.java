@@ -110,7 +110,7 @@ public class AddDevicesActivity extends BaseActivity {
 	}
 	
 	private void connect() {
-		socketTool.splitInstruction(Config.bufConnect);
+		socketTool.splitInstruction(Config.bufConnect, null);
 		//接收PSM数据**********************************************************************************
 //		socketTool.receiveMessage();
 		//接收PSM数据**********************************************************************************

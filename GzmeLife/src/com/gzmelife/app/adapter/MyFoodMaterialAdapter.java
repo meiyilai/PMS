@@ -137,7 +137,6 @@ public class MyFoodMaterialAdapter extends BaseExpandableListAdapter {
 					
 					@Override
 					public void onCheckChange(String name, String id, boolean isChecked) {
-						// TODO Auto-generated method stub
 						if (isChecked) {
 							selectedList.add(name);
 							selectedListID.add(id);

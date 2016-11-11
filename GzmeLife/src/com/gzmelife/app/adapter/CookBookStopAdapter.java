@@ -3,10 +3,7 @@ package com.gzmelife.app.adapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -17,18 +14,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.activity.CookBookDetailActivity;
-import com.gzmelife.app.bean.TimeNodeFood;
-import com.gzmelife.app.tools.MyLog;
 import com.gzmelife.app.tools.MyLogger;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.bean.TimeNode;
 
 /**
- * 菜谱详情Adapter
+ * “菜谱详情”界面的每个步骤（时间节点）的Adapter（编辑&非编辑）
  */
 public class CookBookStopAdapter extends BaseAdapter {
 
@@ -44,7 +37,6 @@ public class CookBookStopAdapter extends BaseAdapter {
 	boolean isEdt;
 
 	public CookBookStopAdapter(Context context, List<TimeNode> listTimeNode) {
-		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.listTimeNode = listTimeNode;
 	}
@@ -53,6 +45,7 @@ public class CookBookStopAdapter extends BaseAdapter {
 		return isEdt;
 	}
 
+	/** 改变编辑状态：true=编辑状态 */
 	public void setEdt(boolean isEdt) {
 		this.isEdt = isEdt;
 		notifyDataSetChanged();
@@ -60,7 +53,6 @@ public class CookBookStopAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return listTimeNode == null ? 0 : listTimeNode.size();
 	}
 
@@ -76,7 +68,7 @@ public class CookBookStopAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		MyLog.d("position=" + position);
+		//HHDLog.v("第" + (position + 1) + "步");
 		final TimeNode timeNode = listTimeNode.get(position);
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
@@ -92,38 +84,47 @@ public class CookBookStopAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		if (isEdt) {
-			viewHolder.iv_add.setVisibility(View.VISIBLE);
+		if (isEdt) {//20161111编辑状态
+			/** 20161111时间间隔是否大于5秒：大于5秒=true */
+			boolean isMoreThan5 = false;
+			if (listTimeNode.size() > (position + 1)) {
+				final TimeNode nextTimeNode = listTimeNode.get(position + 1);
+				//HHDLog.e("当前步骤开始时间="+timeNode.times+"下个步骤开始时间="+nextTimeNode.times);
+				isMoreThan5 = (5 < nextTimeNode.times - timeNode.times);
+			} else if (listTimeNode.size() == (position + 1)) {
+				isMoreThan5 = true;
+			}
+			if (isMoreThan5) {//20161111步骤之间时间间隔超过5秒
+				viewHolder.iv_add.setVisibility(View.VISIBLE);
+			} else {
+				viewHolder.iv_add.setVisibility(View.GONE);
+			}
+
 			viewHolder.iv_edt.setVisibility(View.VISIBLE);
 		} else {
 			viewHolder.iv_add.setVisibility(View.GONE);
 			viewHolder.iv_edt.setVisibility(View.GONE);
 		}
-
 		/** 插入一个步骤 */
 		viewHolder.iv_add.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				int startTime;
 				int endTime;
-
 				if (position == 0) {
 					startTime = 0;
 				} else {
 					startTime = listTimeNode.get(position - 1).times;
 				}
-
 				if (position == listTimeNode.size() - 1) {
 					endTime = startTime + (5 * 60);
 				} else {
 					endTime = listTimeNode.get(position + 1).times;
 				}
-
 				((CookBookDetailActivity) context).edtStep(timeNode, startTime, endTime, false, position);
 			}
 		});
-
-		/** 编辑选中步骤 */
+		/** 选择步骤进行编辑 */
 		viewHolder.iv_edt.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -142,7 +143,6 @@ public class CookBookStopAdapter extends BaseAdapter {
 				((CookBookDetailActivity) context).edtStep(timeNode, startTime, endTime, true, position);
 			}
 		});
-
 		viewHolder.tv_name.setText(String.valueOf(position + 1));
 		SimpleDateFormat format = new SimpleDateFormat("mm分ss秒");
 		viewHolder.tv_time.setText(format.format(new Date(timeNode.times * 1000)));
@@ -155,7 +155,6 @@ public class CookBookStopAdapter extends BaseAdapter {
 			if (!TextUtils.isEmpty(timeNode.FoodNames[i])) {
 				foodBuffer.append(timeNode.FoodNames[i]);
 				foodBuffer.append(" ");
-
 				foodBuffer.append(timeNode.FoodWgts[i]);
 				foodBuffer.append(" g");
 				foodBuffer.append("；");
@@ -173,7 +172,7 @@ public class CookBookStopAdapter extends BaseAdapter {
 		// if(listTimeNode.size()-1==position&&position!=0){
 		// viewHolder.v_line.setVisibility(View.GONE);
 		// }
-		viewHolder.tv_content.setText("步骤描述：" + timeNode.Tips + "\n\n重量变化：" + timeNode.wetsTemp+ " g\n\n食材：" + foodBuffer.toString());
+		viewHolder.tv_content.setText("步骤描述：" + timeNode.Tips + "\n\n重量变化：" + timeNode.wetsTemp + " g\n\n食材：" + foodBuffer.toString());
 //		timeNodeFoods.add(timeNodeFood);
 
 		//20161013获取食材名称和重量{

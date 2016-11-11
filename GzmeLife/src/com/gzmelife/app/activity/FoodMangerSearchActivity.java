@@ -31,6 +31,7 @@ import com.gzmelife.app.bean.SearchMenuBookBean;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.RecordSQLiteOpenHelper;
 import com.gzmelife.app.views.MyListView;
 
@@ -66,6 +67,9 @@ import android.widget.Toast;
 
 public class FoodMangerSearchActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	ListView lv_food;
 	MyListView listView;
 	EditText et_search;
@@ -359,6 +363,7 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 					e.printStackTrace();
 				}
 				System.out.println("======result======>>>>" + result.toString());
+				HHDLog.e("2"+result.toString());
 			}
 
 			@Override

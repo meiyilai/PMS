@@ -40,12 +40,17 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.GridViewForScrollView;
 
 /** 个人中心-三级食材(食材库管理) */
 @ContentView(R.layout.activity_standard_food_material_details)
 public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 		android.view.View.OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	protected   String TAG = "StandardFoodMaterialDetailsActivity";
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
@@ -133,9 +138,10 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 
 				for (int i = 0; i < selectedList.size(); i++) {
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
-					bean2.setPid(FoodMaterialDAO
-							.saveLocalFoodMaterialLevelOne(bean1));
+					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(selectedList.get(i));
+					HHDLog.e("这里需要保存UID到本地？");
+					//bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}
 				KappUtils.showToast(context, "食材添加成功");

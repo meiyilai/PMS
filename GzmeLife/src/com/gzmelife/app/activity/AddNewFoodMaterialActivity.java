@@ -17,10 +17,14 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
 @ContentView(R.layout.activity_add_new_foodmaterial)
 public class AddNewFoodMaterialActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.tv_category)
@@ -39,6 +43,12 @@ public class AddNewFoodMaterialActivity extends BaseActivity implements
 		initView();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("测试20161103_2305");
+	}
+
 	private void initView() {
 		tv_title.setText("添加新食材");
 		tv_title_left.setVisibility(View.VISIBLE);
@@ -54,8 +64,7 @@ public class AddNewFoodMaterialActivity extends BaseActivity implements
 			break;
 		case R.id.btn_confirm:
 			String catogoryName = tv_category.getText().toString();
-			String foodMaterialName = et_foodMaterialName.getText().toString()
-					.trim();
+			String foodMaterialName = et_foodMaterialName.getText().toString().trim();
 			if (TextUtils.isEmpty(foodMaterialName)) {
 				KappUtils.showToast(context, "请输入食材名");
 			} else {
@@ -64,9 +73,10 @@ public class AddNewFoodMaterialActivity extends BaseActivity implements
 				LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();
 				bean1.setName(catogoryName);
 
-				bean2.setPid(FoodMaterialDAO
-						.saveLocalFoodMaterialLevelOne(bean1));
+				bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 				bean2.setName(foodMaterialName);
+				HHDLog.e("这里需要保存UID到本地？");
+				//bean2.setUid()
 				if(!catogoryName.equals("自定义食材")){
 					if (FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2) == -1) {
 						KappUtils.showToast(context, "该食材已经存在，请勿重复添加");

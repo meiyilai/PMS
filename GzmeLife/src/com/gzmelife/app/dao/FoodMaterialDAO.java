@@ -12,8 +12,12 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.bean.SerachFoodBean;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
 public class FoodMaterialDAO {
+
+	static MyLogger HHDLog = MyLogger.HHDLog();
+
 	/** 保存本地食材分类，先查询数据库内是否存在，不存在时才进行保存.返回分类ID */
 	public static int saveLocalFoodMaterialLevelOne(
 			LocalFoodMaterialLevelOne bean) {
@@ -30,8 +34,7 @@ public class FoodMaterialDAO {
 	}
 
 	/** 保存本地食材，返回ID。先查询数据库内是否存在，若存在返回-1 */
-	public static int saveLocalFoodMaterialLevelThree(
-			LocalFoodMaterialLevelThree bean) {
+	public static int saveLocalFoodMaterialLevelThree(LocalFoodMaterialLevelThree bean) {
 		int categoryId = getFoodMaterialId(bean);
 		if (categoryId == -1) {
 			try {
@@ -113,20 +116,18 @@ public class FoodMaterialDAO {
 		return null;
 	}
 
-	public static List<LocalFoodMaterialLevelThree> getAllFoodMaterialByCategoryId(
-			int categoryId) {
+	public static List<LocalFoodMaterialLevelThree> getAllFoodMaterialByCategoryId(int categoryId) {
 		List<LocalFoodMaterialLevelThree> list = new ArrayList<LocalFoodMaterialLevelThree>();
 		try {
- 			List<DbModel> dbModels = KappAppliction.db
-					.findDbModelAll(new SqlInfo(
-							"SELECT * FROM localFoodMaterialLevelThree WHERE pid="
-									+ categoryId));
+ 			List<DbModel> dbModels = KappAppliction.db.findDbModelAll(new SqlInfo("SELECT * FROM localFoodMaterialLevelThree WHERE pid=" + categoryId));
 			if (dbModels != null) {
 				for (DbModel model : dbModels) {
 					LocalFoodMaterialLevelThree bean = new LocalFoodMaterialLevelThree();
 					bean.setId(model.getInt("id"));
 					bean.setPid(model.getInt("pid"));
 					bean.setName(model.getString("name"));
+					HHDLog.e("这里需要保存UID到本地？");
+					////bean2.setUid()
 					list.add(bean);
 				}
 			}
@@ -150,6 +151,8 @@ public class FoodMaterialDAO {
 					bean.setId(model.getInt("id"));
 					bean.setPid(model.getInt("pid"));
 					bean.setName(model.getString("name"));
+					HHDLog.e("这里需要保存UID到本地？");
+					//bean2.setUid()
 					list.add(model.getString("name"));
 				}
 			}

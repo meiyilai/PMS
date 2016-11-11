@@ -210,7 +210,7 @@ public class AddDeviceByPMSWifiActivity extends BaseActivity {
 					outtime = null;
 				}
 				KappUtils.showToast(context, "连接电磁炉成功");
-				socketTool.splitDataInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
+				socketTool.splitInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
 				System.out.print("----对时功能3----"+new DateUtil().getCurrentTime());
 				KappAppliction.state=1;
 				DeviceFragment.isClearList = true;
@@ -263,7 +263,7 @@ public class AddDeviceByPMSWifiActivity extends BaseActivity {
 								@Override
 								public void run() {
 									socketTool.initClientSocket(); // 根据不同的ip，建立不同的socket
-									socketTool.splitInstruction(Config.bufConnect);
+									socketTool.splitInstruction(Config.bufConnect, null);
 								}
 							}).start();
 						}

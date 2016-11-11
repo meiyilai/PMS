@@ -1,62 +1,44 @@
 package com.gzmelife.app.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.x;
-import org.xutils.common.Callback.CancelledException;
 import org.xutils.common.Callback.CommonCallback;
 import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
-import com.gzmelife.app.adapter.CookBookStepAdapter;
-import com.gzmelife.app.adapter.LvCommentAdapter;
 import com.gzmelife.app.adapter.LvfoodSearchAdapter;
 import com.gzmelife.app.adapter.MySearchHosAdapter;
 import com.gzmelife.app.adapter.SearchAutoAdapter;
-import com.gzmelife.app.bean.CookBookMenuBookBean;
-import com.gzmelife.app.bean.CookBookMenuBookCommentsBean;
-import com.gzmelife.app.bean.CookBookMenuBookStepsBean;
-import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
-import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.bean.SearchAutoData;
 import com.gzmelife.app.bean.SearchFoodBean;
 import com.gzmelife.app.bean.SearchHosBean;
 import com.gzmelife.app.bean.SearchMenuBookBean;
 import com.gzmelife.app.dao.FoodMaterialDAO;
-import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.RecordSQLiteOpenHelper;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.bean.TimeNode;
 import com.gzmelife.app.views.MyListView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
-import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -67,11 +49,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
+/**
+ * 界面【搜索（我的食材_搜索前）】
+ */
 public class FoodssMangerSearchActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog=MyLogger.HHDLog();
+
 	ListView lv_food;
 	MyListView listView;
 	EditText et_search;
@@ -120,6 +106,12 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 			return;
 		}
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("界面【搜索（我的食材）】");
 	}
 
 	// 加载布局

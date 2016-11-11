@@ -225,9 +225,9 @@ public class DeviceFragment extends Fragment {
                             try {
                                 socketTool.closeSocket();//20160913理解为关闭之前连接才能创建下面的连接
                                 socketTool.initClientSocket(); // 根据不同的ip，建立不同的socket
-                                if (!socketTool.isStartHeartTimer()) {// 根据不同的ip，建立不同的socket
+//                                if (!socketTool.isStartHeartTimer()) {// 根据不同的ip，建立不同的socket
                                     socketTool.startHeartTimer();
-                                }
+//                                }
                             } catch (Exception e) {
                                 // TODO: handle exception
                             }
@@ -240,7 +240,7 @@ public class DeviceFragment extends Fragment {
                                     && !bufFilePath.equals("")
                                     && !Config.bufGetFileNum.equals("")) {
                                 try {
-                                    socketTool.splitDataInstruction(Config.bufGetFileNum, bufFilePath);
+                                    socketTool.splitInstruction(Config.bufGetFileNum, bufFilePath);
                                 } catch (Exception e) {
                                     // TODO: handle exception
                                 }
@@ -291,15 +291,15 @@ public class DeviceFragment extends Fragment {
                                 Looper.prepare();
                                 socketTool.closeSocket();
                                 socketTool.initClientSocket();
-                                if (!socketTool.isStartHeartTimer()) {
+//                                if (!socketTool.isStartHeartTimer()) {
                                     socketTool.startHeartTimer();
-                                }
+//                                }
 //								}
                                 System.out.print("----请求菜谱文件总数3333333----");
                                 final byte[] bufFilePath = {0x01};
                                 fileFlag = false;
                                 downFileList.clear();
-                                socketTool.splitDataInstruction(Config.bufGetFileNum, bufFilePath);
+                                socketTool.splitInstruction(Config.bufGetFileNum, bufFilePath);
                                 System.out.print("----发送4444----");
                                 Looper.loop();
                             } catch (Exception e) {
@@ -588,9 +588,9 @@ public class DeviceFragment extends Fragment {
                 }
                 showDlg();
                 if (flag == 0) {
-                    socketTool.splitDataInstruction(Config.bufDelSelfFile, arr);
+                    socketTool.splitInstruction(Config.bufDelSelfFile, arr);
                 } else if (flag == 1) {
-                    socketTool.splitDataInstruction(Config.bufDelDownFile, arr);
+                    socketTool.splitInstruction(Config.bufDelDownFile, arr);
                 }
             }
         });
@@ -712,7 +712,7 @@ public class DeviceFragment extends Fragment {
                     break;
                 case 0://20160914连接失败业务
                     if (pDlg != null && pDlg.isShowing()) {
-                        KappUtils.showToast(context, "文件下载失败");
+//                        KappUtils.showToast(context, "文件下载失败");
                     }
                     if (connectDeviceBean != null) {
                         if (outtime != null) {
@@ -744,7 +744,7 @@ public class DeviceFragment extends Fragment {
                 case 2: // PMS连接成功
                     KappUtils.showToast(context, "与PMS连接成功");
                     try {
-                        socketTool.splitDataInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
+                        socketTool.splitInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
                         System.out.print("----对时功能1----" + new DateUtil().getCurrentTime());
                         KappAppliction.state = 1;
                         if (connectDeviceBean != null) {
@@ -836,7 +836,7 @@ public class DeviceFragment extends Fragment {
                     bs[i] = arr[i - 1];
                 }
             }
-            socketTool.splitDataInstruction(Config.bufFileLenth, bs);
+            socketTool.splitInstruction(Config.bufFileLenth, bs);
 
         } catch (Exception e) {
             closePDlg();
@@ -891,7 +891,7 @@ public class DeviceFragment extends Fragment {
         super.onResume();
 
         if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {//20160920服务器（PMS设备）地址为空
-            HHDLog.e("服务器（PMS设备）地址为空");
+            HHDLog.w("服务器（PMS设备）地址为空");
             if (socketTool != null) {
                 socketTool.closeSocket();//20160920关闭Socket连接
                 Log.i(TAG, "onResume-->socketTool.closeSocket()");
@@ -948,7 +948,7 @@ public class DeviceFragment extends Fragment {
                     System.out.print("----请求录波文件总数2----");
                     fileFlag = true;
                     // showDlg();
-                    socketTool.splitDataInstruction(Config.bufGetFileNum, bufFilePath);//20160920获取录波文件数量
+                    socketTool.splitInstruction(Config.bufGetFileNum, bufFilePath);//20160920获取录波文件数量
 //					showDlg();
                 } else if (rb_downFile.isChecked() && downFileList.size() == 0) {//20160920如果菜谱列表为0而且为选中状态
                     System.out.print("----请求菜谱文件列表总数2----");
@@ -985,7 +985,7 @@ public class DeviceFragment extends Fragment {
         final byte[] bufFilePath = {0x01};//20160920查询录波文件列表F3 01
         fileFlag = false;//20160920显示录波文件列表
         downFileList.clear();//20160920清空录波文件列表
-        socketTool.splitDataInstruction(Config.bufGetFileNum, bufFilePath);//20160920发送指令（“F3 01”查询文件数量）
+        socketTool.splitInstruction(Config.bufGetFileNum, bufFilePath);//20160920发送指令（“F3 01”查询文件数量）
         System.out.print("----发送1----");
 
     }
@@ -996,7 +996,7 @@ public class DeviceFragment extends Fragment {
         fileFlag = true;//20160920录波文件
         selfFileList.clear();//20160920清空录波文件列表
 
-        socketTool.splitDataInstruction(Config.bufGetFileNum, bufFilePath);//20160920“F3 00”获取录波文件数量
+        socketTool.splitInstruction(Config.bufGetFileNum, bufFilePath);//20160920“F3 00”获取录波文件数量
         System.out.print("----发送3----");
 
     }
@@ -1147,9 +1147,9 @@ public class DeviceFragment extends Fragment {
                 Looper.prepare();
                 socketTool.closeSocket();
                 socketTool.initClientSocket();
-                if (!socketTool.isStartHeartTimer()) {// 根据不同的ip，建立不同的socket
+//                if (!socketTool.isStartHeartTimer()) {// 根据不同的ip，建立不同的socket
                     socketTool.startHeartTimer();
-                }
+//                }
                 // if (!socketTool.isStartHeartTimer()) {
                 // socketTool.startHeartTimer();
                 // System.out.print("----发送心跳包----");
@@ -1158,7 +1158,7 @@ public class DeviceFragment extends Fragment {
                 final byte[] bufFilePath = {0x01};
                 fileFlag = false;
                 downFileList.clear();
-                socketTool.splitDataInstruction(Config.bufGetFileNum,
+                socketTool.splitInstruction(Config.bufGetFileNum,
                         bufFilePath);
                 System.out.print("----发送4444----");
                 // getPMSDownFileNum();

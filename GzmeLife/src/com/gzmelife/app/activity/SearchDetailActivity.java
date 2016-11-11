@@ -26,6 +26,7 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,9 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class SearchDetailActivity extends BaseActivity {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private ListView lv_food;
 	LvfoodsSearchAdapter lvFoodSearchAdapter;
 	TextView tv_title;
@@ -47,15 +51,18 @@ public class SearchDetailActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_search_deatail);
 		initView();
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("界面【搜索】SearchDetailActivity");
 	}
 
 	private void initView() {
-		// TODO Auto-generated method stub
 		lv_food = (ListView) findViewById(R.id.lv_food);
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_title.setText("搜索结果");
@@ -73,9 +80,10 @@ public class SearchDetailActivity extends BaseActivity {
 				String nameStr = searchMenuBookBeanList.get(position).getName();
 				for (int i = 0; i < searchMenuBookBeanList.size(); i++) {
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
-					bean2.setPid(FoodMaterialDAO
-							.saveLocalFoodMaterialLevelOne(bean1));
+					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(nameStr);
+					HHDLog.e("这里需要保存UID到本地？");
+					////bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}
 				KappUtils.showToast(context, "食材添加成功");
@@ -108,8 +116,7 @@ public class SearchDetailActivity extends BaseActivity {
 							new TypeToken<List<SearchFoodBean>>() {
 							}.getType());
 					if (searchMenuBookBeanList.size() == 0) {
-						KappUtils.showToast(SearchDetailActivity.this,
-								"搜索不到结果哦");
+						KappUtils.showToast(SearchDetailActivity.this, "搜索不到结果哦");
 					} else {
 						lvFoodSearchAdapter = new LvfoodsSearchAdapter(context,
 								searchMenuBookBeanList);
@@ -124,7 +131,6 @@ public class SearchDetailActivity extends BaseActivity {
 						// @Override
 						// public void onItemClick(AdapterView<?> parent,
 						// View view, int position, long id) {
-						// // TODO Auto-generated method stub
 						// Intent intent = new Intent(context,
 						// NetCookBookDetailActivity.class);
 						// // intent.putExtra("category",
@@ -143,23 +149,21 @@ public class SearchDetailActivity extends BaseActivity {
 					e.printStackTrace();
 				}
 				System.out.println("======result======>>>>" + result.toString());
+				HHDLog.e("4"+result);
 			}
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 

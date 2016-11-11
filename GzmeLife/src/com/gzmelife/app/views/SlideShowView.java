@@ -105,7 +105,7 @@ public class SlideShowView extends FrameLayout {
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
+			
 			super.handleMessage(msg);
 			viewPager.setCurrentItem(currentItem);
 
@@ -120,24 +120,24 @@ public class SlideShowView extends FrameLayout {
 		try {
 			initUI(context);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
 
 	public SlideShowView(Context context) {
 		this(context, null);
-		// TODO Auto-generated constructor stub
+		//  Auto-generated constructor stub
 	}
 
 	public SlideShowView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
-		// TODO Auto-generated constructor stub
+		// Auto-generated constructor stub
 	}
 
 	public SlideShowView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// TODO Auto-generated constructor stub
+		
 		this.context = context;
 		initData();
 
@@ -145,7 +145,7 @@ public class SlideShowView extends FrameLayout {
 		try {
 			initUI(context);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			//  Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (isAutoPlay) {
@@ -211,7 +211,7 @@ public class SlideShowView extends FrameLayout {
 
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
+							
 							Intent intent = new Intent(
 									SlideShowView.this.context,
 									NetCookBookDetailActivity.class);
@@ -253,7 +253,7 @@ public class SlideShowView extends FrameLayout {
 
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
+							
 							Intent intent = new Intent(
 									SlideShowView.this.context,
 									NetCookBookDetailActivity.class);
@@ -309,14 +309,14 @@ public class SlideShowView extends FrameLayout {
 
 		@Override
 		public void destroyItem(View container, int position, Object object) {
-			// TODO Auto-generated method stub
+			
 			// ((ViewPag.er)container).removeView((View)object);
 			((ViewPager) container).removeView(imageViewsList.get(position));
 		}
 
 		@Override
 		public Object instantiateItem(View container, int position) {
-			// TODO Auto-generated method stub
+			
 
 			((ViewPager) container).addView(imageViewsList.get(position));
 			return imageViewsList.get(position);
@@ -324,42 +324,42 @@ public class SlideShowView extends FrameLayout {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
+			
 			return imageViewsList.size();
 		}
 
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
-			// TODO Auto-generated method stub
+			
 			return arg0 == arg1;
 		}
 
 		@Override
 		public void restoreState(Parcelable arg0, ClassLoader arg1) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public Parcelable saveState() {
-			// TODO Auto-generated method stub
+			
 			return null;
 		}
 
 		@Override
 		public void startUpdate(View arg0) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void finishUpdate(View arg0) {
-			// TODO Auto-generated method stub
+			
 
 		}
 		@Override
 		public int getItemPosition(Object object) {
-			// TODO Auto-generated method stub
+			
 			return POSITION_NONE;
 		}
 
@@ -376,7 +376,7 @@ public class SlideShowView extends FrameLayout {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-			// TODO Auto-generated method stub
+			
 			switch (arg0) {
 			case 1:// 手势滑动，空闲中
 				isAutoPlay = false;
@@ -401,13 +401,13 @@ public class SlideShowView extends FrameLayout {
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void onPageSelected(int pos) {
-			// TODO Auto-generated method stub
+			
 
 			currentItem = pos;
 				for (int i = 0; i < indicator_imgs.length; i++) {
@@ -445,7 +445,7 @@ public class SlideShowView extends FrameLayout {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
+			
 			synchronized (viewPager) {
 				currentItem = (currentItem + 1) % imageViewsList.size();
 				handler.obtainMessage().sendToTarget();

@@ -48,10 +48,11 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.TipConfirmView;
 
 /**
- * 食材管理
+ * 界面【我的食材】（我的食材库&标准食材库）
  * 
  * @author chenxiaoyan
  *
@@ -60,6 +61,9 @@ import com.gzmelife.app.views.TipConfirmView;
 @ContentView(R.layout.activity_cook_food_material_manage)
 public class CookFoodMaterialManageActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.btn_addFoodMaterial)
 	Button btn_addFoodMaterial;
 	@ViewInject(R.id.btn_manageFoodMaterial)
@@ -119,6 +123,7 @@ public class CookFoodMaterialManageActivity extends BaseActivity implements
 
 	@Override
 	protected void onResume() {
+		HHDLog.v("界面【我的食材】（我的食材库&标准食材库）");
 		super.onResume();
 		// 我的食材库
 		myFoodMaterialCategoryListTemp = FoodMaterialDAO.getAllCategory();

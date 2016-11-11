@@ -2,10 +2,6 @@ package com.gzmelife.app.activity;
 
 import java.util.ArrayList;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
-import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,10 +18,14 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.tools.MyLogger;
+import com.gzmelife.app.bean.TimeNode;
 
 public class AddNewFoodsMaterialActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog=MyLogger.HHDLog();
+
 	TextView tv_title;
 	TextView tv_category;
 	TextView tv_title_left;
@@ -47,6 +47,12 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 		setContentView(R.layout.activity_add_new_foodsmaterial);
 		context = this;
 		initView();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("测试20161103_2235");
 	}
 
 	private void initView() {
@@ -93,6 +99,8 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 
 			bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 			bean2.setName(foodMaterialName);
+			HHDLog.e("这里需要保存UID到本地？");
+			//bean2.setUid()
 			// bean2.setWeight(foodMaterialWight);
 			ArrayList<String> mList = new ArrayList<String>();
 			mList.add(foodMaterialName);

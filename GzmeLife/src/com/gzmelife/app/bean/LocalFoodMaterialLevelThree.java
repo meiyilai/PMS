@@ -1,25 +1,30 @@
 package com.gzmelife.app.bean;
 
+import com.gzmelife.app.tools.MyLogger;
+
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
-@Table(name = "localFoodMaterialLevelThree")
+
 /**
- * 标准食材库三级
+ * 标准食材库（我的食材库）三级食材（name、Uid、weight（重量）、pid（一级的ID）、id（本地数据库））
  */
+@Table(name = "localFoodMaterialLevelThree")
 public class LocalFoodMaterialLevelThree {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@Column(isId = true, name = "id")
-	private int fsId;
+	private int fsId;//食材在数据库的顺序
 	@Column(name = "name")
 	private String fsName;
+	@Column(name = "uid")
+	private String uid;//食材的UID
 	@Column(name = "weight")
 	private int weight;
 	@Column(name = "pid")
-	private int pid; // 分类ID
+	private int pid; // 一级的ID
 	private boolean isChecked;
-	
-	private String uid;
-	
 	
 	public boolean isChecked() {
 		return isChecked;
@@ -38,6 +43,7 @@ public class LocalFoodMaterialLevelThree {
 	}
 	public LocalFoodMaterialLevelThree setId(int id) {
 		this.fsId = id;
+		HHDLog.e(id+"="+fsId);
 		return this;
 	}
 	
@@ -47,19 +53,23 @@ public class LocalFoodMaterialLevelThree {
 	
 	public LocalFoodMaterialLevelThree setName(String name) {
 		this.fsName = name;
+		HHDLog.e(name+"="+fsName);
 		return this;
 	}
+
+	public String getUid() {
+		return uid;
+	}
+	public LocalFoodMaterialLevelThree setUid(String uid) {
+		this.uid = uid;
+		HHDLog.e(uid+"="+ this.uid);
+		return this;
+	}
+
 	public int getWeight() {
 		return weight;
 	}
 	public void setWeight(int weight) {
 		this.weight = weight;
-	}
-	
-	public String getuid() {
-		return uid;
-	}
-	public void setuid(String uid) {
-		this.uid = uid;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,11 +13,15 @@ import android.widget.CheckBox;
 
 import com.gzmelife.app.R;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
+import com.gzmelife.app.tools.MyLogger;
 
 /**
+ * 我的食材库（遍历显示每个食材）
  */
 @SuppressLint("InflateParams")
 public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
+
+	MyLogger HHDLog=MyLogger.HHDLog();
 
 	private String TAG="MyCookFoodMaterialChildAdapter";
 	private Context context;
@@ -34,9 +37,7 @@ public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 
 	/** flag 0:返回选择的id，1：返回选择的名字 */
-	public MyCookFoodMaterialChildAdapter(Context context,
-			List<LocalFoodMaterialLevelThree> list, int flag,
-			OnReceiver onReceiver) {
+	public MyCookFoodMaterialChildAdapter(Context context, List<LocalFoodMaterialLevelThree> list, int flag, OnReceiver onReceiver) {
 		super();
 		this.context = context;
 		this.list = list;
@@ -66,18 +67,14 @@ public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
 		final ViewHolder viewHolder;
 		if (null == convertView) {
 			viewHolder = new ViewHolder();
-			convertView = inflater.inflate(
-					R.layout.item_lv_my_foodmaterial_child, null);
-			viewHolder.cb_taste = (CheckBox) convertView
-					.findViewById(R.id.cb_taste);
+			convertView = inflater.inflate(R.layout.item_lv_my_foodmaterial_child, null);
+			viewHolder.cb_taste = (CheckBox) convertView.findViewById(R.id.cb_taste);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-
 		final LocalFoodMaterialLevelThree bean = list.get(position);
-		Log.i(TAG, "修改步骤UID  name:"+list.get(position).getName()+"--：id："+list.get(position).getId());
-
+		HHDLog.v("遍历食材名称："+list.get(position).getName()+"_遍历食材UID："+list.get(position).getId()+" "+list.get(position).getUid()+" "+list.get(position).getPid());
 		viewHolder.cb_taste.setText(bean.getName());
 		viewHolder.cb_taste.setChecked(list.get(position).isChecked());
 		viewHolder.cb_taste.setEnabled(true);
@@ -88,14 +85,12 @@ public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
 				viewHolder.cb_taste.setChecked(list.get(position).isChecked());
 				if (onReceiver != null) {
 					if (flag == 0) {
-						onReceiver.onCheckChange(bean.getId() + "",bean.getId() + "",
-								list.get(position).isChecked());
+						onReceiver.onCheckChange(bean.getId() + "",bean.getId() + "", list.get(position).isChecked());
 					} else if (flag == 1) {
-						onReceiver.onCheckChange(bean.getName(),bean.getId() + "",
-								list.get(position).isChecked());
+						onReceiver.onCheckChange(bean.getName(),bean.getId() + "", list.get(position).isChecked());
 					}
 				}
-				System.out.println(">>>>>>>====>>>>");
+				HHDLog.v("点击了“我的食材库”的："+list.get(position).getName());
 			}
 		});
 

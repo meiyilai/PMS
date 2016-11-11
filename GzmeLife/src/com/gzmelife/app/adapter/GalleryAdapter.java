@@ -16,9 +16,13 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.bean.CategorySecondBean;
 import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
-public class GalleryAdapter extends
-		RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
+/** 食材一级（网格Adapter） */
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
+
+	MyLogger HHDLog=MyLogger.HHDLog();
+
 	private LayoutInflater mInflater;
 	private List<CategorySecondBean> mDatas;
 
@@ -87,7 +91,7 @@ public class GalleryAdapter extends
 	@Override
 	public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 		viewHolder.mTxt.setText(mDatas.get(i).getScName());
-		MyLog.d("--->i=" + i + ",position=" + position);
+		HHDLog.e("--->i=" + i + ",position=" + position);
 		if (position == i) {
 			viewHolder.mTxt.setSelected(true);
 			if (mOnItemClickListener != null) {

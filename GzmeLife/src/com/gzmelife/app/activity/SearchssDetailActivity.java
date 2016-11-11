@@ -1,38 +1,18 @@
 package com.gzmelife.app.activity;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xutils.x;
-import org.xutils.common.Callback.CancelledException;
-import org.xutils.common.Callback.CommonCallback;
-import org.xutils.http.RequestParams;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
-import com.gzmelife.app.UrlInterface;
-import com.gzmelife.app.adapter.LvfoodSearchAdapter;
-import com.gzmelife.app.adapter.LvfoodsSearchAdapter;
-import com.gzmelife.app.adapter.LvfoodsSearchsAdapter;
 import com.gzmelife.app.adapter.LvfoodssSearchsAdapter;
-import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
-import com.gzmelife.app.bean.SearchFoodBean;
-import com.gzmelife.app.bean.SearchMenuBookBean;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.KappUtils;
-import com.gzmelife.app.tools.MyLog;
 import com.gzmelife.app.tools.MyLogger;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.bean.TimeNode;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;

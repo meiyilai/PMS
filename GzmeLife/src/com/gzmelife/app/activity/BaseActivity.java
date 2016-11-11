@@ -99,8 +99,7 @@ public class BaseActivity extends FragmentActivity {
 	public class TimeCountOut extends CountDownTimerUtil {
 		private OnEvent onEvent;
 
-		public TimeCountOut(long millisInFuture, long countDownInterval,
-				OnEvent onEvent2) {
+		public TimeCountOut(long millisInFuture, long countDownInterval, OnEvent onEvent2) {
 			super(millisInFuture, countDownInterval);
 			this.onEvent = onEvent2;
 		}

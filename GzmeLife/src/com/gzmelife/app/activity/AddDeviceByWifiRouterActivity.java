@@ -204,7 +204,7 @@ public class AddDeviceByWifiRouterActivity extends BaseActivity implements
 						@Override
 						public void run() {
 							socketTool.initClientSocket(); // 根据不同的ip，建立不同的socket
-							socketTool.splitInstruction(Config.bufConnect);
+							socketTool.splitInstruction(Config.bufConnect, null);
 						}
 					}).start();
 
@@ -229,7 +229,7 @@ public class AddDeviceByWifiRouterActivity extends BaseActivity implements
 					if (bean.getIp().equals(Config.SERVER_HOST_IP)) {
 						Config.SERVER_HOST_NAME = bean.getName();
 						KappUtils.showToast(context, "连接成功");
-						socketTool.splitDataInstruction(Config.bufSetTime,
+						socketTool.splitInstruction(Config.bufSetTime,
 								new DateUtil().getCurrentTime());
 						System.out.print("----对时功能5----"
 								+ new DateUtil().getCurrentTime());

@@ -82,7 +82,7 @@ import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
 import com.gzmelife.app.tools.PmsFile;
 import com.gzmelife.app.tools.ShowDialogUtil;
-import com.gzmelife.app.tools.TimeNode;
+import com.gzmelife.app.bean.TimeNode;
 import com.gzmelife.app.views.ListViewForScrollView;
 import com.gzmelife.app.views.TipConfirmView;
 
@@ -337,8 +337,7 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 		if (socketTool == null) {
 			socketTool = new SocketTool(context, new SocketTool.OnReceiver() {
 				@Override
-				public void onSuccess(List<String> cookBookFileList, int flag,
-						int now, int all) {
+				public void onSuccess(List<String> cookBookFileList, int flag, int now, int all) {
 					switch (flag) {
 					case 7:
 						handler.sendEmptyMessage(2);

@@ -93,7 +93,7 @@ public class DeviceDetailActivity extends BaseActivity {
 			@Override
 			public void run() {
 				socketTool.initClientSocket(); // 根据不同的ip，建立不同的socket
-				socketTool.splitInstruction(Config.bufStatus);
+				socketTool.splitInstruction(Config.bufStatus, null);
 				state=false;
 				System.out.print("----请求设备状态1----");
 			}
@@ -177,7 +177,7 @@ public class DeviceDetailActivity extends BaseActivity {
 					break;
 				case 2:
 					if (socketTool != null) {
-						socketTool.splitInstruction(Config.bufStatus);
+						socketTool.splitInstruction(Config.bufStatus, null);
 						state=false;
 						System.out.print("----请求设备状态----");
 					}

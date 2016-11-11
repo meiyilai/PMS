@@ -33,10 +33,14 @@ import com.gzmelife.app.adapter.GvFoodAdapter;
 import com.gzmelife.app.bean.CategoryFirstBean;
 import com.gzmelife.app.bean.CategorySecondBean;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
+import com.gzmelife.app.tools.MyLogger;
 
 /** 美食三级食材 */
 @ContentView(R.layout.activity_secondary_food_classification)
 public class SecondaryFoodClassificationActivity extends BaseActivity {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.rv_goodfood)
 	RecyclerView rv_goodfood;
 	@ViewInject(R.id.gv_food)
@@ -61,6 +65,8 @@ public class SecondaryFoodClassificationActivity extends BaseActivity {
 		}
 		for (int i = 0; i < 8; i++) {
 			foods.add(new LocalFoodMaterialLevelThree().setName("食材" + i));
+			HHDLog.e("这里需要保存UID到本地？");
+			//bean2.setUid()
 		}
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 		linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

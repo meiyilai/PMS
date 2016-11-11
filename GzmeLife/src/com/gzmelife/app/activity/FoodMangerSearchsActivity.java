@@ -38,6 +38,7 @@ import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.RecordSQLiteOpenHelper;
 import com.gzmelife.app.views.MyListView;
 import com.gzmelife.app.views.TipConfirmView;
@@ -73,8 +74,10 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class FoodMangerSearchsActivity extends BaseActivity implements
-		OnClickListener {
+public class FoodMangerSearchsActivity extends BaseActivity implements OnClickListener {
+
+	MyLogger HHDLog=MyLogger.HHDLog();
+
 	MyListView listView;
 	MyListView lv_food;
 	EditText et_search;
@@ -102,11 +105,15 @@ public class FoodMangerSearchsActivity extends BaseActivity implements
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_good_food_search);
 		initView();
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("FoodMangerSearchsActivity");
 	}
 
 	// 加载布局
