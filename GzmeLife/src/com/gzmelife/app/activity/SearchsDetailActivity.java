@@ -15,6 +15,9 @@ import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.adapter.LvfoodsSearchsAdapter;
+import com.gzmelife.app.bean.CategoryFirstBean;
+import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
+import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.bean.SearchFoodBean;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.bean.TimeNode;
@@ -32,6 +35,8 @@ import android.widget.AdapterView.OnItemClickListener;
 /** 界面【搜索结果】 //搜索食材界面 */
 public class SearchsDetailActivity extends BaseActivity {
 
+	/** 一级分类 */
+	private CategoryFirstBean category;
 	MyLogger HHDLog = MyLogger.HHDLog();
 
 	private ListView lv_food;
@@ -115,6 +120,12 @@ public class SearchsDetailActivity extends BaseActivity {
 				name.add(strName);
 				uid.add(strUID);
 				uidArrayList.add(strUID);//20161108
+
+//				LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();
+//				bean1.setName(category.getFcName());
+//				LocalFoodMaterialLevelThree bean2=new LocalFoodMaterialLevelThree();
+//				bean2.setPid(FoodMat);
+
 				Intent intent = new Intent();
 				intent.putExtra("mlisetMoreID", uid);
 				intent.putExtra("mlistMore", name);

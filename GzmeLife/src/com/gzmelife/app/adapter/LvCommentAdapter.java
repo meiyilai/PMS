@@ -7,6 +7,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.adapter.CookBookAdapter.OnReceiver;
 import com.gzmelife.app.bean.CookBookMenuBookCommentsBean;
 import com.gzmelife.app.tools.ImgLoader;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.CircleImageView;
 
 import android.content.Context;
@@ -17,6 +18,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class LvCommentAdapter extends BaseAdapter {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	Context context;
 	ViewHolder viewHolder;
 	private List<CookBookMenuBookCommentsBean> list = new ArrayList<CookBookMenuBookCommentsBean>();
@@ -38,13 +42,11 @@ public class LvCommentAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
@@ -68,8 +70,9 @@ public class LvCommentAdapter extends BaseAdapter {
 		CookBookMenuBookCommentsBean bean = list.get(position);
 		viewHolder.tv_Name.setText(bean.getUserNickName());
 		viewHolder.tv_comment.setText(bean.getContent());
-		new ImgLoader(context).showPic(bean.getUserLogoPath(),
-				viewHolder.civ_icon);
+		HHDLog.v(bean.getUserNickName());
+		HHDLog.v(bean.getContent());
+		new ImgLoader(context).showPic(bean.getUserLogoPath(), viewHolder.civ_icon);
 		return convertView;
 	}
 

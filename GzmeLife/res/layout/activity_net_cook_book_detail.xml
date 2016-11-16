@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:enabled="false"
-                    android:hint="请输入关于这道菜的描述"
+                    android:hint="请输入关于这道菜的描述1"
                     android:minHeight="45dp"
                     android:padding="@dimen/spacing_small"
                     android:textColor="@color/black_dark"

@@ -80,6 +80,7 @@ import com.gzmelife.app.tools.HttpDownloader;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.PmsFile;
 import com.gzmelife.app.tools.ShowDialogUtil;
 import com.gzmelife.app.bean.TimeNode;
@@ -90,6 +91,9 @@ import com.gzmelife.app.views.TipConfirmView;
 @ContentView(R.layout.activity_net_cook_book_detail)
 public class NetCookBookDetailActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.lv_step)
 	ListViewForScrollView lv_step;
 	@ViewInject(R.id.lv_comment)
@@ -195,20 +199,17 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		super.onRestart();
-
 	}
 
 	@Override
 	protected void onResume() {
-
 		super.onResume();
+		HHDLog.v("界面【菜谱详情】（“美食”跳转）");
 	}
 
 	@Override
 	protected void onStop() {
-
 		super.onStop();
 	}
 
@@ -616,8 +617,7 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 					// CookBookBeanDataBean mallBeanGson = gson.fromJson(result,
 					// new TypeToken<CookBookBeanDataBean>(){}.getType());
 
-					System.out.println("collectionIdSave>>>>>>>>"
-							+ collectionId);
+					System.out.println("collectionIdSave>>>>>>>>" + collectionId);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -625,30 +625,25 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBookDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBookDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 		});
-
 	}
 
-	private void downLoadMenuBookFile() {
-		// 下载
+	private void downLoadMenuBookFile() {// 下载
 		showDlg();
 		RequestParams params = new RequestParams(
 				UrlInterface.URL_DOWNLOADMENUBOOKFILE);
@@ -659,7 +654,8 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 			@Override
 			public void onSuccess(String result) {
 				closeDlg();
-				Log.i(TAG, "downLoadMenuBookFile() onSuccess"+result);;
+				//Log.i(TAG, "downLoadMenuBookFile() onSuccess"+result);
+				HHDLog.v("downLoadMenuBookFile() onSuccess"+result);
 				Gson gson = new Gson();
 				JSONObject obj;
 				try {
@@ -679,8 +675,8 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 										
 										@Override
 										public void onStart(int cursize, int allSize) {
-											Log.i(TAG, "onStart");
-											// TODO Auto-generated method stub
+											//Log.i(TAG, "onStart");
+											HHDLog.v("onStart");
 											Message msg=new Message();
 											msg.what=5001;
 //											processer.show();
@@ -689,8 +685,8 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 										
 										@Override
 										public void onLoading(int cursize, int allSize) {
-											// TODO Auto-generated method stub
-											Log.i(TAG, "onLoading");
+											//Log.i(TAG, "onLoading");
+											HHDLog.v("onLoading");
 											Message msg=new Message();
 											msg.what=5002;
 //											processer.show();
@@ -703,8 +699,8 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 										
 										@Override
 										public void onError(int code) {
-											// TODO Auto-generated method stub
-											Log.i(TAG, "onLoading");
+											//Log.i(TAG, "onLoading");
+											HHDLog.v("onLoading");
 											Message msg=new Message();
 											msg.what=5004;
 //											processer.show();
@@ -716,7 +712,6 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 										
 										@Override
 										public void OnComplete(int code) {
-											// TODO Auto-generated method stub
 											Message msg=new Message();
 											msg.what=5003;
 //											processer.show();
@@ -777,21 +772,18 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBookDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBookDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -883,8 +875,8 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 			intent.putExtra("menuBookId", menuBookId);
 			startActivityForResult(intent, 10234);
 			break;
-		case R.id.btn_download:
-			// 下载菜谱文件
+		case R.id.btn_download:// 下载菜谱文件
+			HHDLog.v("下载菜谱文件");
 			downLoadMenuBookFile();
 			break;
 		case R.id.iv_titleRight:

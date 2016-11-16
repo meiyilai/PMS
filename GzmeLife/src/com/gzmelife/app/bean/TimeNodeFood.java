@@ -7,6 +7,7 @@ package com.gzmelife.app.bean;
  */
 
 public class TimeNodeFood {
+
     /** 食材名称 */
     private String name;
     /** 食材重量 */

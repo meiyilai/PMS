@@ -136,15 +136,15 @@ public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
 				context, list, flag,
 				new MyCookFoodMaterialChildAdapter.OnReceiver() {
 					@Override
-					public void onCheckChange(String name,String id, boolean isChecked) {
+					public void onCheckChange(String name,String uid, boolean isChecked) {//20161114
 						if (isChecked) {
 							selectedList.add(name);
-							selectedListUID.add(id);
+							selectedListUID.add(uid);
 							HHDLog.v("选择名称："+name);
-							HHDLog.v("选择UID："+id);
+							HHDLog.v("选择UID："+uid);
 						} else {
 							selectedList.remove(name);
-							selectedListUID.remove(id);
+							selectedListUID.remove(uid);
 						}
 					}
 				});

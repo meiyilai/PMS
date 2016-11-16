@@ -21,6 +21,7 @@ import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.adapter.CookFoodBeanAdapter;
 import com.gzmelife.app.adapter.GvSecondClassifyAdapter;
 import com.gzmelife.app.bean.CoonFoodMenuBean;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.pop_dlg;
 import com.gzmelife.app.tools.pop_dlg.dialog;
 import com.gzmelife.app.views.MyListView;
@@ -43,6 +44,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 @ContentView(R.layout.activity_second_classify)
 public class SecondClassifyActivity extends BaseActivity {
+
+	MyLogger HHDLog=MyLogger.HHDLog();
+
 	@ViewInject(R.id.rv_goodfood)
 	GridView gv_food;
 	GvSecondClassifyAdapter secondClassifyAdapter;
@@ -126,9 +130,14 @@ public class SecondClassifyActivity extends BaseActivity {
 		});
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.e("");
+	}
+
 	// @Override
 	// protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-	// // TODO Auto-generated method stub
 	// if (arg1 == RESULT_OK) {
 	// int num = arg2.getIntExtra("nunber", 0);
 	// super.onActivityResult(arg0, arg1, arg2);
@@ -172,13 +181,11 @@ public class SecondClassifyActivity extends BaseActivity {
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
 								View v = flater.inflate(R.layout.dialog_tishi_network, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
@@ -201,19 +208,16 @@ public class SecondClassifyActivity extends BaseActivity {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 

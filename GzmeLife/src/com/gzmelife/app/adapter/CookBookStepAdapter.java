@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -19,11 +21,15 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.activity.NetCookBookDetailActivity;
 import com.gzmelife.app.bean.CookBookMenuBookStepsBean;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
 /**
  * 编辑菜谱Adapter（菜谱详情、编辑菜谱界面都不执行）
  */
 public class CookBookStepAdapter extends BaseAdapter {
+
+	MyLogger HHDLog= MyLogger.HHDLog();
+
 	Context context;
 	ViewHolder viewHolder;
 	// List<TimeNode> listTimeNode;
@@ -33,9 +39,7 @@ public class CookBookStepAdapter extends BaseAdapter {
 	/** 食材名称&重量 */
 	public ArrayList<HashMap<String, Long>> foodNameAndWgt = new ArrayList<>();
 
-	public CookBookStepAdapter(Context context,
-			List<CookBookMenuBookStepsBean> cookBookMenuBookStepsBeanList) {
-		// TODO Auto-generated constructor stub
+	public CookBookStepAdapter(Context context, List<CookBookMenuBookStepsBean> cookBookMenuBookStepsBeanList) {
 		this.context = context;
 		this.cookBookMenuBookStepsBeanList = cookBookMenuBookStepsBeanList;
 	}
@@ -51,7 +55,6 @@ public class CookBookStepAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return cookBookMenuBookStepsBeanList == null ? 0
 				: cookBookMenuBookStepsBeanList.size();
 	}
@@ -68,7 +71,8 @@ public class CookBookStepAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		MyLog.d("position=" + position);
+		//MyLog.d("position=" + position);
+		//HHDLog.v("position=" + position);
 		// final TimeNode timeNode = listTimeNode.get(position);
 		final CookBookMenuBookStepsBean bean = cookBookMenuBookStepsBeanList
 				.get(position);
@@ -151,23 +155,45 @@ public class CookBookStepAdapter extends BaseAdapter {
 		} else {
 			viewHolder.tv_time.setText("");
 		}*/
-		
+
 		if(!TextUtils.isEmpty(bean.getMinute())
 				&&!TextUtils.isEmpty(bean.getSecond())){
 			viewHolder.tv_time.setText(bean.getMinute()+"分"+bean.getSecond()+"秒");
 		}else {
 			viewHolder.tv_time.setText("");
 		}
-		
-		StringBuffer foodBuffer = new StringBuffer();
 
+
+		StringBuffer fb = new StringBuffer();//20161114
+		String[] singleFood = bean.getFoods().split(";");
+		for (int i = 0; i < singleFood.length; i++) {
+			HHDLog.e(singleFood[i]);
+			String foodName = null;//食材名称
+			String weight = null;//重量
+			Pattern p = Pattern.compile("\\u007C(.*)\\u007C");//（\u007C=|）
+			Matcher m = p.matcher(singleFood[i]);
+			while (m.find()) {
+				foodName = m.group(1);
+			}
+			weight = singleFood[i].substring(singleFood[i].lastIndexOf("|") + 1);//后缀
+			if (foodName != null) {
+				fb.append(foodName);
+				fb.append(" ");
+				fb.append(weight);
+				fb.append(" g；");
+			}
+		}
+		HHDLog.e(fb);
 
 		String name = bean.getFoods().replace("0|", " ").replace("|", " ");
 		// String newStr = name.substring(name.indexOf("\0"),name.length());
 		// String result = name.substring(0, name.indexOf(";"));
 
-		
-		viewHolder.tv_content.setText("步骤描述：" + bean.getDescribes() + " \n\n食材：" + name.replace("；", " g；"));
+
+		//viewHolder.tv_content.setText("步骤描述：" + bean.getDescribes() + " \n\n食材：" + name.replace("；", " g；"));
+		viewHolder.tv_content.setText("步骤描述：" + bean.getDescribes() + " \n\n食材：" + fb);//20161114
+
+		//HHDLog.e(bean.getDescribes()+"——"+name);
 
 //		/**
 //		 * 20161013获取菜谱步骤的内容
@@ -184,8 +210,8 @@ public class CookBookStepAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
-		TextView tv_name, tv_time, tv_content;
-		ImageView iv_add, iv_edt;
+		TextView tv_name, tv_time, tv_content;//20161114步骤序号，步骤开始时间，步骤内容
+		ImageView iv_add, iv_edt;//添加步骤按钮，编辑步骤按钮
 	}
 
 }
