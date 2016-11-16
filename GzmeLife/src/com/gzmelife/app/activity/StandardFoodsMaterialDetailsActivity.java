@@ -65,14 +65,12 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 
 	private GalleryAdapter galleryAdapter;
 	private MyFoodMaterialChildAdapter gvFoodAdapter;
-
 	private List<CategorySecondBean> mDatas; // 二级分类
 	private List<LocalFoodMaterialLevelThree> foods; // 三级食材
 	/** 选中了的食材的名字 */
 	private ArrayList<String> selectedList = new ArrayList<String>();
 	/** 选中了的食材的UID */
 	private ArrayList<String> selectedListID = new ArrayList<String>();
-
 	private int p;
 	private String TAG="StandardFoodsMaterialDetailsActivity";
 	/** 一级分类 */
@@ -158,6 +156,7 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 				if (c <= 5) {
 					LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();
 					bean1.setName(category.getFcName());//一级分类名称20161109
+					HHDLog.v(category.getFcName());
 					/** 20161026缓存选中的食材的名称 */
 					ArrayList<String> name = new ArrayList<String>();
 					/** 20161026缓存选中的食材的UID */
@@ -167,14 +166,12 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 						bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 						bean2.setName(selectedList.get(i));
 						bean2.setUid(selectedListID.get(i));
-						HHDLog.e("这里需要保存UID到本地？=" + selectedListID.get(i) + "_" + selectedList.get(i));
+						HHDLog.v("保存食材到本地？="+ selectedList.get(i) + "_"  + selectedListID.get(i));
 						FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 						name.add(selectedList.get(i));
 						uid.add(selectedListID.get(i));
 						Intent intent = new Intent();
-
-						HHDLog.v("食材的名称：" + name);
-						HHDLog.v("食材的UID：" + uid);
+						HHDLog.v("食材的名称=" + name+"，食材的UID=" + uid);
 						setResult(RESULT_OK, intent);
 					}
 					// Intent intents = new Intent(
@@ -276,7 +273,7 @@ public class StandardFoodsMaterialDetailsActivity extends BaseActivity implement
 			@Override
 			public void onItemClick(View view, int position, int pos) {
 				isButton(pos, view);
-				HHDLog.i("position==" + position + "pos===" + pos + "ChildPosition====" + ChildPosition);
+				HHDLog.v("position=" + position + "，pos=" + pos + "，ChildPosition=" + ChildPosition);
 				for (int i = 0; i < rv_goodfood.getChildCount(); i++) {
 					rv_goodfood.getChildAt(i).findViewById(R.id.tv).setSelected(false);
 					tv_title.setText(category.getSecondCategorieList().get(pos).getScName());

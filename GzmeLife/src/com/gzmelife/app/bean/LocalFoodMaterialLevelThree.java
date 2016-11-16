@@ -43,7 +43,7 @@ public class LocalFoodMaterialLevelThree {
 	}
 	public LocalFoodMaterialLevelThree setId(int id) {
 		this.fsId = id;
-		HHDLog.e(id+"="+fsId);
+		HHDLog.v(id+"="+fsId);
 		return this;
 	}
 	
@@ -53,7 +53,7 @@ public class LocalFoodMaterialLevelThree {
 	
 	public LocalFoodMaterialLevelThree setName(String name) {
 		this.fsName = name;
-		HHDLog.e(name+"="+fsName);
+		HHDLog.v(name+"="+fsName);
 		return this;
 	}
 
@@ -62,7 +62,7 @@ public class LocalFoodMaterialLevelThree {
 	}
 	public LocalFoodMaterialLevelThree setUid(String uid) {
 		this.uid = uid;
-		HHDLog.e(uid+"="+ this.uid);
+		HHDLog.v(uid+"="+ this.uid);
 		return this;
 	}
 

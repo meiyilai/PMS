@@ -341,7 +341,7 @@ public class CookFoodsMaterialManageActivity extends BaseActivity implements OnC
 					JSONObject obj;
 					try {
 						obj = new JSONObject(result);
-						HHDLog.w("JSON_result=" + result);
+						HHDLog.e("JSON_result=" + result);
 						categoryFirstBeanList = gson.fromJson(
 								obj.getJSONObject("data").getJSONArray("towFoodStoreCategorys").toString(),
 								new TypeToken<List<CategoryFirstBean>>() {
@@ -436,7 +436,7 @@ public class CookFoodsMaterialManageActivity extends BaseActivity implements OnC
 				if (listId.size() == 0) {
 					KappUtils.showToast(context, "您未选中任何食材");
 				} else {
-					HHDLog.v(">>>>>>>mlistMore======" + mlistMore);
+					//HHDLog.v(">>>>>>>mlistMore======" + mlistMore);
 					// Intent intent = new Intent(
 					// CookFoodsMaterialManageActivity.this,
 					// AddStepActivity.class);

@@ -169,7 +169,7 @@ public class AddStepActivity extends BaseActivity implements OnClickListener {
 				if (timeNode.FoodNames[i] != null && !"".equals(timeNode.FoodNames[i])) {
 					LocalFoodMaterialLevelThree LocalFoodMaterialLevelThree = new LocalFoodMaterialLevelThree();
 					LocalFoodMaterialLevelThree.setName(timeNode.FoodNames[i]);
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					//bean2.setUid()
 					LocalFoodMaterialLevelThree.setWeight(timeNode.FoodWgts[i]);
 					LocalFoodMaterialLevelThree.setUid(String.valueOf(timeNode.foodIDs[i]));
@@ -186,7 +186,7 @@ public class AddStepActivity extends BaseActivity implements OnClickListener {
 					for (int j = 0; j < mlist.size(); j++) {
 						LocalFoodMaterialLevelThree localFoodMaterialLevelThree = new LocalFoodMaterialLevelThree();
 						localFoodMaterialLevelThree.setName(mlist.get(j));
-						HHDLog.e("这里需要保存UID到本地？");
+						HHDLog.v("保存食材到本地？");
 						//bean2.setUid()
 						localFoodMaterialLevelThrees.add(localFoodMaterialLevelThree);
 						// foodAdapter.notifyDataSetChanged();
@@ -226,7 +226,7 @@ public class AddStepActivity extends BaseActivity implements OnClickListener {
 					for (int i = 0; i < mlist.size(); i++) {
 						LocalFoodMaterialLevelThree bean = new LocalFoodMaterialLevelThree();
 						localFoodMaterialLevelThrees.add(bean.setName(mlist.get(i)));
-						HHDLog.e("这里需要保存UID到本地？");
+						HHDLog.v("保存食材到本地？");
 						//bean2.setUid()
 						foodAdapter.notifyDataSetChanged();
 					}
@@ -237,10 +237,12 @@ public class AddStepActivity extends BaseActivity implements OnClickListener {
 			sb_time.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
+					//
 				}
 
 				@Override
 				public void onStartTrackingTouch(SeekBar seekBar) {
+					//
 				}
 
 				@Override
@@ -495,7 +497,7 @@ public class AddStepActivity extends BaseActivity implements OnClickListener {
 							for (int i = 0; i < mlistMore.size(); i++) {
 								LocalFoodMaterialLevelThree bean = new LocalFoodMaterialLevelThree();
 								bean.setName(mlistMore.get(i));
-								HHDLog.e("这里需要保存UID到本地？");
+								HHDLog.v("保存食材到本地？");
 								//bean2.setUid()
 								if (mlistMoreUID!=null){
 									bean.setUid(mlistMoreUID.get(i));
@@ -589,7 +591,7 @@ public class AddStepActivity extends BaseActivity implements OnClickListener {
 							for (int i = 0; i < mlistMore.size(); i++) {
 								LocalFoodMaterialLevelThree bean = new LocalFoodMaterialLevelThree();
 								bean.setName(mlistMore.get(i));
-								HHDLog.e("这里需要保存UID到本地？");
+								HHDLog.v("保存食材到本地？");
 								//bean2.setUid()
 								if (mlistMoreUID!=null){
 									bean.setUid(mlistMoreUID.get(i));

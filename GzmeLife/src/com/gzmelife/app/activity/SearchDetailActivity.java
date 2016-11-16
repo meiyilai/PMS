@@ -82,7 +82,7 @@ public class SearchDetailActivity extends BaseActivity {
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
 					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(nameStr);
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					////bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}

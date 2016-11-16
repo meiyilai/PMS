@@ -74,7 +74,7 @@ public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		final LocalFoodMaterialLevelThree bean = list.get(position);
-		HHDLog.v("遍历食材名称："+list.get(position).getName()+"_遍历食材UID："+list.get(position).getId()+" "+list.get(position).getUid()+" "+list.get(position).getPid());
+		//HHDLog.v("遍历食材名称："+list.get(position).getName()+"_遍历食材UID："+list.get(position).getId()+" "+list.get(position).getUid()+" "+list.get(position).getPid());
 		viewHolder.cb_taste.setText(bean.getName());
 		viewHolder.cb_taste.setChecked(list.get(position).isChecked());
 		viewHolder.cb_taste.setEnabled(true);

@@ -65,8 +65,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class FoodMangerSearchActivity extends BaseActivity implements
-		OnClickListener {
+public class FoodMangerSearchActivity extends BaseActivity implements OnClickListener {
 
 	MyLogger HHDLog = MyLogger.HHDLog();
 
@@ -93,11 +92,9 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_good_food_search);
 		initView();
-
 	}
 
 	// 加载布局
@@ -108,7 +105,6 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 		iv_sousuo = (ImageView) findViewById(R.id.iv_sousuo);
 		clear = (Button) findViewById(R.id.clear);
 		clear.setOnClickListener(this);
-
 		tv_title.setText("搜索");
 		tv_title_left.setVisibility(View.VISIBLE);
 		tv_title_left.setText("美食");
@@ -144,23 +140,18 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 		et_search.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// TODO Auto-generated method stub
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				mSearchAutoAdapter.performFiltering(s);
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				//
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-
+				//
 			}
 		});
 
@@ -168,7 +159,6 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				String searchContent = et_search.getText().toString().trim();
 				if ("".equals(searchContent)) {
 					KappUtils.showToast(FoodMangerSearchActivity.this,
@@ -185,7 +175,6 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				FoodMangerSearchActivity.this.finish();
 			}
 		});
@@ -195,7 +184,6 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				// if (searchAutoDataList.size() != 0
 				// || searchAutoDataList != null) {
 				// SearchAutoData searchAutoData = mSearchAutoAdapter.mObjects
@@ -223,8 +211,6 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
-
 				// if (!searchMenuBookBeanList.toString().equals(text)) {
 				//
 				// SearchAutoData data = (SearchAutoData) mSearchAutoAdapter
@@ -240,9 +226,8 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 						.getItem(position);
 				et_search.setText(data.getName());
 				searchMenuBook(data.getName());
-				System.out.println("==========dataBean.getName()============>>"
-						+ data.getName());
-
+				HHDLog.v("ataBean.getName()="+data.getName());
+				//System.out.println("==========dataBean.getName()============>>" + data.getName());
 			}
 		});
 
@@ -325,27 +310,21 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 				try {
 					obj = new JSONObject(result.trim());
 					// 菜谱
-
-					searchMenuBookBeanList = gson.fromJson(
-							obj.getJSONObject("data").getJSONArray("list")
-									.toString(),
+					searchMenuBookBeanList = gson.fromJson(obj.getJSONObject("data").getJSONArray("list").toString(),
 							new TypeToken<List<SearchMenuBookBean>>() {
+								//
 							}.getType());
 					if (searchMenuBookBeanList.size() == 0) {
 						KappUtils.showToast(FoodMangerSearchActivity.this,
 								"搜索不到结果哦");
 					} else {
-						lvFoodSearchAdapter = new LvfoodSearchAdapter(context,
-								searchMenuBookBeanList);
-
+						lvFoodSearchAdapter = new LvfoodSearchAdapter(context, searchMenuBookBeanList);
 						lv_food.setAdapter(lvFoodSearchAdapter);
-
 						lv_food.setOnItemClickListener(new OnItemClickListener() {
 
 							@Override
 							public void onItemClick(AdapterView<?> parent,
 									View view, int position, long id) {
-								// TODO Auto-generated method stub
 								Intent intent = new Intent(context,
 										NetCookBookDetailActivity.class);
 								// intent.putExtra("category",
@@ -362,30 +341,25 @@ public class FoodMangerSearchActivity extends BaseActivity implements
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				System.out.println("======result======>>>>" + result.toString());
-				HHDLog.e("2"+result.toString());
+				//System.out.println("======result======>>>>" + result.toString());
+				HHDLog.v(result);
 			}
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
-
 		});
-
 	}
 
 	/*

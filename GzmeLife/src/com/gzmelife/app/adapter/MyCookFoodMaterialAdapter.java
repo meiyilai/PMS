@@ -117,7 +117,7 @@ public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-		HHDLog.v("--->child:" + groupPosition + "," + childPosition);
+		//HHDLog.v("--->child:" + groupPosition + "," + childPosition);
 		ViewHolderChild viewHolderChild;
 		if (convertView == null) {
 			viewHolderChild = new ViewHolderChild();
@@ -129,9 +129,9 @@ public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
 		}
 
 		String key = parentList.get(groupPosition).getId() + "";
-		HHDLog.v("修改步骤UID  name:"+parentList.get(groupPosition).getName()+"--：id："+parentList.get(groupPosition).getId());
+		//HHDLog.v("修改步骤UID  name:"+parentList.get(groupPosition).getName()+"--：id："+parentList.get(groupPosition).getId());
 		List<LocalFoodMaterialLevelThree> list = map.get(key);
-		HHDLog.v("--->list.size:" + (list == null ? 0 : list.size()));
+		//HHDLog.v("--->list.size:" + (list == null ? 0 : list.size()));
 		MyCookFoodMaterialChildAdapter adapter = new MyCookFoodMaterialChildAdapter(
 				context, list, flag,
 				new MyCookFoodMaterialChildAdapter.OnReceiver() {
@@ -140,8 +140,7 @@ public class MyCookFoodMaterialAdapter extends BaseExpandableListAdapter {
 						if (isChecked) {
 							selectedList.add(name);
 							selectedListUID.add(uid);
-							HHDLog.v("选择名称："+name);
-							HHDLog.v("选择UID："+uid);
+							HHDLog.v("选择名称："+name+"，选择UID："+uid);
 						} else {
 							selectedList.remove(name);
 							selectedListUID.remove(uid);

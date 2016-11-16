@@ -21,6 +21,7 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.bean.SearchFoodBean;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.bean.TimeNode;
+import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLogger;
 
@@ -121,10 +122,14 @@ public class SearchsDetailActivity extends BaseActivity {
 				uid.add(strUID);
 				uidArrayList.add(strUID);//20161108
 
-//				LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();
-//				bean1.setName(category.getFcName());
-//				LocalFoodMaterialLevelThree bean2=new LocalFoodMaterialLevelThree();
-//				bean2.setPid(FoodMat);
+				LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();//20161115
+				bean1.setName(searchMenuBookBeanList.get(position).getC_name());
+				LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
+				bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
+				bean2.setName(strName);
+				bean2.setUid(strUID);
+				FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
+				HHDLog.v("一级名称=" + searchMenuBookBeanList.get(position).getC_name() + "，食材的名称=" + strName + "，食材的UID=" + strUID);
 
 				Intent intent = new Intent();
 				intent.putExtra("mlisetMoreID", uid);
@@ -135,44 +140,11 @@ public class SearchsDetailActivity extends BaseActivity {
 				intent.putExtra("step", step);
 				intent.putExtra("isEdt", state);
 				intent.putExtra("filePath", filePath);
-
 				HHDLog.v("mlistMore="+name.get(0)+"_"+name.size()+"，mlisetMoreID="+ uidArrayList.get(0)+"_"+ uidArrayList.size()+"，timeNode="+timeNode+"，startTime="+startTime+"，endTime="+endTime+"，step="+step+"，isEdt="+state+"，filePath="+filePath);
-
-
-				{
-//					intent.setClass(SearchsDetailActivity.this,MainActivity.class);
-//					Bundle bundle=new Bundle();
-//					stepNode.setMlistMore(name);
-//					stepNode.setMlisetMoreID(uid);
-//					stepNode.setTimeNode(timeNode);
-//					stepNode.setStartTime(startTime);
-//					stepNode.setEndTime(endTime);
-//					stepNode.setStep(step);
-//					stepNode.setState(state);
-//					stepNode.setFilePath(filePath);
-//					bundle.putSerializable("stepNode",stepNode);
-//					intent.putExtras(bundle);
-
-					//SearchsDetailActivity.this.startActivity(intent);
-				}
 
 				setResult(RESULT_OK, intent);
 				SearchsDetailActivity.this.finish();
-
 				KappUtils.showToast(context, "食材添加成功");
-
-//				 startActivity(intent);
-//				 CookFoodsMaterialManageActivity cook = new
-//				 CookFoodsMaterialManageActivity();
-//				 cook.cookfood.finish();
-//				 AddStepActivity add = new AddStepActivity();
-//				 add.instance.finish();
-//				 FoodsMangerSearchActivity foods = new
-//				 FoodsMangerSearchActivity();
-//				 foods.fooddManger.finish();
-
-
-
 			}
 		});
 	}

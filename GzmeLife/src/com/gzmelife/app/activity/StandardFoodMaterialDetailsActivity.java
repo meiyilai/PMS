@@ -140,7 +140,7 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
 					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(selectedList.get(i));
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					//bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}
@@ -204,8 +204,8 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 		if (p > mDatas.size() - 3) {
 			p = mDatas.size();
 		}
-
-		System.out.println(">>>p======" + p);
+		//System.out.println(">>>p======" + p);
+		HHDLog.v("p=" +p);
 		linearLayoutManager.scrollToPosition(ChildPosition);
 		rv_goodfood.setLayoutManager(linearLayoutManager);
 
@@ -215,7 +215,8 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 				.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
 					@Override
 					public void onItemClick(View view, int position,int pos) {
-						System.out.println(">>>>pos===" + pos);
+						//System.out.println(">>>>pos===" + pos);
+						HHDLog.v("pos=" +pos);
 						for (int i = 0; i < rv_goodfood.getChildCount(); i++) {
 							rv_goodfood.getChildAt(i).findViewById(R.id.tv)
 									.setSelected(false);
@@ -251,8 +252,8 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 		x.http().post(params, new CommonCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
-				Log.i(TAG, "修改步骤UID  net getById-->onSuccess:"+result);
-
+				//Log.i(TAG, "修改步骤UID  net getById-->onSuccess:"+result);
+				HHDLog.v("修改步骤UID成功="+result);
 				closeDlg();
 				Gson gson = new Gson();
 				JSONObject obj;
@@ -269,7 +270,6 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 								
 								@Override
 								public void onCheckChange(String name, String id, boolean isChecked) {
-									// TODO Auto-generated method stub
 									if (isChecked) {
 										selectedList.add(name);
 									} else {
@@ -290,22 +290,18 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
-
 		});
 	}
 

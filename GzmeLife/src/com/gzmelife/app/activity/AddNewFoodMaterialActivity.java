@@ -75,7 +75,7 @@ public class AddNewFoodMaterialActivity extends BaseActivity implements
 
 				bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 				bean2.setName(foodMaterialName);
-				HHDLog.e("这里需要保存UID到本地？");
+				HHDLog.v("保存食材到本地");
 				//bean2.setUid()
 				if(!catogoryName.equals("自定义食材")){
 					if (FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2) == -1) {

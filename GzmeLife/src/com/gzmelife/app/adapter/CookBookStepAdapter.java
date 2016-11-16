@@ -163,11 +163,10 @@ public class CookBookStepAdapter extends BaseAdapter {
 			viewHolder.tv_time.setText("");
 		}
 
-
 		StringBuffer fb = new StringBuffer();//20161114
 		String[] singleFood = bean.getFoods().split(";");
 		for (int i = 0; i < singleFood.length; i++) {
-			HHDLog.e(singleFood[i]);
+			HHDLog.v(singleFood[i]);
 			String foodName = null;//食材名称
 			String weight = null;//重量
 			Pattern p = Pattern.compile("\\u007C(.*)\\u007C");//（\u007C=|）
@@ -183,29 +182,13 @@ public class CookBookStepAdapter extends BaseAdapter {
 				fb.append(" g；");
 			}
 		}
-		HHDLog.e(fb);
-
-		String name = bean.getFoods().replace("0|", " ").replace("|", " ");
-		// String newStr = name.substring(name.indexOf("\0"),name.length());
-		// String result = name.substring(0, name.indexOf(";"));
-
-
-		//viewHolder.tv_content.setText("步骤描述：" + bean.getDescribes() + " \n\n食材：" + name.replace("；", " g；"));
+		HHDLog.v(fb);
 		viewHolder.tv_content.setText("步骤描述：" + bean.getDescribes() + " \n\n食材：" + fb);//20161114
 
-		//HHDLog.e(bean.getDescribes()+"——"+name);
-
-//		/**
-//		 * 20161013获取菜谱步骤的内容
-//		 * @return <菜名，重量>
-//		 */
-//		private HashMap<String, Long> getCookBookContent (){
-//			for (int i=0;i<listTimeNode.size();i++){
-////			pmsFile.getTimeNode()
-//			}
-//			return null;
-//		}
-
+		//String name = bean.getFoods().replace("0|", " ").replace("|", " ");
+		//// String newStr = name.substring(name.indexOf("\0"),name.length());
+		//// String result = name.substring(0, name.indexOf(";"));
+		//viewHolder.tv_content.setText("步骤描述：" + bean.getDescribes() + " \n\n食材：" + name.replace("；", " g；"));
 		return convertView;
 	}
 

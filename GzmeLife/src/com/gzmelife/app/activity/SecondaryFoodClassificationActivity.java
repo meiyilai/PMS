@@ -65,7 +65,7 @@ public class SecondaryFoodClassificationActivity extends BaseActivity {
 		}
 		for (int i = 0; i < 8; i++) {
 			foods.add(new LocalFoodMaterialLevelThree().setName("食材" + i));
-			HHDLog.e("这里需要保存UID到本地？");
+			HHDLog.v("保存食材到本地？");
 			//bean2.setUid()
 		}
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

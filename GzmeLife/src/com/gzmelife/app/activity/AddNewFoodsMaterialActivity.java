@@ -42,7 +42,6 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_add_new_foodsmaterial);
 		context = this;
@@ -85,7 +84,6 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		String catogoryName = tv_category.getText().toString();
 		String foodMaterialName = et_foodMaterialName.getText().toString()
 				.trim();
@@ -99,7 +97,7 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 
 			bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 			bean2.setName(foodMaterialName);
-			HHDLog.e("这里需要保存UID到本地？");
+			HHDLog.v("保存食材到本地？");
 			//bean2.setUid()
 			// bean2.setWeight(foodMaterialWight);
 			ArrayList<String> mList = new ArrayList<String>();

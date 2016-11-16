@@ -19,6 +19,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * 展现搜索结果Adapter
+ */
 public class LvfoodsSearchsAdapter extends BaseAdapter {
 	ViewHolder viewHolder;
 	Context context;
@@ -32,19 +35,16 @@ public class LvfoodsSearchsAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return searchMenuBookBeanList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
@@ -64,8 +64,7 @@ public class LvfoodsSearchsAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		viewHolder.tv_name.setText(searchMenuBookBeanList.get(position)
-				.getName());
+		viewHolder.tv_name.setText(searchMenuBookBeanList.get(position).getName());
 		return convertView;
 	}
 
