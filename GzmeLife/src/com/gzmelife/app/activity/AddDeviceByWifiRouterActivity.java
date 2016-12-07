@@ -30,10 +30,17 @@ import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
+/**
+ * 界面【无线路由器】_左边“添加新设备”
+ */
 @ContentView(R.layout.activity_add_device_by_wifi_router)
 public class AddDeviceByWifiRouterActivity extends BaseActivity implements
 		OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.et_ssid)
@@ -63,6 +70,7 @@ public class AddDeviceByWifiRouterActivity extends BaseActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+			HHDLog.v("界面【无线路由器】_左边“添加新设备”");
 		//接收PSM数据**********************************************************************************
 //		socketTool.receiveMessage();
 		//接收PSM数据**********************************************************************************

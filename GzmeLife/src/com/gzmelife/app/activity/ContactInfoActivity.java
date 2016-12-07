@@ -28,6 +28,7 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.DataUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.wheelview.OnWheelChangedListener;
 import com.gzmelife.app.views.wheelview.WheelView;
 import com.gzmelife.app.views.wheelview.adapter.CityWheelAdapter;
@@ -74,7 +75,14 @@ public class ContactInfoActivity extends BaseActivity implements OnClickListener
 	private UserInfoBean bean;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

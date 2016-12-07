@@ -22,7 +22,7 @@ public class ImageShower extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.imageshower);
 		iv=(ImageView) findViewById(R.id.iv);
@@ -46,7 +46,7 @@ public class ImageShower extends Activity {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
+		/***/
 		finish();
 		return true;
 	}

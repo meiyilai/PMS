@@ -53,6 +53,12 @@ public class SecondaryFoodClassificationActivity extends BaseActivity {
 	private List<CategorySecondBean> mDatas;
 	private List<LocalFoodMaterialLevelThree> foods;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

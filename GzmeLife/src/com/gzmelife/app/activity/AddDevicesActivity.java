@@ -26,6 +26,7 @@ import com.gzmelife.app.device.DeviceUtil;
 import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ListViewForScrollView;
 
 public class AddDevicesActivity extends BaseActivity {
@@ -123,11 +124,12 @@ public class AddDevicesActivity extends BaseActivity {
 		tv_title_left.setVisibility(View.VISIBLE);
 		tv_title_left.setText("设备中心");
 	}
-	
-	
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
 		//接收PSM数据**********************************************************************************
 //		socketTool.receiveMessage();
 		//接收PSM数据**********************************************************************************

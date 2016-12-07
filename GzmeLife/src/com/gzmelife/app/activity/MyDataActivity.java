@@ -35,6 +35,7 @@ import com.gzmelife.app.tools.CameraUtil;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.ScaleImageSizeUtil;
 import com.gzmelife.app.views.CircleImageView;
 import com.gzmelife.app.views.wheelview.OnWheelChangedListener;
@@ -137,9 +138,13 @@ public class MyDataActivity extends BaseActivity implements OnClickListener {
 		getData();
 	}
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
+
 //		if (!isActivityResult) {
 //		}
 //		isActivityResult = false;

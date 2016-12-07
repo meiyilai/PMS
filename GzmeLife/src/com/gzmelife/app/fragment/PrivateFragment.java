@@ -20,6 +20,7 @@ import org.xutils.x;
 import org.xutils.common.Callback.CommonCallback;
 import org.xutils.http.RequestParams;
 
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.SwipeMenu;
 import com.gzmelife.app.views.SwipeMenuItem;
 import com.google.gson.Gson;
@@ -83,10 +84,13 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 /**
- * 私厨：管理手机中的菜谱（本地）管理收藏（云端）
+ * 界面【私厨】：管理手机中的菜谱（本地）管理收藏（云端）
  */
 public class PrivateFragment extends Fragment
 		implements OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private ImageView iv_titleLeft;
 	private Boolean isFirstStart = true;
 	private Context context;
@@ -119,7 +123,7 @@ public class PrivateFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView()");
-		// TODO Auto-generated method stub
+		/***/
 		return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_cookbook, null);
 	}
 
@@ -127,15 +131,16 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause()");
-		// TODO Auto-generated method stub
+		HHDLog.v("界面【私厨】");
+		//Log.i(TAG, "onPause()");
+		/***/
 		isActivityHidden = true;
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
+		/***/
 		super.onResume();
 		// isActivityHidden=false;
 		updatePmsStatus();
@@ -155,13 +160,13 @@ public class PrivateFragment extends Fragment
 		//
 		// @Override
 		// public void onclick(pop_dlg pop, View v) {
-		// // TODO Auto-generated method stub
+		// /***/
 		// pop.dismiss();
 		// }
 		//
 		// @Override
 		// public View initLayout(pop_dlg pop, LayoutInflater flater) {
-		// // TODO Auto-generated method stub
+		// /***/
 		// View v = flater.inflate(R.layout.dialog_tishi_local, null);
 		// TextView ok = (TextView) v.findViewById(R.id.ok);
 		// ok.setOnClickListener(pop);
@@ -193,13 +198,13 @@ public class PrivateFragment extends Fragment
 		//
 		// @Override
 		// public void onclick(pop_dlg pop, View v) {
-		// // TODO Auto-generated method stub
+		// /***/
 		// pop.dismiss();
 		// }
 		//
 		// @Override
 		// public View initLayout(pop_dlg pop, LayoutInflater flater) {
-		// // TODO Auto-generated method stub
+		// /***/
 		// View v = flater.inflate(R.layout.dialog_tishi1, null);
 		// TextView ok = (TextView) v.findViewById(R.id.ok);
 		// ok.setOnClickListener(pop);
@@ -234,7 +239,7 @@ public class PrivateFragment extends Fragment
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.i(TAG, "onReceive()");
-			// TODO Auto-generated method stub
+			/***/
 			String action = intent.getAction();
 			if (action.equals(KappUtils.ACTION_PMS_STATUS)) {
 				updatePmsStatus();
@@ -316,7 +321,7 @@ public class PrivateFragment extends Fragment
 					// }
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				//
 				e.printStackTrace();
 			}
 
@@ -326,13 +331,13 @@ public class PrivateFragment extends Fragment
 
 				@Override
 				public void onclick(pop_dlg pop, View v) {
-					// TODO Auto-generated method stub
+					/***/
 					pop.dismiss();
 				}
 
 				@Override
 				public View initLayout(pop_dlg pop, LayoutInflater flater) {
-					// TODO Auto-generated method stub
+					/***/
 					View v = flater.inflate(R.layout.dialog_tishi_local, null);
 					TextView ok = (TextView) v.findViewById(R.id.ok);
 					ok.setOnClickListener(pop);
@@ -346,7 +351,7 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void create(SwipeMenu arg0) {
-				// TODO Auto-generated method stub
+				/***/
 				// 菜单类别
 				switch (arg0.getViewType()) {
 
@@ -487,7 +492,7 @@ public class PrivateFragment extends Fragment
 								localCookBookBeans.add(0, cookBookBean);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+							//
 							e.printStackTrace();
 						}
 
@@ -497,13 +502,13 @@ public class PrivateFragment extends Fragment
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
+								/***/
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
+								/***/
 								View v = flater.inflate(R.layout.dialog_tishi_local, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -537,14 +542,14 @@ public class PrivateFragment extends Fragment
 					//
 					// @Override
 					// public void onclick(pop_dlg pop, View v) {
-					// // TODO Auto-generated method stub
+					// /***/
 					// pop.dismiss();
 					// }
 					//
 					// @Override
 					// public View initLayout(pop_dlg pop, LayoutInflater
 					// flater) {
-					// // TODO Auto-generated method stub
+					// /***/
 					// View v = flater.inflate(R.layout.dialog_tishi_cloud,
 					// null);
 					// TextView ok = (TextView) v.findViewById(R.id.ok);
@@ -628,7 +633,7 @@ public class PrivateFragment extends Fragment
 							localCookBookBeans.add(focus - 1, changebean);
 						}
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
+						//
 						e.printStackTrace();
 					}
 				}
@@ -683,7 +688,7 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == REQUEST_CODE) {
 			switch (requestCode) {
@@ -722,7 +727,7 @@ public class PrivateFragment extends Fragment
 							localCookBookBeans.add(0, cookBookBean);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						//
 						e.printStackTrace();
 					}
 				}
@@ -748,7 +753,7 @@ public class PrivateFragment extends Fragment
 			is = urlConn.getInputStream();
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		}
 
@@ -983,21 +988,21 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -1037,21 +1042,21 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -1086,13 +1091,13 @@ public class PrivateFragment extends Fragment
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
+								/***/
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
+								/***/
 								View v = flater.inflate(R.layout.dialog_tishi_cloud, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -1113,19 +1118,19 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -1191,7 +1196,7 @@ public class PrivateFragment extends Fragment
 								localCookBookBeans.add(0, cookBookBean);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+							//
 							e.printStackTrace();
 						}
 
@@ -1238,7 +1243,7 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
-		// TODO Auto-generated method stub
+		/***/
 		Log.i(TAG, "调用onHiddenChanged:" + String.valueOf(hidden));
 		Date curData = new Date();
 		Long curData1;
@@ -1266,13 +1271,13 @@ public class PrivateFragment extends Fragment
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
+								/***/
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
+								/***/
 								View v = flater.inflate(R.layout.dialog_tishi_local, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -1304,13 +1309,13 @@ public class PrivateFragment extends Fragment
 //
 //						@Override
 //						public void onclick(pop_dlg pop, View v) {
-//							// TODO Auto-generated method stub
+//							/***/
 //							pop.dismiss();
 //						}
 //
 //						@Override
 //						public View initLayout(pop_dlg pop, LayoutInflater flater) {
-//							// TODO Auto-generated method stub
+//							/***/
 //							View v = flater.inflate(R.layout.dialog_tishi1, null);
 //							TextView ok = (TextView) v.findViewById(R.id.ok);
 //							ok.setOnClickListener(pop);

@@ -21,6 +21,7 @@ import com.gzmelife.app.adapter.StandardFoodMaterialAdapter;
 import com.gzmelife.app.bean.CategoryFirstBean;
 import com.gzmelife.app.bean.FindTowMenuCategoryFirstBean;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,6 +54,12 @@ public class AllFoodActivity extends BaseActivity {
 
 	LvAllFoodClassAdapter lvAllFoodClassAdapter;
 
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

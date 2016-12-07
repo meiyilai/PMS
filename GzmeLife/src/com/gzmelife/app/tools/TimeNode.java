@@ -102,7 +102,7 @@ public class TimeNode implements Serializable{
 		try {
 			bufTips = Tips.getBytes("gb2312");
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
+			//
 			e1.printStackTrace();
 		}
 		for (int i = 0; i < (bufTips.length > 36 ? 36 : bufTips.length); i++) // 最大长度是36字节

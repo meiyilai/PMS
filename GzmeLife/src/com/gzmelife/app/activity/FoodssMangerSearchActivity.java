@@ -90,7 +90,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_good_foods_search);
 		fooddManger = this;
@@ -218,20 +218,20 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// TODO Auto-generated method stub
+				/***/
 				// mSearchAutoAdapter.performFiltering(s);
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
+				/***/
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
+				/***/
 
 			}
 		});
@@ -263,7 +263,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				String searchContent = et_search.getText().toString().trim();
 				if ("".equals(searchContent)) {
 					KappUtils.showToast(FoodssMangerSearchActivity.this,
@@ -280,7 +280,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				FoodssMangerSearchActivity.this.finish();
 			}
 		});
@@ -290,7 +290,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				// if (searchAutoDataList.size() != 0
 				// || searchAutoDataList != null) {
 				// searchAutoDataList.remove(position);
@@ -315,7 +315,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 
 				// if (!searchMenuBookBeanList.toString().equals(text)) {
 				//
@@ -350,7 +350,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 	}
 
 	private void getData(String tempName) {
@@ -421,7 +421,7 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onActivityResult(arg0, arg1, arg2);
 		if (arg1 == RESULT_OK) {
 			switch (arg0) {
@@ -509,19 +509,19 @@ public class FoodssMangerSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

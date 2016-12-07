@@ -30,6 +30,7 @@ import com.gzmelife.app.adapter.MyDeviceAdapter;
 import com.gzmelife.app.bean.MyDeviceBean;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.TipConfirmView;
 import com.zxing.activity.CaptureActivity;
 
@@ -55,6 +56,13 @@ public class MyDeviceActivity extends BaseActivity implements OnClickListener {
 
 	private Context context;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

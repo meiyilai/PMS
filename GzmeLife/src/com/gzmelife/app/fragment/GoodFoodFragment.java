@@ -79,6 +79,9 @@ import com.gzmelife.app.views.MyListView;
 import com.gzmelife.app.views.SlideShowView;
 import com.gzmelife.app.views.bannerview.BannerView;
 
+/**
+ * 界面【美食】
+ */
 public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		IOnFocusListenable, SwipeRefreshLayout.OnRefreshListener,
 		com.gzmelife.app.views.bannerview.BannerView.OnItemClickListener {
@@ -191,7 +194,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		try {
 			registerBoradcastReceiver();
 		} catch (Exception e) {
-			// TODO: handle exception
+			//
 		}
 		// IntentFilter intentFilter = new IntentFilter();
 		// intentFilter.addAction(KappUtils.ACTION_PMS_STATUS);
@@ -207,7 +210,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		try {
 			getActivity().registerReceiver(receiver, myIntentFilter);
 		} catch (Exception e) {
-			// TODO: handle exception
+			//
 		}
 	}
 
@@ -447,7 +450,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 	@Override
 	public void onResume() {
 		super.onResume();
-		HHDLog.v("");
+		HHDLog.v("界面【美食】");
 		updatePmsStatus();
 	}
 

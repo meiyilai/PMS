@@ -27,6 +27,7 @@ import com.gzmelife.app.bean.TasteBean;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.GridViewForScrollView;
 
 @ContentView(R.layout.activity_cooking_style)
@@ -43,7 +44,14 @@ public class TasteActivity extends BaseActivity implements OnClickListener{
 	private UserInfoBean bean;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

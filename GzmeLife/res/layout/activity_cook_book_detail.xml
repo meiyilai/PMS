@@ -192,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white" 
-            android:text="上传到智能锅"
+            android:text="上传到智能灶"
             android:drawableTop="@drawable/iconupdate"
             >
         </Button>

@@ -15,10 +15,17 @@ import android.widget.TextView;
 import com.espressif.iot.esptouch.demo_activity.EspWifiAdminSimple;
 import com.gzmelife.app.R;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.WifiUtil;
 
+/**
+ * 界面【添加新设备】_左边“添加设备”
+ */
 @ContentView(R.layout.activity_add_new_device)
 public class AddNewDeviceActivity extends BaseActivity {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	
@@ -29,10 +36,15 @@ public class AddNewDeviceActivity extends BaseActivity {
 	@ViewInject(R.id.tv_title_left)
 	TextView tv_title_left;
 	private Context context;
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("界面【添加新设备】_左边“添加设备”");
+	}
+
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		
 		context = this;
 		initView();
 	}

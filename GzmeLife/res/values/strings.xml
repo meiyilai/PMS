@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">美易来智能锅</string>
+    <string name="app_name">美易来智能灶</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="settings_tip"><u>配置指南</u></string>

@@ -20,6 +20,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.tools.DataCleanManager;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
@@ -40,7 +41,14 @@ public class SettingsActivity extends BaseActivity implements android.view.View.
 	@ViewInject(R.id.tv_title_left)
 	TextView tv_title_left;
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

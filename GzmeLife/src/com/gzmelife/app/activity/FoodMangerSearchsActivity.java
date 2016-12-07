@@ -209,20 +209,20 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// TODO Auto-generated method stub
+				/***/
 				// mSearchAutoAdapter.performFiltering(s);
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
+				/***/
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
+				/***/
 				// if (s.toString().trim().length() == 0) {
 				// tv_tip.setText("搜索历史");
 				// } else {
@@ -238,7 +238,7 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				String searchContent = et_search.getText().toString().trim();
 				if ("".equals(searchContent)) {
 					KappUtils.showToast(FoodMangerSearchsActivity.this,
@@ -255,7 +255,7 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				FoodMangerSearchsActivity.this.finish();
 			}
 		});
@@ -265,7 +265,7 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					final int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				// if (searchAutoDataList.size() != 0
 				// || searchAutoDataList != null) {
 				// SearchAutoData searchAutoData = mSearchAutoAdapter.mObjects
@@ -308,7 +308,7 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 
 				// if (!searchMenuBookBeanList.toString().equals(text)) {
 				//
@@ -439,19 +439,19 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -460,7 +460,7 @@ public class FoodMangerSearchsActivity extends BaseActivity implements OnClickLi
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 
 	}
 

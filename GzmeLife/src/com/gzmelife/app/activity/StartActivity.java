@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.gzmelife.app.R;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.mob.tools.gui.ViewPagerAdapter;
 
 import android.app.Activity;
@@ -35,9 +36,16 @@ public class StartActivity extends Activity implements OnClickListener,
 
 	private ViewPagerAdapter vpAdapter;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
 
@@ -70,7 +78,7 @@ public class StartActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 		int position = (Integer) v.getTag();
 		setCurView(position);
 		setCurDot(position);
@@ -107,19 +115,19 @@ public class StartActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
+		/***/
 
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
+		/***/
 
 	}
 
 	@Override
 	public void onPageSelected(int arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		
 	}
 
@@ -147,7 +155,7 @@ public class StartActivity extends Activity implements OnClickListener,
 		@Override
 		public void finishUpdate(View arg0) {
 
-			// TODO Auto-generated method stub
+			/***/
 
 		}
 
@@ -179,7 +187,7 @@ public class StartActivity extends Activity implements OnClickListener,
 					
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
+						/***/
 						Intent intent = new Intent(StartActivity.this,
             					MainActivity.class);
             			startActivity(intent);
@@ -204,14 +212,14 @@ public class StartActivity extends Activity implements OnClickListener,
 		@Override
 		public void restoreState(Parcelable arg0, ClassLoader arg1) {
 
-			// TODO Auto-generated method stub
+			/***/
 
 		}
 
 		@Override
 		public Parcelable saveState() {
 
-			// TODO Auto-generated method stub
+			/***/
 
 			return null;
 
@@ -220,7 +228,7 @@ public class StartActivity extends Activity implements OnClickListener,
 		@Override
 		public void startUpdate(View arg0) {
 
-			// TODO Auto-generated method stub
+			/***/
 
 		}
 	}

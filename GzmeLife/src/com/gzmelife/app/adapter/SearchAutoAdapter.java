@@ -75,7 +75,7 @@ public class SearchAutoAdapter extends BaseAdapter {
 		//
 		// @Override
 		// public boolean onLongClick(View v) {
-		// // TODO Auto-generated method stub
+		// /***/
 		// mObjects.remove(position);
 		// // clearData();
 		// notifyDataSetChanged();

@@ -50,26 +50,26 @@ public class CookFoodBeanAdapter extends BaseAdapter implements OnClickListener 
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+		/***/
 		return list.size() % 2 == 0 ? list.size() / 2 : list.size() / 2 + 1;
 		// return list == null ? 0 : list.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
+		/***/
 		return position;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
+		/***/
 		return position;
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
+		/***/
 		final ViewHolder viewHolder;
 		if (null == convertView) {
 			viewHolder = new ViewHolder();
@@ -120,7 +120,7 @@ public class CookFoodBeanAdapter extends BaseAdapter implements OnClickListener 
 
 							@Override
 							public void onClick(View v) {
-								// TODO Auto-generated method stub
+								/***/
 								Intent intent = new Intent(context,
 										NetCookBookDetailActivity.class);
 								// intent.putExtra("category",
@@ -173,7 +173,7 @@ public class CookFoodBeanAdapter extends BaseAdapter implements OnClickListener 
 
 							@Override
 							public void onClick(View v) {
-								// TODO Auto-generated method stub
+								/***/
 								Intent intent = new Intent(context,
 										NetCookBookDetailActivity.class);
 								// intent.putExtra("category",
@@ -219,7 +219,7 @@ public class CookFoodBeanAdapter extends BaseAdapter implements OnClickListener 
 
 							@Override
 							public void onClick(View v) {
-								// TODO Auto-generated method stub
+								/***/
 								Intent intent = new Intent(context,
 										NetCookBookDetailActivity.class);
 

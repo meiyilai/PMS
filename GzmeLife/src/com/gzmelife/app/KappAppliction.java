@@ -93,9 +93,10 @@ public class KappAppliction extends Application {
 
 		myApplication = this;
 		initProvinceDatas();
-		
-		CrashHandler crashHandler = CrashHandler.getInstance();
-		crashHandler.init(getApplicationContext());
+
+		//TODO 自动处理异常
+		/*CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(getApplicationContext());*/
 		
 		initImageLoader(this);
 	}

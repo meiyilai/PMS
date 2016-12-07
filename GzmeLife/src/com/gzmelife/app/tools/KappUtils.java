@@ -20,7 +20,8 @@ public class KappUtils {
 	public static final String FLAG_FAQ_DETAIL = "FAQ_detail";
 	public static final String FLAG_ABOUT_US = "about_us";
 	public static final String FLAG_SYSTEM_MSG_DETAIL = "system_msg_detail";
-	
+
+	/** PMS状态的广播地址 */
 	public static final String ACTION_PMS_STATUS = "com.gzmelife.app.action.pmsstatus";
 	 private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
          'e', 'f'};

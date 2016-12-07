@@ -36,6 +36,7 @@ import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.gzmelife.app.tools.WifiUtil;
 import com.gzmelife.app.views.TipConfirmView;
@@ -61,7 +62,14 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 	private SocketTool socketTool;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

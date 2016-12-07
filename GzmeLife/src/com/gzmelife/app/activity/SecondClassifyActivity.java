@@ -80,7 +80,7 @@ public class SecondClassifyActivity extends BaseActivity {
 		// @Override
 		// public void onItemClick(AdapterView<?> parent, View view,
 		// int position, long id) {
-		// // TODO Auto-generated method stub
+		// /***/
 		//
 		// Intent intent = new Intent(SecondClassifyActivity.this,
 		// NetCookBookDetailActivity.class);
@@ -112,7 +112,7 @@ public class SecondClassifyActivity extends BaseActivity {
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// TODO Auto-generated method stub
+				/***/
 				switch (checkedId) {
 				case R.id.rb_new:
 					showCookBook(1);

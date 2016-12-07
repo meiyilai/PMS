@@ -18,9 +18,13 @@ import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.fragment.GoodFoodFragment;
 import com.gzmelife.app.fragment.PersonalCenterFragment;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
 public class MainActivity extends BaseActivity implements
 		OnCheckedChangeListener,OnClickListener {
+
+	MyLogger HHDLog= MyLogger.HHDLog();
+
 	public FrameLayout fl_content;
 	public RadioGroup rg_mian;
 	public RadioButton rb_device;
@@ -113,6 +117,7 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		HHDLog.v("");
 		if (group.getId() == R.id.rg_mian) {
 			hide();
 			ft = fragmentManager.beginTransaction();
@@ -229,6 +234,7 @@ public class MainActivity extends BaseActivity implements
 
 	
 	private void hide() {
+		HHDLog.v("");
 		ft = fragmentManager.beginTransaction();
 		if (cookBookFragment != null) {
 			ft.hide(cookBookFragment);
@@ -247,13 +253,12 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
+		HHDLog.v("");
 	}
 	//fargment跳转fargment方法
 	public void setVis(int localF) {
-		// TODO Auto-generated method stub
-		
+		HHDLog.v("");
+
 		if(localF==1){
 			rb_cookBook.setChecked(true);
 		}else if(localF==2){
@@ -274,7 +279,7 @@ public class MainActivity extends BaseActivity implements
 	
 	//fargment跳转fargment方法
 		public void setView(String localF) {
-			// TODO Auto-generated method stub
+			HHDLog.v("");
 			initView();
 			if(localF.equals("1")){
 				goodFoodFragment.flag1=1;

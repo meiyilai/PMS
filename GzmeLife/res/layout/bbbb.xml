@@ -10,7 +10,7 @@
         android:orientation="horizontal">
         <TextView 
         style="@style/tv_black_large"
-        android:text="传送到智能锅的菜谱"
+        android:text="传送到智能灶的菜谱"
         android:layout_margin="@dimen/spacing_normal"/>
     <View 
         android:layout_width="0dp"

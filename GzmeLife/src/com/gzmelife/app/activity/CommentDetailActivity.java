@@ -17,6 +17,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.tools.DataUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ContainsEmojiEditText;
 
 import android.annotation.SuppressLint;
@@ -42,9 +43,16 @@ public class CommentDetailActivity extends BaseActivity implements
 	private EditText et_content;
 	private Button bt_content;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		menuBookId = getIntent().getStringExtra("menuBookId");
 		getviews();
@@ -71,7 +79,7 @@ public class CommentDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				Gson gson = new Gson();
 				JSONObject obj;
@@ -94,19 +102,19 @@ public class CommentDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 		});
@@ -114,7 +122,7 @@ public class CommentDetailActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 		switch (v.getId()) {
 		case R.id.bt_content:
 			if (et_content.getText().toString().equals("")) {

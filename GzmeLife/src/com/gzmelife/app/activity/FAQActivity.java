@@ -27,6 +27,7 @@ import com.gzmelife.app.adapter.FAQAdapter;
 import com.gzmelife.app.bean.FAQBean;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
@@ -48,7 +49,14 @@ public class FAQActivity extends BaseActivity implements android.view.View.OnCli
 //	private int pageSize = 10;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

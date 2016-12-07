@@ -29,10 +29,17 @@ import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.WifiUtil;
 
+/**
+ * 界面【直连模式】_左边“添加新设备”
+ */
 @ContentView(R.layout.activity_add_device_by_pms_wifi)
 public class AddDeviceByPMSWifiActivity extends BaseActivity {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.tv_title_left)
@@ -74,6 +81,8 @@ public class AddDeviceByPMSWifiActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
+
 		//接收PSM数据**********************************************************************************
 //		socketTool.receiveMessage();
 		//接收PSM数据**********************************************************************************

@@ -47,6 +47,7 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.device.Config;
 import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.ShowDialogUtil;
 
 @ContentView(R.layout.my_cookbook)
@@ -72,16 +73,18 @@ OnMenuItemClickListener, OnItemClickListener{
 	private String state;
 	public  int flag = 0;
 	public  int flagSstate = 0;
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
+	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
 		updatePmsStatus();
 	}
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		showCollectionCookBookMenu();
 		netCookBookBeans = new ArrayList<CookBookBean>();
@@ -315,21 +318,21 @@ OnMenuItemClickListener, OnItemClickListener{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -371,21 +374,21 @@ OnMenuItemClickListener, OnItemClickListener{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -431,19 +434,19 @@ OnMenuItemClickListener, OnItemClickListener{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

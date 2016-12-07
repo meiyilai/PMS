@@ -95,7 +95,7 @@ public class PmsFile {
 		try {
 			updateCaiBuf();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		}
 	}

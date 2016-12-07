@@ -1,34 +1,28 @@
 apply plugin: 'com.android.application'
 
-dependencies {
+dependencies {//20161117去重
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':Android-PullToRefresh')
-    compile project(':gridlayout')
-    compile project(':library')
-    compile project(':EspTouch_Demo')
-    compile project(':social_sdk_library_project')
-    compile project(':xutils')
-    compile project(':EspTouch_Demo')
-    compile project(':gridlayout')
-    compile project(':library')
-//    compile project(':android-support-v7-appcompat')
-    compile project(':xutils')
-    compile project(':recyclerview')
+    compile project(':EspTouch_Demo')//2
+    compile project(':android-support-v7-appcompat')//3
+    compile project(':gridlayout')//4
+    compile project(':library')//5
+    compile project(':recyclerview')//6
+    compile project(':xutils')//8
+    compile project(':Android-PullToRefresh')//1
+    compile project(':social_sdk_library_project')//7
 }
 
 android {
     compileSdkVersion 21
     buildToolsVersion "25.0.0"
-
-    //20160928加（PNG图片错误）
+    //20160928（PNG图片错误）
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
-    //20160928加
+    //20160928（PNG图片错误）
     defaultConfig {//20160928
-        multiDexEnabled true
-
         minSdkVersion 21
 //        targetSdkVersion 21
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }

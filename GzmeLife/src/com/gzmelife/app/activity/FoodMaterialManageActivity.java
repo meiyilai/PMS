@@ -46,6 +46,7 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.TipConfirmView;
 
 /**
@@ -113,9 +114,12 @@ public class FoodMaterialManageActivity extends BaseActivity implements
 		initView();
 	}
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
 		// 我的食材库
 		myFoodMaterialCategoryListTemp = FoodMaterialDAO.getAllCategory();
 		myFoodMaterialCategoryList.clear();
@@ -183,7 +187,7 @@ public class FoodMaterialManageActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				Intent intent = new Intent(FoodMaterialManageActivity.this,
 						FoodMangerSearchsActivity.class);
 				startActivity(intent);

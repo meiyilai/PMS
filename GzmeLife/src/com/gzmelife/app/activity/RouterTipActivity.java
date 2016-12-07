@@ -15,9 +15,16 @@ import android.widget.TextView;
 import com.espressif.iot.esptouch.demo_activity.EspWifiAdminSimple;
 import com.gzmelife.app.R;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
+/**
+ * 界面【配置指南】_左边“添加新设备”
+ */
 @ContentView(R.layout.actvitiy_router_tip)
 public class RouterTipActivity extends BaseActivity{
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	
@@ -33,7 +40,13 @@ public class RouterTipActivity extends BaseActivity{
 		context = this;
 		initView();
 	}
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+			HHDLog.v("界面【配置指南】_左边“添加新设备”");
+	}
+
 	private void initView() {
 		tv_title.setText("配置指南");
 		tv_title_left.setVisibility(View.VISIBLE);

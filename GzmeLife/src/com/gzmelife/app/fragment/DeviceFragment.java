@@ -68,11 +68,13 @@ import com.gzmelife.app.tools.ShowDialogUtil;
 import com.gzmelife.app.tools.WifiUtil;
 import com.gzmelife.app.views.TipConfirmView;
 
-//20160913
+/**
+ * 界面【设备】
+ */
 @SuppressLint("InflateParams")
 public class DeviceFragment extends Fragment {
     private String TAG = "DeviceFragment";
-    MyLogger HHDLog = MyLogger.HHDLog();
+    static MyLogger HHDLog = MyLogger.HHDLog();
     private TextView tv_title;
     private RadioButton rb_selfFile;
     private RadioButton rb_downFile;
@@ -117,14 +119,16 @@ public class DeviceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView-->");
+        //Log.i(TAG, "onCreateView-->");
+        HHDLog.e("");
         return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_device, null);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        HHDLog.e("");
         super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated-->");
+        //Log.i(TAG, "onActivityCreated-->");
         context = this.getActivity();
         activity = (MainActivity) this.getActivity();
         initView();
@@ -135,6 +139,7 @@ public class DeviceFragment extends Fragment {
         broadcastManager.registerReceiver(receiver, intentFilter);//20160919接收设备状态的广播
     }
 
+    /** 重新连接 */
     private class EffectInVisiableHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -154,7 +159,9 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /** 重置时间 */
     public void resetTime() {
+        HHDLog.v("重置时间");
         mtimeHandler.removeMessages(MOBILE_QUERY);
         Message msg = mtimeHandler.obtainMessage(MOBILE_QUERY);
         mtimeHandler.sendMessageDelayed(msg, 10000);
@@ -170,8 +177,10 @@ public class DeviceFragment extends Fragment {
         }
     };
 
+    /** 加载视图 */
     private void initView() {
-        Log.i(TAG, "initView-->");
+        HHDLog.v("加载视图");
+        //HHDLog.e("");
         tv_title = (TextView) getView().findViewById(R.id.tv_title);
         rb_selfFile = (RadioButton) getView().findViewById(R.id.rb_selfFile);
         rb_downFile = (RadioButton) getView().findViewById(R.id.rb_downFile);
@@ -229,7 +238,7 @@ public class DeviceFragment extends Fragment {
                                     socketTool.startHeartTimer();
 //                                }
                             } catch (Exception e) {
-                                // TODO: handle exception
+                                //
                             }
                             byte[] bufFilePath = {0x00};//20160913
                             System.out.print("----请求录波文件总数3333333----");
@@ -242,7 +251,7 @@ public class DeviceFragment extends Fragment {
                                 try {
                                     socketTool.splitInstruction(Config.bufGetFileNum, bufFilePath);
                                 } catch (Exception e) {
-                                    // TODO: handle exception
+                                    //
                                 }
                             }
                             Looper.loop();
@@ -303,7 +312,7 @@ public class DeviceFragment extends Fragment {
                                 System.out.print("----发送4444----");
                                 Looper.loop();
                             } catch (Exception e) {
-                                // TODO: handle exception
+                                //
                             }
                         }
                     }).start();
@@ -336,6 +345,7 @@ public class DeviceFragment extends Fragment {
         btn_titleRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                HHDLog.v("右边按钮");
                 startActivity(new Intent(context, DeviceCenterActivity.class));
             }
         });
@@ -343,6 +353,7 @@ public class DeviceFragment extends Fragment {
         iv_titleRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                HHDLog.v("右边图标");
                 Intent intent = new Intent(context, AddDevicesActivity.class);
                 startActivity(intent);
             }
@@ -351,6 +362,7 @@ public class DeviceFragment extends Fragment {
         iv_titleLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                HHDLog.v("左边按钮");
                 if (!TextUtils.isEmpty(Config.SERVER_HOST_NAME)) { // 未连接，点击无效
                     startActivityForResult(new Intent(context,
                             DeviceDetailActivity.class), 101);
@@ -370,8 +382,10 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /** 初始化SocketTool */
     private void initSocketTool() {
-        Log.i(TAG, "initSocketTool");
+        //Log.i(TAG, "initSocketTool");
+        HHDLog.v("初始化SocketTool");
         if (socketTool == null) {
             socketTool = new SocketTool(context, activity, new SocketTool.OnReceiver() {//20160923实例化SocketTool//实现接收数据接口
                 @Override
@@ -465,7 +479,13 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /**
+     * WiFi是否连接状态
+     * @param context 当前上下文
+     * @return 状态
+     */
     public static boolean isWifiConnected(Context context) {
+        HHDLog.v("WiFi是否连接状态");
         Log.i("DeviceFragment", "isWifiConnected-->");
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -477,7 +497,8 @@ public class DeviceFragment extends Fragment {
     }
 
     private void connectPMS() {//20160919连接设备
-        Log.i(TAG, "connectPMS-->");
+        HHDLog.v("连接PMS设备");
+        //Log.i(TAG, "connectPMS-->");
         // 拿到PMS信息，判断当前网络下是否有那个wifi，有的话则连接上wifi，然后判断PMS的ip是否存在，然后与PMS连接
         boolean isOpenWifi = WifiUtil.openWifi(context);//20160919标记wifi开关状态
         if (!isOpenWifi) {
@@ -537,7 +558,12 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /**
+     * （长）点击删除设备
+     * @param position list标记
+     */
     private void deletePMSDevice(int position) {//20160919（长）点击删除设备
+        HHDLog.v("（长）点击删除设备");
         final DeviceNameAndIPBean bean = deviceList.get(position);//20160919列表上选中的设备信息
         TipConfirmView.showConfirmDialog(context, "是否确认删除Wifi为\"" + bean.getWifiName() + "\"网络下的设备\"" + bean.getName() + "\"？", new OnClickListener() {
             @Override
@@ -564,6 +590,11 @@ public class DeviceFragment extends Fragment {
         });
     }
 
+    /**
+     * 删除选中菜谱
+     * @param flag 标记是录波或菜谱列表
+     * @param position list标记
+     */
     private void deletePMSFile(final int flag, int position) {
         final String fileName;
         if (flag == 0) {
@@ -642,7 +673,8 @@ public class DeviceFragment extends Fragment {
                     outTime.start();
                     break;
                 case 1://20160919获取本机IP
-                    Log.i(TAG, "h-->1-->");
+                    HHDLog.v("");
+                    //Log.i(TAG, "h-->1-->");
                     KappUtils.getLocalIP(context);//20160919获取本机IP
                     if (outTime != null) {
                         outTime.cancel();//20160919取消计时
@@ -687,7 +719,9 @@ public class DeviceFragment extends Fragment {
         }
     });
 
+    /** 显示警示框 */
     public void showDlg() {
+        HHDLog.v("显示警示框");
         if (null != this && null != dlg && !dlg.isShowing()) {
             dlg.show();
         } else if (null != this && null == dlg) {
@@ -695,7 +729,9 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /** 关闭警示框 */
     public void closeDlg() {
+        HHDLog.v("关闭警示框");
         if (null != this && null != dlg && dlg.isShowing()) {
             dlg.dismiss();
         }
@@ -712,7 +748,7 @@ public class DeviceFragment extends Fragment {
                     break;
                 case 0://20160914连接失败业务
                     if (pDlg != null && pDlg.isShowing()) {
-//                        KappUtils.showToast(context, "文件下载失败");
+                        KappUtils.showToast(context, "文件下载失败");
                     }
                     if (connectDeviceBean != null) {
                         if (outtime != null) {
@@ -754,7 +790,7 @@ public class DeviceFragment extends Fragment {
                         Config.isConnext = true;//20160913设备在线
                         updatePmsStatus();
                     } catch (Exception e) {
-                        // TODO: handle exception
+                        //
                     }
 
 
@@ -779,14 +815,17 @@ public class DeviceFragment extends Fragment {
         }
     });
 
+    /** 关闭警示框 */
     private void closePDlg() {
+        HHDLog.v("关闭警示框");
         if (pDlg != null && pDlg.isShowing()) {
             pDlg.dismiss();
         }
     }
 
+    /** 显示（之前连接过）设备列表 */
     private void showDeviceList() {//20160919显示（之前连接过）设备列表
-        Log.i(TAG, "showDeviceList-->");
+        HHDLog.v("显示（之前连接过）设备列表");
         tv_title.setText("我的设备中心");//20160919“标题”改变为“我的设备中心”
         btn_titleRight.setVisibility(View.GONE);//20160919隐藏“保存”按钮
         updatePmsStatus();//20160920更新PMS设备（图标）状态
@@ -795,7 +834,7 @@ public class DeviceFragment extends Fragment {
         List<DeviceNameAndIPBean> deviceListTemp = new DevicesDAO().getAllDevices();//20160920查询所有PMS设备
 
         if (deviceListTemp == null || deviceListTemp.size() == 0) { // 本地没有设备数据
-            Log.i(TAG, "deviceListTemp.size-->本地没有设备数据");
+            HHDLog.v("本地没有设备数据");
             layout_no_device.setVisibility(View.VISIBLE);//20160920显示没有设备界面
             layout_devices.setVisibility(View.GONE);//20160920隐藏设备列表界面
         } else {
@@ -803,13 +842,18 @@ public class DeviceFragment extends Fragment {
             layout_devices.setVisibility(View.VISIBLE);
             deviceList.clear();//20160920清空设备列表
             deviceList.addAll(deviceListTemp);//20160920加载设备列表数据
-            Log.i(TAG, "deviceListTemp.size-->" + String.valueOf(deviceListTemp.size()));
-            Log.i(TAG, "deviceList-->" + "重新插入并更新");
+            HHDLog.v("重新插入并更新="+String.valueOf(deviceListTemp.size()));
             deviceAdapter.notifyDataSetChanged();//20160920更新设备中心适配器数据
         }
     }
 
+    /**
+     * 下载选中菜谱
+     * @param flag 标记是录波或菜谱列表
+     * @param position list标记
+     */
     private void downloadFromPMS(int flag, int position) {
+        HHDLog.v("下载选中菜谱");
         try {
 
             if (flag == 0) { // PMS内的录波
@@ -846,8 +890,10 @@ public class DeviceFragment extends Fragment {
     //20160919
     public static boolean isClearList = false;
 
+    /** 清空两个列表 */
     private void clearList() {
-        Log.i(TAG, "clearList-->");
+        HHDLog.v("清空两个列表");
+        //Log.i(TAG, "clearList-->");
         if (isClearList) {
             isClearList = false;
             socketTool = null;
@@ -865,7 +911,9 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /** 更新PMS设备状态 */
     private void updatePmsStatus() {//20160919更新PMS设备状态
+        HHDLog.v("更新PMS设备状态");
         Log.i(TAG, "updatePmsStatus-->");
         if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {//20160914服务器地址为空则为离线状态
             iv_titleLeft.setImageResource(R.drawable.icon05);//20160914离线图标
@@ -889,7 +937,7 @@ public class DeviceFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        HHDLog.e("界面【设备】");
         if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {//20160920服务器（PMS设备）地址为空
             HHDLog.w("服务器（PMS设备）地址为空");
             if (socketTool != null) {
@@ -937,7 +985,7 @@ public class DeviceFragment extends Fragment {
                             }
                             Looper.loop();//20160920运行在消息队列的线程中，一定要调用quit()结束循环
                         } catch (Exception e) {
-                            // TODO: handle exception
+                            //
                         }
                     }
                 }).start();
@@ -974,14 +1022,16 @@ public class DeviceFragment extends Fragment {
                     socketTool.startHeartTimer();
                     Looper.loop();
                 } catch (Exception e) {
-                    // TODO: handle exception
+                    //
                 }
             }
         }).start();
 
     }
 
+    /** 请求菜谱列表总数 */
     private void getPMSDownFileNum() {
+        HHDLog.v("");
         final byte[] bufFilePath = {0x01};//20160920查询录波文件列表F3 01
         fileFlag = false;//20160920显示录波文件列表
         downFileList.clear();//20160920清空录波文件列表
@@ -990,8 +1040,9 @@ public class DeviceFragment extends Fragment {
 
     }
 
+    /** 请求录波列表总数 */
     private void getPMSSelfFileNum() { // 录波文件
-
+        HHDLog.v("");
         final byte[] bufFilePath = {0x00};//20160920数据长度
         fileFlag = true;//20160920录波文件
         selfFileList.clear();//20160920清空录波文件列表
@@ -1004,7 +1055,7 @@ public class DeviceFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.i(TAG, "onPause-->");
+        //Log.i(TAG, "onPause-->");
     }
 
     @Override
@@ -1026,6 +1077,7 @@ public class DeviceFragment extends Fragment {
         }
     }
 
+    /** 时间计时器 */
     public class TimeCountOut extends CountDownTimerUtil {
         private OnEvent onEvent;
 
@@ -1047,10 +1099,12 @@ public class DeviceFragment extends Fragment {
         public void onTick(long millisUntilFinished) {
             if (onEvent != null) {
                 onEvent.onTick(millisUntilFinished);
+                HHDLog.v("时间计时器="+millisUntilFinished);
             }
         }
     }
 
+    /** 事件接口 */
     public interface OnEvent {//20160919触发事件
 
         void onFinish();//20160919倒计时结束后会调用onFinish，倒计时结束后需要执行的操作
@@ -1076,14 +1130,17 @@ public class DeviceFragment extends Fragment {
         super.onActivityResult(arg0, arg1, arg2);
     }
 
+    /**
+     * Fragment是否被隐藏
+     * @param hidden 隐藏状态
+     */
     @Override
     public void onHiddenChanged(boolean hidden) {
-
-        // TODO Auto-generated method stub
+        HHDLog.e("隐藏状态="+hidden);
         super.onHiddenChanged(hidden);
-        Log.i(TAG, "onHiddenChanged-->" + String.valueOf(hidden));
+        //Log.i(TAG, "onHiddenChanged-->" + String.valueOf(hidden));
         if (hidden) {
-
+            //
         } else {
             if (Config.flag == 2) {
                 smartPotStatu smart = new smartPotStatu();
@@ -1094,10 +1151,11 @@ public class DeviceFragment extends Fragment {
         }
     }
 
-    /*
+    /**
      * 更新菜谱文件
      */
     private void MenuFileRefrash() {
+        HHDLog.v("");
         rb_downFile.setTextColor(Color.parseColor("#ff5b80"));
         view_downFile.setVisibility(View.VISIBLE);
         if (downAdapter == null) {

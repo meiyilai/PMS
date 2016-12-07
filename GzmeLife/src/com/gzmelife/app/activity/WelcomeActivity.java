@@ -27,6 +27,7 @@ import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -160,16 +161,19 @@ public class WelcomeActivity extends Activity {
 		});
 	}
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
+		HHDLog.v("");
+
 		 JPushInterface.onResume(this);
 	}
 	
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
+		/***/
 		super.onPause();
 		JPushInterface.onPause(this);
 	}

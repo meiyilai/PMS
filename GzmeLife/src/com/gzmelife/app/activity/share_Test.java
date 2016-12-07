@@ -75,7 +75,7 @@ public class share_Test {
 	};
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		/***/
 		// super.onActivityResult(requestCode, resultCode, data);
 		UMShareAPI.get(mcontext).onActivityResult(requestCode, resultCode, data);
 	}

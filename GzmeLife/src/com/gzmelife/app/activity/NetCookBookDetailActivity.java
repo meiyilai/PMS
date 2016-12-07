@@ -503,20 +503,20 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				KappUtils.showToast(context,ex.getMessage());
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -564,21 +564,21 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -744,7 +744,7 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 //									}
 
 								} catch (Exception e) {
-									// TODO: handle exception
+									//
 								}
 
 								Looper.loop();
@@ -811,10 +811,10 @@ public class NetCookBookDetailActivity extends BaseActivity implements
 				ShowDialogUtil.setTitle("正在传送菜谱，请稍候");
 				break;
 			case 1:
-				KappUtils.showToast(context, "上传文件到智能锅失败");
+				KappUtils.showToast(context, "上传文件到智能灶失败");
 				break;
 			case 2:
-				KappUtils.showToast(context, "上传文件到智能锅成功");
+				KappUtils.showToast(context, "上传文件到智能灶成功");
 				break;
 			case 5001://进度条开始
 				processer = ShowDialogUtil.getShowDialog(NetCookBookDetailActivity.this,

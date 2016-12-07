@@ -34,7 +34,7 @@ public class GvItemAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+		/***/
 		return categorySecondBeanList.size();
 	}
 
@@ -84,7 +84,7 @@ public class GvItemAdapter extends BaseAdapter {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 //				viewHolder.tv_name
 				Intent intent = new Intent(context,
 						SecondClassifyActivity.class);

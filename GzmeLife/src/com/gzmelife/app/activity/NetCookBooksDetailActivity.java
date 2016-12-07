@@ -761,10 +761,10 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 				ShowDialogUtil.setTitle("正在传送菜谱，请稍候");
 				break;
 			case 1:
-				KappUtils.showToast(context, "上传文件到智能锅失败");
+				KappUtils.showToast(context, "上传文件到智能灶失败");
 				break;
 			case 2:
-				KappUtils.showToast(context, "上传文件到智能锅成功");
+				KappUtils.showToast(context, "上传文件到智能灶成功");
 				break;
 			}
 			return false;

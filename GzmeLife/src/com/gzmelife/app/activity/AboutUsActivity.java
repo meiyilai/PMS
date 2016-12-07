@@ -11,6 +11,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ProgressWebView;
 
 @ContentView(R.layout.activity_webview)
@@ -38,9 +39,16 @@ public class AboutUsActivity extends BaseActivity {
 		try {
 			name = getIntent().getStringExtra("name");
 		} catch (Exception e) {
-			// TODO: handle exception
+			//
 		}
 		initView();
+	}
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
 	}
 
 	@SuppressWarnings("deprecation")

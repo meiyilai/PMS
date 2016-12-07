@@ -79,7 +79,13 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 	private File localPmsFile;
 	
 	private String fileName="";
-	
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		
@@ -161,7 +167,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 					file.delete();
 				}
 				} catch (Exception e) {
-					// TODO: handle exception
+					//
 				}
 				break;
 			case 2:
@@ -282,7 +288,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void onStart(int cursize, int allSize) {
-												// TODO Auto-generated method stub
+												/***/
 												Message msg=new Message();
 												msg.what=5001;
 //												processer.show();
@@ -291,7 +297,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void onLoading(int cursize, int allSize) {
-												// TODO Auto-generated method stub
+												/***/
 												Message msg=new Message();
 												msg.what=5002;
 //												processer.show();
@@ -304,7 +310,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void onError(int code) {
-												// TODO Auto-generated method stub
+												/***/
 //												Log.i(TAG, "onLoading");
 												Message msg=new Message();
 												msg.what=5004;
@@ -317,7 +323,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void OnComplete(int code) {
-												// TODO Auto-generated method stub
+												/***/
 												Message msg=new Message();
 												msg.what=5003;
 //												processer.show();
@@ -359,7 +365,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 									
 
 								} catch (Exception e) {
-									// TODO: handle exception
+									//
 								}
 
 								Looper.loop();
@@ -374,21 +380,21 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(CheckUpdateActivity.this, "更新PMS程序失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(CheckUpdateActivity.this, "更新PMS程序失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

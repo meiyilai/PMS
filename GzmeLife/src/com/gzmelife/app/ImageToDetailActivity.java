@@ -1,6 +1,7 @@
 package com.gzmelife.app;
 
 import com.gzmelife.app.tools.ImgLoader;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ImageToDetailActivity extends Activity {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +55,7 @@ public class ImageToDetailActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				ImageToDetailActivity.this.finish();
 			}
 		});
@@ -54,7 +63,7 @@ public class ImageToDetailActivity extends Activity {
 		//
 		// @Override
 		// public void onClick(View v) {
-		// // TODO Auto-generated method stub
+		// /***/
 		// ImageToDetailActivity.this.finish();
 		// }
 		// });

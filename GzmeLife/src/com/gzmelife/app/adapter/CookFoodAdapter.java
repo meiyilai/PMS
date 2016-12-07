@@ -53,7 +53,7 @@ public class CookFoodAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+		/***/
 		// if(list == null){
 		// return 0;
 		// }else{
@@ -64,19 +64,19 @@ public class CookFoodAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
+		/***/
 		return position;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
+		/***/
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
+		/***/
 		// View v = LayoutInflater.from(context).inflate(R.layout.item_cookfood,
 		// null);
 

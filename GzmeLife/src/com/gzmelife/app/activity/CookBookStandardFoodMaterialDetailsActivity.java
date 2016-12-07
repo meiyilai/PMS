@@ -84,6 +84,12 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity im
 
 	private Context context;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 

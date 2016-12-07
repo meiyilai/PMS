@@ -42,9 +42,15 @@ public class GoodFoodSearchDetailActivity extends BaseActivity{
 	private String name;
 	UserInfoBean user;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_search_deatail);
 		initView();
@@ -52,7 +58,7 @@ public class GoodFoodSearchDetailActivity extends BaseActivity{
 	}
 
 	private void initView() {
-		// TODO Auto-generated method stub
+		/***/
 		lv_food = (ListView) findViewById(R.id.lv_food);
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_title.setText("搜索结果");
@@ -96,7 +102,7 @@ public class GoodFoodSearchDetailActivity extends BaseActivity{
 							@Override
 							public void onItemClick(AdapterView<?> parent,
 									View view, int position, long id) {
-								// TODO Auto-generated method stub
+								/***/
 								Intent intent = new Intent(context, NetCookBookDetailActivity.class);
 								// intent.putExtra("category",
 								// categoryFirstBeanList.get(position));
@@ -116,19 +122,19 @@ public class GoodFoodSearchDetailActivity extends BaseActivity{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

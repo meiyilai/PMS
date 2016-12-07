@@ -180,7 +180,6 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		HHDLog.v(" ");
 		context = this;
 		detail = this;
 		initView();
@@ -220,7 +219,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			//cookBookStopAdapter.notifyDataSetInvalidated();
 		}
 
-		HHDLog.v(" ");
+		HHDLog.v("");
 	}
 
 	@Override
@@ -233,7 +232,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	protected void onStop() {
 		super.onStop();
 		Config.Name = null;
-		HHDLog.v(" ");
+		HHDLog.v("");
 	}
 
 	private void initView() {
@@ -288,7 +287,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			lv_step.setOnItemLongClickListener(new OnItemLongClickListener() {
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-					HHDLog.v(" ");
+					HHDLog.v("");
 					if (listTimeNode.size() > 1) {
 						TipConfirmView.showConfirmDialog(context, "是否确认删除?", new OnClickListener() {
 							@Override
@@ -334,7 +333,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	int a = 0, b = 0;
 
 	private void sendFileToPMS() {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		handler.sendEmptyMessage(0);
 
 		if (socketTool == null) {
@@ -418,7 +417,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	}
 
 	public void closePDlg() {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		if (pDlg != null && pDlg.isShowing()) {
 			pDlg.dismiss();
 		}
@@ -437,16 +436,16 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 					break;
 				case 1:
 					closePDlg();
-					KappUtils.showToast(context, "上传文件到智能锅失败");
+					KappUtils.showToast(context, "上传文件到智能灶失败");
 					// socketTool.closeSocket();
 					break;
 				case 2:
-					KappUtils.showToast(context, "上传文件到智能锅成功");
+					KappUtils.showToast(context, "上传文件到智能灶成功");
 					smartPotStatu smart = new smartPotStatu();
 					smart.setDirty();
 					break;
 				case 50000:
-					KappUtils.showToast(context, "智能锅拒绝接受上传文件");
+					KappUtils.showToast(context, "智能灶拒绝接受上传文件");
 					closePDlg();
 					// socketTool.closeSocket();
 					break;
@@ -459,7 +458,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		HHDLog.v(" ");
+		HHDLog.v("");
 		if (socketTool != null) {
 			socketTool.closeSocket();
 			socketTool = null;
@@ -473,7 +472,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.btn_uploading:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				// if (KappAppliction.state == 1) {
 				// sendFileToPMS();
 				// } else if (KappAppliction.state == 2) {
@@ -492,19 +491,19 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.iv_titleRight:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				showSharp();
 				break;
 
 			case R.id.btn_sharp:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				isSharp = true;
 				showSharp2();
 				sharpPopupWindow.dismiss();
 				break;
 
 			case R.id.btn_upload:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				// if (KappAppliction.state == 1) {
 				// sendFileToPMS();
 				// } else if (KappAppliction.state == 2) {
@@ -525,7 +524,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.btn_wechat:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				Log.i(TAG, "点击btn_wechat");
 				flag = 1;
 				if (KappAppliction.getLiLogin() == 1) {
@@ -547,7 +546,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.btn_wechat2:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				flag = 2;
 				if (KappAppliction.getLiLogin() == 1) {
 					// 1
@@ -604,7 +603,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.btn_upload2:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				// 上传文件到后台
 				if (KappAppliction.getLiLogin() == 1) {
 					if (stat == false) {
@@ -623,12 +622,12 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.btn_sharp2:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				showSharp2();
 				break;
 
 			case R.id.btn_etCookBook:/** 编辑菜谱按钮 */
-				HHDLog.v(" ");
+				HHDLog.v("");
 				editString = file.getName().substring(0, file.getName().lastIndexOf("."));
 				Log.i(TAG, "filename--->" + file.getName());
 				if (TextUtils.isEmpty(Config.Name)) {
@@ -643,7 +642,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.iv_titleLeft:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				if (btn_etCookBook.getVisibility() == View.VISIBLE) {
 					Intent mIntent = new Intent();
 					setResult(REQUEST_CODE, mIntent);
@@ -657,13 +656,13 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.iv_edtPhoto:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				cameraUtil = new CameraUtil(this, this);
 				cameraUtil.toCameraPhoto(true);
 				break;
 
 			case R.id.btn_titleRight:/** 保存按钮 */
-				HHDLog.v(" ");
+				HHDLog.v("");
 				if (TextUtils.isEmpty(et_name.getText().toString().trim())) {
 					KappUtils.showToast(context, "菜谱名不能为空！");
 					return;
@@ -685,7 +684,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 				break;
 
 			case R.id.iv_photo:
-				HHDLog.v(" ");
+				HHDLog.v("");
 				if (CookBookDetailActivity.ivState == false) {
 					Intent intent = new Intent(CookBookDetailActivity.this, ImageShower.class);
 					startActivity(intent);
@@ -859,7 +858,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 								@Override
 								public void onSureSelected() {
-									// TODO Auto-generated method stub
+									/***/
 
 									if (stat == false) {
 										// checkPmsFile(file.getName());
@@ -875,7 +874,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 								@Override
 								public void onNotSureSelected() {
-									// TODO Auto-generated method stub
+									/***/
 
 								}
 							});
@@ -948,7 +947,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 							@Override
 							public void onSureSelected() {
-								// TODO Auto-generated method stub
+								/***/
 								if (stat == false) {
 									Log.i(TAG, "stat:false,filePath-->" + filePath + ";fileName-->" + file.getName());
 									uploadHeadPortrait(filePath, file.getName(), "2");
@@ -960,7 +959,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 							@Override
 							public void onNotSureSelected() {
-								// TODO Auto-generated method stub
+								/***/
 
 							}
 						});
@@ -991,7 +990,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	/** 弹出窗口 */
 	private void showSharp() {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		sharpPopupWindow = new PopupWindow(new View(context), LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		final View view = getLayoutInflater().inflate(R.layout.layout_sharp_window, null);
 		view.findViewById(R.id.btn_sharp).setOnClickListener(this);
@@ -1034,7 +1033,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	/** 弹出窗口 */
 	private void showSharp2() {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		sharpPopupWindow2 = new PopupWindow(new View(context), LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		View view = getLayoutInflater().inflate(R.layout.layout_sharp_window2, null);
 		view.findViewById(R.id.btn_wechat).setOnClickListener(this);
@@ -1073,7 +1072,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	/** 根据菜谱名获取相应菜谱的数据 */
 	void getfileInfoByName1(String name) {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		// filePath = getIntent().getStringExtra("filePath");
 		// filePath=name;
 		filePath = FileUtil.PMSPATH + name;
@@ -1286,7 +1285,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	/** 非编辑状态的界面（获取菜谱文件信息） */
 	private void getFileInfo() {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		filePath = getIntent().getStringExtra("filePath");
 		if (filePath != null) {
 			file = new File(filePath);
@@ -1420,7 +1419,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	 * @param position 当前的List位置
 	 */
 	public void edtStep(TimeNode timeNode, int startTime, int endTime, boolean isEdt, int position) {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		// update();
 		intFlag = 1;
 		Intent intent = new Intent(context, AddStepActivity.class);
@@ -1460,7 +1459,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	}
 
 	public void getData(int position, TimeNode timeNode) {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		// position = arg2.getIntExtra("position", 0);
 
 		listTimeNode = new ArrayList<TimeNode>();
@@ -1506,12 +1505,12 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 	}
 
 	private void upDatePMSTimeNode(int position,TimeNode tn) {
-		HHDLog.v(" ");
+		HHDLog.v("");
 	}
 
 	/** 保存编辑后的菜谱//Lotus 2016-07-26 只使用旧名称 */
 	public void update() {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		// if (btn_etCookBook.getVisibility() == View.GONE) {
 		// isLongChick(true);
 		// } else {
@@ -1643,7 +1642,7 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		HHDLog.v(" ");
+		HHDLog.v("");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent mIntent = new Intent();
 			setResult(REQUEST_CODE, mIntent);
@@ -1701,10 +1700,10 @@ public class CookBookDetailActivity extends BaseActivity implements OnClickListe
 			fos.close();
 			this.pmsFile = pmsFile;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		}
 	}

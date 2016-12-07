@@ -145,7 +145,7 @@ public class PullDownElasticImp implements IPullDownElastic {
      */
     @Override
     public void changeElasticState(int state, boolean isBack) {
-        // TODO Auto-generated method stub
+        /***/
         
     }
 

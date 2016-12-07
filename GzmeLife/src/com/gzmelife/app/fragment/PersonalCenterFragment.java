@@ -47,10 +47,17 @@ import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.gzmelife.app.views.TipConfirmView;
 
+/**
+ * 界面【我的】
+ */
 public class PersonalCenterFragment extends Fragment implements OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private TextView tv_title;
 
 	private ImageView iv_titleLeft;
@@ -122,6 +129,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	@Override
 	public void onResume() {
 		super.onResume();
+		HHDLog.v("界面【我的】");
 		updatePmsStatus();
 		if (KappAppliction.myApplication.getUser() != null) {
 			new ImgLoader(context).showPic(KappAppliction.myApplication
@@ -324,7 +332,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 111) {
 			tv_nickname.setText(KappAppliction.myApplication.getUser()

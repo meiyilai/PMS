@@ -33,6 +33,7 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.DataUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
 @ContentView(R.layout.activity_forgetpwd_and_register)
 public class ForgetpwdAndRegisterActivity extends BaseActivity implements
@@ -65,6 +66,13 @@ public class ForgetpwdAndRegisterActivity extends BaseActivity implements
 	public static String code;
 	LoginBean bean = new LoginBean();
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -243,7 +251,7 @@ public class ForgetpwdAndRegisterActivity extends BaseActivity implements
 						KappUtils.showToast(context, "获取验证码成功，请注意查收！");
 					} 
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
+					//
 					e.printStackTrace();
 				}
 

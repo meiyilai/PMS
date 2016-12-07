@@ -90,6 +90,13 @@ public class FoodMangerSearchActivity extends BaseActivity implements OnClickLis
 	private BaseAdapter adapter;
 	LvfoodSearchAdapter lvFoodSearchAdapter;
 
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -235,7 +242,7 @@ public class FoodMangerSearchActivity extends BaseActivity implements OnClickLis
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 		// int id = v.getId();
 		// if (id == R.id.clear) {// 搜索按钮
 		// saveSearchHistory();

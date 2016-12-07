@@ -27,6 +27,7 @@ import com.gzmelife.app.adapter.SystemMsgAdapter;
 import com.gzmelife.app.bean.SystemMsgBean;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
@@ -47,7 +48,14 @@ public class SystemMsgActivity extends BaseActivity {
 	private int page = 1;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

@@ -23,6 +23,7 @@ import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ListViewForScrollView;
 
 @ContentView(R.layout.activity_device_detail)
@@ -68,6 +69,7 @@ public class DeviceDetailActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("界面【设备状态】");
 		//接收PSM数据**********************************************************************************
 //		socketTool.receiveMessage();
 		//接收PSM数据**********************************************************************************
@@ -110,7 +112,7 @@ public class DeviceDetailActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				if(state==true){
 					if (socketTool != null) {
 //						 t.interrupt();
@@ -186,11 +188,15 @@ public class DeviceDetailActivity extends BaseActivity {
 			return false;
 		}
 	});
-	
-	
+
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@Override
 	protected void onPause() {
 		super.onPause();
+		HHDLog.v("");
 		if (socketTool != null) {
 			socketTool.closeSocket(); 
 			socketTool=null;

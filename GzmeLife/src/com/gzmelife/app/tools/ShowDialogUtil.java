@@ -42,7 +42,7 @@ public class ShowDialogUtil {
 
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				// TODO Auto-generated method stub
+				/***/
 				if (keyCode == KeyEvent.KEYCODE_SEARCH)
 				{
 					return true;
@@ -97,7 +97,7 @@ public class ShowDialogUtil {
 
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				// TODO Auto-generated method stub
+				/***/
 				if (keyCode == KeyEvent.KEYCODE_SEARCH)
 				{
 					return true;

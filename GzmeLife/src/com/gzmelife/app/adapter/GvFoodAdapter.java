@@ -26,7 +26,7 @@ public class GvFoodAdapter extends BaseAdapter {
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+		/***/
 		return foods.size();
 	}
 

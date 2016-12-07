@@ -11,6 +11,7 @@ import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.adapter.FoodLibraryAdapter;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ListViewForScrollView;
 
 import android.os.Bundle;
@@ -35,8 +36,14 @@ public class FoodLibraryActivity extends BaseActivity implements OnCheckedChange
 	TextView tv_title_left;
 	FoodLibraryAdapter foodLibraryAdapter ;
 	RadioGroup rg_foodLibrary;
-	
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

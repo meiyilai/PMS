@@ -34,6 +34,7 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.CameraUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.gzmelife.app.views.CircleImageView;
 import com.gzmelife.app.views.ListViewForScrollView;
@@ -74,6 +75,14 @@ public class FillInInfoActivity extends BaseActivity implements OnClickListener 
 	String urlHeadPath;
 	String singid;
 	String name;
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

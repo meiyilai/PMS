@@ -86,6 +86,12 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 	private int count, ChildPosition;
 	private Context context;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 
