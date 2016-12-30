@@ -1,6 +1,7 @@
 package com.gzmelife.app.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +22,7 @@ import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.bean.TimeNode;
 
-public class AddNewFoodsMaterialActivity extends BaseActivity implements
+public class AddNewFoodsMaterialActivity extends BaseActivity implements//
 		OnClickListener {
 
 	MyLogger HHDLog=MyLogger.HHDLog();
@@ -40,9 +41,15 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 	boolean state;
 	private String filePath;
 
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_add_new_foodsmaterial);
 		context = this;
@@ -85,7 +92,6 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		String catogoryName = tv_category.getText().toString();
 		String foodMaterialName = et_foodMaterialName.getText().toString()
 				.trim();
@@ -99,7 +105,7 @@ public class AddNewFoodsMaterialActivity extends BaseActivity implements
 
 			bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 			bean2.setName(foodMaterialName);
-			HHDLog.e("这里需要保存UID到本地？");
+			HHDLog.v("保存食材到本地？");
 			//bean2.setUid()
 			// bean2.setWeight(foodMaterialWight);
 			ArrayList<String> mList = new ArrayList<String>();

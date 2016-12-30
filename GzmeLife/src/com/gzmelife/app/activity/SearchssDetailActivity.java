@@ -1,6 +1,7 @@
 package com.gzmelife.app.activity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.gzmelife.app.R;
 import com.gzmelife.app.adapter.LvfoodssSearchsAdapter;
@@ -17,7 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class SearchssDetailActivity extends BaseActivity {
+public class SearchssDetailActivity extends BaseActivity {//
 
 	MyLogger HHDLog = MyLogger.HHDLog();
 
@@ -38,9 +39,23 @@ public class SearchssDetailActivity extends BaseActivity {
 	private int count;
 	private ArrayList<String> threeList;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_search_deatail);
 		// if (KappAppliction.liLogin == 1) {
@@ -98,7 +113,7 @@ public class SearchssDetailActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				// String strName = thressList.get(position).getName();
 				// mList.add(strName);
 				Intent intent = new Intent();

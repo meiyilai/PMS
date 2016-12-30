@@ -1,6 +1,7 @@
 package com.gzmelife.app.activity;
 
 import java.io.File;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +36,7 @@ import com.gzmelife.app.tools.CameraUtil;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.ScaleImageSizeUtil;
 import com.gzmelife.app.views.CircleImageView;
 import com.gzmelife.app.views.wheelview.OnWheelChangedListener;
@@ -43,8 +45,11 @@ import com.gzmelife.app.views.wheelview.adapter.CityWheelAdapter;
 import com.gzmelife.app.views.wheelview.adapter.DistrictWheelAdapter;
 import com.gzmelife.app.views.wheelview.adapter.ProvinceWheelAdapter;
 
+/**
+ * 界面【个人资料】左边（个人中心）
+ */
 @ContentView(R.layout.activity_my_data)
-public class MyDataActivity extends BaseActivity implements OnClickListener {
+public class MyDataActivity extends BaseActivity implements OnClickListener {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.tv_birthplace)
@@ -128,7 +133,15 @@ public class MyDataActivity extends BaseActivity implements OnClickListener {
 	private UserInfoBean bean;
 	
 	private Context context;
-	
+
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -137,9 +150,13 @@ public class MyDataActivity extends BaseActivity implements OnClickListener {
 		getData();
 	}
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("界面【个人资料】左边（个人中心）");
+
 //		if (!isActivityResult) {
 //		}
 //		isActivityResult = false;

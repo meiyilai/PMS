@@ -31,17 +31,20 @@ import com.gzmelife.app.adapter.DeviceCenterAdapter;
 import com.gzmelife.app.bean.DeviceNameAndIPBean;
 import com.gzmelife.app.dao.DevicesDAO;
 import com.gzmelife.app.device.Config;
-import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.gzmelife.app.tools.WifiUtil;
 import com.gzmelife.app.views.TipConfirmView;
 
+/**
+ * 界面【我的设备中心】
+ */
 @ContentView(R.layout.activity_device_center)
-public class DeviceCenterActivity extends BaseActivity implements OnClickListener {
+public class DeviceCenterActivity extends BaseActivity implements OnClickListener {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	
@@ -54,57 +57,128 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 	private DeviceCenterAdapter deviceAdapter;
 	private List<DeviceNameAndIPBean> deviceList = new ArrayList<DeviceNameAndIPBean>();
 	private DeviceNameAndIPBean connectDeviceBean;
-	
-	private TimeCountOut outTime;  // 与wifi建立连接
-	private TimeCountOut outtime;  // 与PMS建立连接
-	
-	private SocketTool socketTool;
+
+	/** 与wifi建立连接 */
+	private TimeCountOut outTime;
+	/** 与PMS建立连接 */
+	private TimeCountOut outtime;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {
+        switch (status) {
+            case 4:
+                handler.sendEmptyMessage(4);
+                HHDLog.v("回调码=4，连接成功");
+                break;
+            case 9:
+                handler.sendEmptyMessage(9);
+                System.out.println("回调码=9，对时功能成功");
+                HHDLog.v("回调码=9，对时功能成功");
+                break;
+            default:
+                break;
+        }
+    }
+	@Override
+	public void failure(int flag) {
+        switch (flag) {
+            case -1:
+                break;
+            default:
+                Config.serverHostName = "";
+                handler.sendEmptyMessage(flag);
+                break;
+        }
+    }
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
-		
+
 		context = this;
 		initView();
 		showDeviceList();
 	}
 
-	private void initView() {
-		tv_title.setText("我的设备中心");		
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //TODO 2016
+        bindSocketService();
+        //TODO 2016
+		handler.sendEmptyMessage(Config.MSG_RE_BIND);
+
+        HHDLog.v("界面【我的设备中心】");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //TODO 2016
+        unbindSocketService();
+        //TODO 2016
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //if (socketTool != null) {
+        //socketTool.closeSocket();
+        //}
+
+        if (outTime != null) {
+            outTime.cancel();
+            outTime = null;
+        }
+        if (outtime != null) {
+            outtime.cancel();
+            outtime = null;
+        }
+    }
+
+    private void initView() {
+		tv_title.setText("我的设备中心");
 		iv_titleRight.setVisibility(View.VISIBLE);
 		iv_titleRight.setImageResource(R.drawable.icon01);
-		
+
 		deviceAdapter = new DeviceCenterAdapter(context, deviceList);
 		lv_pms.setAdapter(deviceAdapter);
 		lv_pms.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				HHDLog.v("点击设备列表");
 				connectDeviceBean = deviceList.get(position);
-				if (connectDeviceBean.getName().equals(Config.SERVER_HOST_NAME)
+				if (connectDeviceBean.getName().equals(Config.serverHostName)
 						&& connectDeviceBean.getWifiName().equals(new EspWifiAdminSimple(context).getWifiConnectedSsid())
-						&& connectDeviceBean.getIp().equals(Config.SERVER_HOST_IP)) {
-					KappUtils.showToast(context, "当前已连接该设备");
+						&& connectDeviceBean.getIp().equals(Config.serverHostIp)) {
+					KappUtils.showToast(context, "连接成功");
 					DeviceCenterActivity.this.finish();//20161028
 					return;
 				}
-				Config.SERVER_HOST_NAME = "";
+				Config.serverHostName = "";
 				h.sendEmptyMessage(2);
 			}
 		});
 		lv_pms.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                HHDLog.v("长按删除设备");
 				deletePMSDevice(position);
 				return true;
 			}
 		});
-		
 		iv_titleRight.setOnClickListener(this);
 	}
-	
+
+	/** 2016加载已经连接过保存在数据库的PMS设备 */
 	private void showDeviceList() {
 		List<DeviceNameAndIPBean> deviceListTemp = new DevicesDAO().getAllDevices();
 		if (deviceListTemp != null && deviceListTemp.size() > 0) { // 本地没有设备数据
@@ -113,7 +187,7 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 			deviceAdapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	Handler h = new Handler(new Callback() {
 		@Override
 		public boolean handleMessage(final Message msg) {
@@ -127,24 +201,23 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 									&& connectDeviceBean != null
 									&& !TextUtils.isEmpty(new EspWifiAdminSimple(context).getWifiConnectedSsid())
 									&& WifiUtil.getWifiInfo().getSSID().equals("\"" + connectDeviceBean.getWifiName() + "\"")) {
-								KappUtils.showToast(context, "连接wifi成功");
-								MyLog.d("onTick 连接wifi成功." + millisUntilFinished);
-								
+								//KappUtils.showToast(context, "连接WiFi成功");
+								//MyLog.d("onTick 连接wifi成功." + millisUntilFinished);
+								HHDLog.v("连接WiFi成功");
 								h.sendEmptyMessage(1);
 							}
 						}
-						
 						@Override
 						public void onFinish() {
 							if (WifiUtil.getWifiInfo() != null && connectDeviceBean != null
 									&& !TextUtils.isEmpty(new EspWifiAdminSimple(context).getWifiConnectedSsid())
 									&& WifiUtil.getWifiInfo().getSSID().equals("\"" + connectDeviceBean.getWifiName() + "\"")) {
-								KappUtils.showToast(context, "连接wifi成功");
-								
+								//KappUtils.showToast(context, "连接WiFi成功");
+
 								h.sendEmptyMessage(1);
 							} else {
 								if (connectDeviceBean != null) {
-									KappUtils.showToast(context, "连接wifi失败");
+									KappUtils.showToast(context, "连接WiFi失败");
 									connectDeviceBean = null;
 								}
 							}
@@ -157,9 +230,8 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 					KappUtils.getLocalIP(context);
 					outTime.cancel();
 					outTime = null;
-					Config.SERVER_HOST_IP = connectDeviceBean.getIp();
-					// 倒计时10秒，10秒内没有指令与PMS连接成功，则给出提示，且去掉转圈
-					outtime = new TimeCountOut(10 * 1000, 1000, new OnEvent() {
+					Config.serverHostIp = connectDeviceBean.getIp();
+					outtime = new TimeCountOut(10 * 1000, 1000, new OnEvent() {// 倒计时10秒，10秒内没有指令与PMS连接成功，则给出提示，且去掉转圈
 						@Override
 						public void onFinish() {
 							handler.sendEmptyMessage(0);
@@ -167,11 +239,14 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 
 						@Override
 						public void onTick(long millisUntilFinished) {
+							//
 						}
 					});
-					
-					initSocketTool();
-					socketTool.firstConnect(); // 根据不同的ip，建立不同的socket
+
+					//initSocketTool();
+					//socketTool.firstConnect(); // 根据不同的ip，建立不同的socket
+					socketService.closeSocket();// TODO
+					socketService.firstConnect();// TODO
 					outtime.start();
 					break;
 				case 2:
@@ -182,11 +257,11 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 			return false;
 		}
 	});
-	
+
 	Handler handler = new Handler(new Callback() {
 		@Override
 		public boolean handleMessage(Message msg) {
-			closeDlg();
+			closeDlg();//TODO 位置调整9
 			switch (msg.what) {
 				case -1:
 					break;
@@ -196,81 +271,69 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 							outtime.cancel();
 							outtime = null;
 						}
-						MyLog.d("与PMS的指令连接失败,清除connectDeviceBean");
+						//MyLog.d("与PMS的指令连接失败,清除connectDeviceBean");
+						HHDLog.v("与PMS的指令连接失败,清除connectDeviceBean");
 						KappUtils.showToast(context, "与PMS的指令连接失败");
 						connectDeviceBean = null;
 					}
 					break;
 				case 1:
 					break;
-				case 2: // PMS连接成功
-					KappUtils.showToast(context, "与PMS连接成功");
-					socketTool.splitInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
-					System.out.print("----对时功能4----"+new DateUtil().getCurrentTime());
-					KappAppliction.state=1;
-					if (connectDeviceBean != null) {
-						Config.SERVER_HOST_NAME = connectDeviceBean.getName();
-						connectDeviceBean = null;
-					}
-					
-					DeviceFragment.isClearList = true;
-					DeviceCenterActivity.this.finish();
-					break;
 				case 3:  // 删除文件失败
 					break;
+                case 4: // PMS连接成功
+					HHDLog.v("H4：握手成功");
+					HHDLog.e("给PMS名称");
+                    if (connectDeviceBean != null) {
+                        Config.serverHostName = connectDeviceBean.getName();
+                        connectDeviceBean = null;
+                    }
+					//socketTool.splitInstruction(Config.bufSetTime, new DateUtil().getCurrentTime());
+					socketService.splitInstruction(Config.BUF_SET_TIME, new DateUtil().getCurrentTime());
+                    break;
 				case 5:  // 删除文件成功
+					break;
+                case 9:
+					HHDLog.v("H9：对时成功");
+					KappUtils.showToast(context, "连接成功");
+					KappAppliction.state=1;
+					DeviceFragment.isClearList = true;
+					startActivity(new Intent(context, MainActivity.class));
+                    DeviceCenterActivity.this.finish();
+                    break;
+
+				case Config.MSG_RE_BIND:
+					bindSocketService();
+					handler.sendEmptyMessage(Config.MSG_CHECK_BIND);
+					break;
+				case Config.MSG_CHECK_BIND:
+					if (socketService == null) {//判断下确保已经绑定服务
+						handler.sendEmptyMessage(Config.MSG_RE_BIND);
+						HHDLog.w("判断是否已经绑定服务=" + (socketService == null));
+					} else {
+						//loadList();
+						HHDLog.w("判断是否已经绑定服务=" + (socketService == null));
+					}
 					break;
 			}
 			return false;
 		}
 	});
-	
+
+	/** 初始化Socket */
 	private void initSocketTool() {
-		if (socketTool != null) {
-			socketTool.closeSocket();
-			socketTool = null;
-		}
-		if (socketTool == null) {
-			socketTool = new SocketTool(context, new SocketTool.OnReceiver() {
-				@Override
-				public void onSuccess(List<String> cookBookFileList, int flag, int now, int all) {
-					switch (flag) {
-						case 0:
-							break;
-						case 1:
-							break;
-						case 2:
-							break;
-						case 3:
-							break;
-						case 4:
-							handler.sendEmptyMessage(2);
-							break;
-						case 5:
-							break;
-						case 9:
-							break;
-					}
-				}
-				
-				@Override
-				public void onFailure(int flag) {
-					switch (flag) {
-						case -1:
-							break;
-						default:
-							Config.SERVER_HOST_NAME = "";
-							handler.sendEmptyMessage(flag);
-							break;
-					}
-				}
-			});
-		}
-		socketTool.initClientSocket();
+
+        //判断是否为同一个PMS设备，什么都不做跳转到“设备”界面 TODO
+        //if (同WiFi){}
+        //if (同PMS){}
+		//if (socketService.isSocketConnected()){}
+
+        socketService.closeSocket();
+        socketService.initClientSocket();
 	}
-	
-	private void connectPMS() {
-		// 拿到PMS信息，判断当前网络下是否有那个wifi，有的话则连接上wifi，然后判断PMS的ip是否存在，然后与PMS连接
+
+	/** 连接相应WiFi和PMS设备 */
+	private void connectPMS() {// 拿到PMS信息，判断当前网络下是否有那个wifi，有的话则连接上wifi，然后判断PMS的ip是否存在，然后与PMS连接
 		boolean isOpenWifi = WifiUtil.openWifi(context);
 		if (!isOpenWifi) {
 			while (!WifiUtil.isEnable(context)) {
@@ -288,7 +351,7 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 				e.printStackTrace();
 			}
 		}
-	
+
 		List<WifiConfiguration> wifiTempList = WifiUtil.getWifiConfigurationList();
 		boolean isExist = false;
 		for (int i = 0; i < wifiTempList.size(); i++) {
@@ -300,7 +363,7 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 				h.sendEmptyMessage(0);
 				break;
 			}
-			
+
 			if (i == wifiTempList.size() - 1) {
 				List<ScanResult> wifiScanList = WifiUtil.getWifiList();
 				for (int j = 0; j < wifiScanList.size(); j++) {
@@ -308,6 +371,7 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 					if (scanResult.SSID.equals(connectDeviceBean.getWifiName()) && scanResult.capabilities.contains("[ESS]")) {
 						isExist = true;
 						WifiUtil.connectWifi(scanResult.SSID, true);
+						HHDLog.v("连接WiFi");
 						h.sendEmptyMessage(0);
 						break;
 					}
@@ -337,32 +401,15 @@ public class DeviceCenterActivity extends BaseActivity implements OnClickListene
 						SharedPreferenceUtil.setPmsInfo(context, bean2);
 					}
 					KappUtils.showToast(context, "删除成功");
-					if (socketTool != null) {
-						socketTool.closeSocket();
-						socketTool = null;
-					}
+					//if (socketTool != null) {//TODO TODO TODO
+						//socketTool.closeSocket();
+						//socketTool = null;
+					//}
 				} else {
 					KappUtils.showToast(context, "删除失败");
 				}
 			}
 		});
-	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		if (socketTool != null) {
-			socketTool.closeSocket();
-		}
-		
-		if (outTime != null) {
-			outTime.cancel();
-			outTime = null;
-		}
-		if (outtime != null) {
-			outtime.cancel();
-			outtime = null;
-		}
 	}
 
 	@Override

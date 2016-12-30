@@ -92,7 +92,7 @@ public class FoodAdapter extends BaseAdapter {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// TODO Auto-generated method stub
+				/***/
 				// if (foodBeans.get(position).getWeight() == 0) {
 				// // viewHolder.et_name.setText("0");
 				// // } else {
@@ -106,13 +106,13 @@ public class FoodAdapter extends BaseAdapter {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
+				/***/
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
+				/***/
 				
 				if (s.equals("0")) {
 					viewHolder.et_name.setText("");

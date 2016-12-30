@@ -4,16 +4,17 @@
     <dimen name="detail_top_image">200dp</dimen>
     <!-- top image -->
     <dimen name="top_image">170dp</dimen>
-    
+
     <!-- ad banner size -->
     <dimen name="ad_banner_height">140dp</dimen>
 
-    
+
     <dimen name="view_small_padding">1dp</dimen>
     <dimen name="view_padding">6dp</dimen>
-    
-    <!-- font sizes -->
+
+    <!-- font sizes（字体大小 2016） -->
     <dimen name="font_huge">22sp</dimen>
+    <dimen name="font_huge20">20sp</dimen>
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_normal">15sp</dimen>
     <dimen name="font_small">12sp</dimen>

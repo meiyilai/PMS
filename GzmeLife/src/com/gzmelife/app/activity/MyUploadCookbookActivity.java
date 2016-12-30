@@ -29,13 +29,14 @@ import com.gzmelife.app.adapter.MyUploadCookbookAdapter;
 import com.gzmelife.app.bean.MyUploadCookbookBean;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 @ContentView(R.layout.activity_audit_information)
-public class MyUploadCookbookActivity extends BaseActivity {
+public class MyUploadCookbookActivity extends BaseActivity {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 
@@ -57,6 +58,21 @@ public class MyUploadCookbookActivity extends BaseActivity {
 
 	private Context context;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 
@@ -103,7 +119,7 @@ public class MyUploadCookbookActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				String menuBookId = list.get((int) id).getId();
 				Intent intent = new Intent(MyUploadCookbookActivity.this,
 						NetCookBooksDetailActivity.class);

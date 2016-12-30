@@ -56,7 +56,7 @@ import com.gzmelife.app.views.TipConfirmView;
  */
 @SuppressLint("InflateParams")
 @ContentView(R.layout.activity_cook_foods_material_manage)
-public class CookFoodsMaterialManageActivity extends BaseActivity implements OnClickListener {
+public class CookFoodsMaterialManageActivity extends BaseActivity implements OnClickListener {//
 
 	MyLogger HHDLog=MyLogger.HHDLog();
 
@@ -123,6 +123,14 @@ public class CookFoodsMaterialManageActivity extends BaseActivity implements OnC
 	private ArrayList<String> mlistMoreuid = new ArrayList<String>();
 	private String filePath;
 
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	
@@ -341,7 +349,7 @@ public class CookFoodsMaterialManageActivity extends BaseActivity implements OnC
 					JSONObject obj;
 					try {
 						obj = new JSONObject(result);
-						HHDLog.w("JSON_result=" + result);
+						HHDLog.e("JSON_result=" + result);
 						categoryFirstBeanList = gson.fromJson(
 								obj.getJSONObject("data").getJSONArray("towFoodStoreCategorys").toString(),
 								new TypeToken<List<CategoryFirstBean>>() {
@@ -436,7 +444,7 @@ public class CookFoodsMaterialManageActivity extends BaseActivity implements OnC
 				if (listId.size() == 0) {
 					KappUtils.showToast(context, "您未选中任何食材");
 				} else {
-					HHDLog.v(">>>>>>>mlistMore======" + mlistMore);
+					//HHDLog.v(">>>>>>>mlistMore======" + mlistMore);
 					// Intent intent = new Intent(
 					// CookFoodsMaterialManageActivity.this,
 					// AddStepActivity.class);

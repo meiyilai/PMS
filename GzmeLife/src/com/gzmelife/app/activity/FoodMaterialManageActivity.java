@@ -46,6 +46,7 @@ import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.TipConfirmView;
 
 /**
@@ -56,7 +57,7 @@ import com.gzmelife.app.views.TipConfirmView;
  */
 @SuppressLint("InflateParams")
 @ContentView(R.layout.activity_food_material_manage)
-public class FoodMaterialManageActivity extends BaseActivity implements
+public class FoodMaterialManageActivity extends BaseActivity implements//
 		OnClickListener {
 	@ViewInject(R.id.btn_addFoodMaterial)
 	Button btn_addFoodMaterial;
@@ -105,6 +106,14 @@ public class FoodMaterialManageActivity extends BaseActivity implements
 
 	private String searchContent;
 
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,9 +122,12 @@ public class FoodMaterialManageActivity extends BaseActivity implements
 		initView();
 	}
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
 		// 我的食材库
 		myFoodMaterialCategoryListTemp = FoodMaterialDAO.getAllCategory();
 		myFoodMaterialCategoryList.clear();
@@ -183,7 +195,7 @@ public class FoodMaterialManageActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				Intent intent = new Intent(FoodMaterialManageActivity.this,
 						FoodMangerSearchsActivity.class);
 				startActivity(intent);

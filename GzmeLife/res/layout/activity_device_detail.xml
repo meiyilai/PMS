@@ -1,117 +1,449 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/main_bg_color"
-    android:orientation="vertical" >
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/main_bg_color"
+              android:orientation="vertical">
 
-    <include layout="@layout/layout_base_title" />
+    <include layout="@layout/layout_base_title"/>
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none" >
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#141414"
+        android:orientation="horizontal"
+        >
 
+        <!--左边-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:padding="0dp"
+            android:layout_weight="4.5"
+            android:background="#141414"
+            android:orientation="vertical"
+            >
 
-            <LinearLayout style="@style/ll_normal" >
-
-                <TextView
-                    style="@style/tv_black_normal"
-                    android:text="系统电压:" />
-
-                <TextView
-                    android:id="@+id/tv_v"
-                    style="@style/tv_gray_normal"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:text="" />
-            </LinearLayout>
-
-            <include layout="@layout/view_gray_line" />
-
-            <LinearLayout style="@style/ll_normal" >
-
-                <TextView
-                    style="@style/tv_black_normal"
-                    android:text="系统电流:" />
-
-                <TextView
-                    android:id="@+id/tv_a"
-                    style="@style/tv_gray_normal"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:text="" />
-            </LinearLayout>
-
-            <include layout="@layout/view_gray_line" />
-
-            <LinearLayout style="@style/ll_normal" >
-
-                <TextView
-                    style="@style/tv_black_normal"
-                    android:text="输出功率:" />
-
-                <TextView
-                    android:id="@+id/tv_w"
-                    style="@style/tv_gray_normal"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:text="" />
-            </LinearLayout>
-
-            <include layout="@layout/view_gray_line" />
-
-            <LinearLayout style="@style/ll_normal" >
-
-                <TextView
-                    style="@style/tv_black_normal"
-                    android:text="实际锅温:" />
-
-                <TextView
-                    android:id="@+id/tv_pmsTemp"
-                    style="@style/tv_gray_normal"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:text="" />
-            </LinearLayout>
-
-            <include layout="@layout/view_gray_line" />
-
-            <LinearLayout style="@style/ll_normal" >
-
-                <TextView
-                    style="@style/tv_black_normal"
-                    android:text="实际室温:" />
-
-                <TextView
-                    android:id="@+id/tv_roomTemp"
-                    style="@style/tv_gray_normal"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:text="" />
-            </LinearLayout>
-
-            <include layout="@layout/view_gray_line" />
-
-            <LinearLayout style="@style/ll_normal" >
-
-                <TextView
-                    style="@style/tv_black_normal"
-                    android:text="当前状态:" />
-
-                <TextView
-                    android:id="@+id/tv_status"
-                    style="@style/tv_gray_normal"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:text="" />
-            </LinearLayout>
-
-            <include layout="@layout/view_gray_line" />
-
-            <com.gzmelife.app.views.ListViewForScrollView
-                android:id="@+id/lv_error"
+            <!-- 左边1 -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
 
+                    <TextView
+                        android:text="电流"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <TextView
+                        android:text="电压"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/tv_whiteBold_normal"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="0dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/icon_frame1"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/iv_nullRight"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/icon_current"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_a"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:text="0.00A"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/iv_nullRight"
+                        android:src="@drawable/icon_voltage"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_v"
+                        android:text="000.0V"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        style="@style/tv_whiteBold_normal"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 左边2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:text="设定火力"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <TextView
+                        android:text="设定锅温"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/tv_whiteBold_normal"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="0dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/icon_frame1"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/iv_nullRight"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/icon_flame"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_w"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:text="0000W"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/iv_nullRight"
+                        android:src="@drawable/icon_thermometer"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_setTemp"
+                        android:text="000.0℃"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        style="@style/tv_whiteBold_normal"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 左边3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:text="当前功率"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <TextView
+                        android:text="当前锅温"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/tv_whiteBold_normal"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="0dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/icon_frame1"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/iv_nullRight"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/icon_flame"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_setW"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:text="0000W"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        style="@style/iv_nullRight"
+                        android:src="@drawable/icon_thermometer"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_pmsTemp"
+                        android:text="000.0℃"
+                        android:layout_marginRight="5dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        style="@style/tv_whiteBold_normal"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!--右边-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="5dp"
+            android:padding="0dp"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/icon_frame1"
+                >
+
+                <!--右边IGBT温度-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:text="IGBT温度"
+                        android:layout_height="wrap_content"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_roomTemp"
+                        android:text="000.0℃"
+                        android:layout_height="wrap_content"
+                        style="@style/tv_whiteBold_normal"
+                        />
+
+                </LinearLayout>
+
+                <!--右边开机状态-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        style="@style/tv_whiteBold_normal"
+                        android:text="开机状态"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        style="@style/tv_whiteBold_normal"
+                        android:background="@drawable/design_red_point"
+                        android:text="XX"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_control"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- android:layout_alignTop="@+id/rl_control" -->
+        <!-- android:layout_toLeftOf="@+id/bt_startStop" -->
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+
+            android:layout_above="@+id/bt_confirm"
+            >
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <com.gzmelife.app.views.ListViewForScrollView
+                    android:id="@+id/lv_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </ScrollView>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bt_confirm"
+            android:text="确 定"
+            style="@style/tv_whiteBold_normal"
+            android:layout_marginBottom="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/bg_bt_confirm"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            />
+        <!--android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"-->
+
+        <!-- android:layout_toLeftOf="@+id/bt_confirm"-->
+        <Button
+            android:text="功率减"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            style="@style/tv_whiteBold_normal"
+            android:id="@+id/bt_decrease"
+            android:layout_toLeftOf="@+id/bt_confirm"
+            android:layout_marginRight="-20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/bg_bt_decrease"
+            />
+        <Button
+            android:text="功率加"
+            style="@style/tv_whiteBold_normal"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/bt_increase"
+            android:layout_toRightOf="@+id/bt_confirm"
+            android:layout_marginLeft="-20dp"
+            android:background="@drawable/bg_bt_increase"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            />
+
+        <!--  android:text="启/停"
+            style="@style/tv_whiteBold_normal" -->
+        <Button
+            android:layout_marginRight="10dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/bt_startStop"
+            android:background="@drawable/icon_bt_on"
+            android:layout_above="@+id/bt_confirm"
+            android:layout_alignParentRight="true"
+        />
+        <!-- android:background="@drawable/bt_onoff" -->
+        <!-- icon_bt_control_pressed -->
+
+
+    </RelativeLayout>
+
+
+    <!--故障-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/ll_normal">
+
+            <TextView
+                android:visibility="gone"
+                style="@style/tv_black_normal"
+                android:text="当前状态:"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_status1"
+                style="@style/tv_gray_normal"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:text=""/>
+        </LinearLayout>
+        <include layout="@layout/view_gray_line"/>
+        <com.gzmelife.app.views.ListViewForScrollView
+            android:id="@+id/lv_error1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>

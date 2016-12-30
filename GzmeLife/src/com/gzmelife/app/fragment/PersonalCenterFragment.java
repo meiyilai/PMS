@@ -47,10 +47,17 @@ import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.gzmelife.app.views.TipConfirmView;
 
+/**
+ * 界面【我的】
+ */
 public class PersonalCenterFragment extends Fragment implements OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private TextView tv_title;
 
 	private ImageView iv_titleLeft;
@@ -122,6 +129,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	@Override
 	public void onResume() {
 		super.onResume();
+		HHDLog.v("界面【我的】");
 		updatePmsStatus();
 		if (KappAppliction.myApplication.getUser() != null) {
 			new ImgLoader(context).showPic(KappAppliction.myApplication
@@ -235,7 +243,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 		iv_titleLeft.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!TextUtils.isEmpty(Config.SERVER_HOST_NAME)) { // 未连接，点击无效
+				if (!TextUtils.isEmpty(Config.serverHostName)) { // 未连接，点击无效
 					startActivity(new Intent(context,
 							DeviceDetailActivity.class));
 				}
@@ -246,15 +254,15 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	}
 
 	private void updatePmsStatus() {
-		if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+		if (TextUtils.isEmpty(Config.serverHostName)) {
 			iv_titleLeft.setImageResource(R.drawable.icon05);
 		} else {
-			if (Config.PMS_ERRORS.size() > 0) {
+			if (Config.PMS_Errors.size() > 0) {
 				iv_titleLeft.setImageResource(R.drawable.icon06);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			}
-			if(Config.isConnext=true){
+			if(Config.isConnect =true){
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			}else{
 				iv_titleLeft.setImageResource(R.drawable.icon06);
@@ -324,7 +332,7 @@ public class PersonalCenterFragment extends Fragment implements OnClickListener 
 	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 111) {
 			tv_nickname.setText(KappAppliction.myApplication.getUser()

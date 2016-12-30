@@ -40,7 +40,7 @@ public class KappAppliction extends Application {
 	public UserInfoBean user;
 	public static KappAppliction myApplication;
 	/**
-	 * 电磁炉连接状态：1成功 2失败
+	 * 智能灶连接状态：1成功 2失败
 	 */
 	public static int  state=0;
 
@@ -93,9 +93,10 @@ public class KappAppliction extends Application {
 
 		myApplication = this;
 		initProvinceDatas();
-		
-		CrashHandler crashHandler = CrashHandler.getInstance();
-		crashHandler.init(getApplicationContext());
+
+		//TODO 自动处理异常
+		/*CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(getApplicationContext());*/
 		
 		initImageLoader(this);
 	}

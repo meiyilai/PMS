@@ -34,7 +34,7 @@ public class PmsFile {
 	public final int offsetCaiLenth = 28;
 	/** 菜谱ID号 4字节 */
 	public final int offsetID = 32;
-	/** 炉子ID 4字节 */
+	/** PMS设备ID 4字节 */
 	public final int offsetPMSID = 36;
 
 	/** 保留 4字节 */
@@ -95,7 +95,7 @@ public class PmsFile {
 		try {
 			updateCaiBuf();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		}
 	}

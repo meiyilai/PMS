@@ -13,13 +13,17 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 
 import com.gzmelife.app.bean.DeviceNameAndIPBean;
-import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
+
 /**
- * UDP接收局域网电磁炉设备
+ * UDP接收局域网智能灶设备 2016
  * @author chenxiaoyan
  *
  */
 public class DeviceUtil {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	/* 发送广播端的socket */
 	private DatagramSocket multicastSocket;
 
@@ -34,6 +38,7 @@ public class DeviceUtil {
 	
 	private static WifiManager.MulticastLock lock;
 
+	/** UDP接收局域网PMS设备的构造方法 2016 */
 	public DeviceUtil(Context context, OnReceiver mOnReceiver) {
 		this.onReceiver = mOnReceiver;
 		
@@ -55,7 +60,7 @@ public class DeviceUtil {
 		if (receiveAddress == null) {
 			try {
 				receiveAddress = InetAddress
-						.getByName(Config.LOCAL_IP);
+						.getByName(Config.localIP);
 //				if (!receiveAddress.isMulticastAddress()) {// 测试是否为多播地址
 //					try {
 //						throw new Exception("请使用多播地址");
@@ -93,13 +98,16 @@ public class DeviceUtil {
 							}
 							String ip = dp.getAddress().getHostAddress();
 							if (!deviceIPList.contains(ip) && name.contains("PMS")) {
-								MyLog.i(MyLog.TAG_I_INFO, "接收到数据:" + name + "," + ip);
+								//MyLog.i(MyLog.TAG_I_INFO, "接收到数据:" + name + "," + ip);
+								HHDLog.v("UDP模式搜索到的设备：" + "名称=" + name + "，IP地址=" + ip);
 
 								DeviceNameAndIPBean bean = new DeviceNameAndIPBean();
-								bean.setIp(ip);
-								bean.setName(name);
+								bean.setIp(ip);//设备的IP地址
+								bean.setName(name);//设备的名称
 								deviceIPList.add(ip);
-								deviceList.add(bean); // 设备的名称，ip
+								deviceList.add(bean);
+
+								HHDLog.v("存储PMS设备的名称和IP的对象="+bean.toString());
 								if (onReceiver != null) {
 									onReceiver.refreshData(deviceList);
 								}
@@ -121,9 +129,11 @@ public class DeviceUtil {
 	}
 
 	public interface OnReceiver {
-		void refreshData(List<DeviceNameAndIPBean> list);
+		/** 获取并保存PMS对象（名称和IP） 2016 */
+		void refreshData(List<DeviceNameAndIPBean> list);//失败
 	}
 
+	/** 启动UDP搜索PMS设备的线程 2016 */
 	public void startSearch() {
 		thread.start();
 	}

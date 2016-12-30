@@ -27,6 +27,7 @@ import com.gzmelife.app.bean.SearchFoodStoreLibraryBean;
 import com.gzmelife.app.bean.SearchMenuBookBean;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 @ContentView(R.layout.activity_cook_book_food_search)
-public class CookBoodFoodSearchActivity extends BaseActivity {
+public class CookBoodFoodSearchActivity extends BaseActivity {//
 	@ViewInject(R.id.lv_food)
 	ListView lv_food;
 
@@ -67,9 +68,23 @@ public class CookBoodFoodSearchActivity extends BaseActivity {
 	
 	CookBookfoodSearchAdapter lvFoodSearchAdapter;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		initView();
 
@@ -101,7 +116,7 @@ public class CookBoodFoodSearchActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				String searchContent = et_search.getText().toString().trim();
 				if ("".equals(searchContent)) {
 					KappUtils.showToast(CookBoodFoodSearchActivity.this, "请输入您要查询的菜名");
@@ -115,7 +130,7 @@ public class CookBoodFoodSearchActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				CookBoodFoodSearchActivity.this.finish();
 			}
 		});
@@ -125,7 +140,7 @@ public class CookBoodFoodSearchActivity extends BaseActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				if(searchMenuBookBeanList.size()!=0||searchMenuBookBeanList!=null){
 					searchMenuBookBeanList.remove(position);
 					lvFoodSearchAdapter.notifyDataSetChanged();
@@ -138,7 +153,7 @@ public class CookBoodFoodSearchActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				Intent intent = new Intent(context,
 						NetCookBookDetailActivity.class);
 				// intent.putExtra("category",
@@ -189,19 +204,19 @@ public class CookBoodFoodSearchActivity extends BaseActivity {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

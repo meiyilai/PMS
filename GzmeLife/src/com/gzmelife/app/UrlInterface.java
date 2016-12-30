@@ -79,7 +79,7 @@ public class UrlInterface {
 	/** 删除设备  equipmentId */
 	public static String URL_DELETE_DEVICES = URL_HOST + "appuser/deleteEquipment.aspf";
 	
-	/** 12.电磁炉错误 /常见问题  userId */
+	/** 12.智能灶错误 /常见问题  userId */
 	public static String URL_FAQ = URL_HOST + "error/findError.aspf";
 	
 	/** 查询菜谱分类  pType (1=菜系、2=口味) */

@@ -36,10 +36,10 @@ public class SharedPreferenceUtil {
 	}
 	
 	/**
-	 * 获取PMS信息:pmsName/pmsWifiName/pmsIp
+	 * 获取PMS信息（存在就取出否则保存）:pmsName/pmsWifiName/pmsIp
 	 */
 	public static DeviceNameAndIPBean getPmsInfo(Context context) {
-		SharedPreferences shared = context.getSharedPreferences(USER_INFO, 0);
+		SharedPreferences shared = context.getSharedPreferences(USER_INFO, 0);//存在就取出否则保存
 		DeviceNameAndIPBean bean = new DeviceNameAndIPBean();
 		bean.setName(shared.getString(PMS_NAME, ""));
 		bean.setWifiName(shared.getString(PMS_WIFI_NAME, ""));

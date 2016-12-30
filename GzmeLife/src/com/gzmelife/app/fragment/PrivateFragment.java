@@ -20,6 +20,7 @@ import org.xutils.x;
 import org.xutils.common.Callback.CommonCallback;
 import org.xutils.http.RequestParams;
 
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.SwipeMenu;
 import com.gzmelife.app.views.SwipeMenuItem;
 import com.google.gson.Gson;
@@ -40,7 +41,6 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.db.DBUtils;
 import com.gzmelife.app.device.Config;
-import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.FileUtil;
 import com.gzmelife.app.tools.FileUtils;
@@ -83,10 +83,13 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 /**
- * 私厨：管理手机中的菜谱（本地）管理收藏（云端）
+ * 界面【私厨】中间（本地、云端）
  */
 public class PrivateFragment extends Fragment
 		implements OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	private ImageView iv_titleLeft;
 	private Boolean isFirstStart = true;
 	private Context context;
@@ -104,7 +107,6 @@ public class PrivateFragment extends Fragment
 	List<CookBookBean> netCookBookBeans;// 网络数据源
 
 	private LocalBroadcastManager broadcastManager;
-	private SocketTool socketTool;
 
 	boolean isLocal;
 	String TAG = "PrivateFragment";
@@ -118,8 +120,6 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.i(TAG, "onCreateView()");
-		// TODO Auto-generated method stub
 		return LayoutInflater.from(getActivity()).inflate(R.layout.fragment_cookbook, null);
 	}
 
@@ -127,19 +127,17 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public void onPause() {
-		Log.i(TAG, "onPause()");
-		// TODO Auto-generated method stub
+		//Log.i(TAG, "onPause()");
 		isActivityHidden = true;
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		// isActivityHidden=false;
 		updatePmsStatus();
-		Log.i(TAG, "onResume()");
+		HHDLog.v("界面【私厨】中间（本地、云端）");
 
 		// if(isFirstStart){
 		// isFirstStart=false;
@@ -155,13 +153,11 @@ public class PrivateFragment extends Fragment
 		//
 		// @Override
 		// public void onclick(pop_dlg pop, View v) {
-		// // TODO Auto-generated method stub
 		// pop.dismiss();
 		// }
 		//
 		// @Override
 		// public View initLayout(pop_dlg pop, LayoutInflater flater) {
-		// // TODO Auto-generated method stub
 		// View v = flater.inflate(R.layout.dialog_tishi_local, null);
 		// TextView ok = (TextView) v.findViewById(R.id.ok);
 		// ok.setOnClickListener(pop);
@@ -193,13 +189,11 @@ public class PrivateFragment extends Fragment
 		//
 		// @Override
 		// public void onclick(pop_dlg pop, View v) {
-		// // TODO Auto-generated method stub
 		// pop.dismiss();
 		// }
 		//
 		// @Override
 		// public View initLayout(pop_dlg pop, LayoutInflater flater) {
-		// // TODO Auto-generated method stub
 		// View v = flater.inflate(R.layout.dialog_tishi1, null);
 		// TextView ok = (TextView) v.findViewById(R.id.ok);
 		// ok.setOnClickListener(pop);
@@ -213,15 +207,15 @@ public class PrivateFragment extends Fragment
 	/** 更新PMS状态：连接、故障... */
 	private void updatePmsStatus() {
 		Log.i(TAG, "updatePmsStatus()");
-		if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+		if (TextUtils.isEmpty(Config.serverHostName)) {
 			iv_titleLeft.setImageResource(R.drawable.icon05);
 		} else {
-			if (Config.PMS_ERRORS.size() > 0) {
+			if (Config.PMS_Errors.size() > 0) {
 				iv_titleLeft.setImageResource(R.drawable.icon06);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			}
-			if (Config.isConnext = true) {
+			if (Config.isConnect = true) {
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.icon06);
@@ -230,11 +224,9 @@ public class PrivateFragment extends Fragment
 	}
 
 	BroadcastReceiver receiver = new BroadcastReceiver() {
-
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.i(TAG, "onReceive()");
-			// TODO Auto-generated method stub
 			String action = intent.getAction();
 			if (action.equals(KappUtils.ACTION_PMS_STATUS)) {
 				updatePmsStatus();
@@ -245,14 +237,12 @@ public class PrivateFragment extends Fragment
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.i(TAG, "onDestroy()");
 		broadcastManager.unregisterReceiver(receiver);
-
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.i(TAG, "onActivityCreated()");
+		//Log.i(TAG, "onActivityCreated()");
 		super.onActivityCreated(savedInstanceState);
 		// String state=
 		context = this.getActivity();
@@ -316,7 +306,7 @@ public class PrivateFragment extends Fragment
 					// }
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				//
 				e.printStackTrace();
 			}
 
@@ -326,13 +316,11 @@ public class PrivateFragment extends Fragment
 
 				@Override
 				public void onclick(pop_dlg pop, View v) {
-					// TODO Auto-generated method stub
 					pop.dismiss();
 				}
 
 				@Override
 				public View initLayout(pop_dlg pop, LayoutInflater flater) {
-					// TODO Auto-generated method stub
 					View v = flater.inflate(R.layout.dialog_tishi_local, null);
 					TextView ok = (TextView) v.findViewById(R.id.ok);
 					ok.setOnClickListener(pop);
@@ -346,7 +334,6 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void create(SwipeMenu arg0) {
-				// TODO Auto-generated method stub
 				// 菜单类别
 				switch (arg0.getViewType()) {
 
@@ -429,7 +416,7 @@ public class PrivateFragment extends Fragment
 		iv_titleLeft.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!TextUtils.isEmpty(Config.SERVER_HOST_NAME)) { // 未连接，点击无效
+				if (!TextUtils.isEmpty(Config.serverHostName)) { // 未连接，点击无效
 					startActivity(new Intent(context, DeviceDetailActivity.class));
 				}
 			}
@@ -487,7 +474,7 @@ public class PrivateFragment extends Fragment
 								localCookBookBeans.add(0, cookBookBean);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+							//
 							e.printStackTrace();
 						}
 
@@ -497,13 +484,11 @@ public class PrivateFragment extends Fragment
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
 								View v = flater.inflate(R.layout.dialog_tishi_local, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -537,14 +522,14 @@ public class PrivateFragment extends Fragment
 					//
 					// @Override
 					// public void onclick(pop_dlg pop, View v) {
-					// // TODO Auto-generated method stub
+					// /***/
 					// pop.dismiss();
 					// }
 					//
 					// @Override
 					// public View initLayout(pop_dlg pop, LayoutInflater
 					// flater) {
-					// // TODO Auto-generated method stub
+					// /***/
 					// View v = flater.inflate(R.layout.dialog_tishi_cloud,
 					// null);
 					// TextView ok = (TextView) v.findViewById(R.id.ok);
@@ -585,32 +570,31 @@ public class PrivateFragment extends Fragment
 	private CookBookBean str;
 	FileUtil fileUtils = new FileUtil();
 
+	/** 获取本地菜谱文件 *///TODO 加判断是否为菜谱文件//按时间倒序
 	public void getFile() {
-		Log.i(TAG, "getFile()");
+		//Log.i(TAG, "getFile()");
 		localPmsFile = new File(FileUtils.PMS_FILE_PATH);
-		Log.i(TAG, "localPmsFile-->" + FileUtils.PMS_FILE_PATH);
+		//Log.i(TAG, "localPmsFile-->" + FileUtils.PMS_FILE_PATH);
 		if (localPmsFile.isDirectory()) {
-			Log.i(TAG, "==============有===================>");
+			//Log.i(TAG, "==============有===================>");
 			for (int i = 0; i < localPmsFile.list().length; i++) {
-				Log.i(TAG, "==============有=1==================>");
+				//Log.i(TAG, "==============有=1==================>");
 				file = new File(localPmsFile.list()[i]);
-				Log.i(TAG, "getFile() fileLastModifyTime-->" + file.getPath() + "--" + file.getAbsolutePath() + "--"
-						+ file.getParent());
-				Log.i(TAG, "==============有=1==================>" + file.getName());
+				//Log.i(TAG, "getFile() fileLastModifyTime-->" + file.getPath() + "--" + file.getAbsolutePath() + "--" + file.getParent());
+				//Log.i(TAG, "==============有=1==================>" + file.getName());
 				if (file.getName().endsWith(".pms") || file.getName().endsWith(".PMS")) {
-					Log.i(TAG, "==============有==12=================>");
+					//Log.i(TAG, "==============有==12=================>");
 					CookBookBean cookBookBean = new CookBookBean();
-					Log.i(TAG, "new CookBookBean()");
+					//Log.i(TAG, "new CookBookBean()");
 					cookBookBean.setName(file.getName());
 					cookBookBean.setPath(FileUtils.PMS_FILE_PATH + file.getPath());
-					Log.i("PMS", "file_path2=" + cookBookBean.getPath());
+					//Log.i("PMS", "file_path2=" + cookBookBean.getPath());
 					File abfile = new File(cookBookBean.getPath());
 					String s = dateFormat(abfile.lastModified());
 					cookBookBean.setTime(s);
-					Log.i(TAG, "cookBookBean " + cookBookBean.getTime());
+					//Log.i(TAG, "cookBookBean " + cookBookBean.getTime());
 					cookBookBean.setId(FoodMaterialDAO.getCategoryId(file.getName()));
 					localCookBookBeans.add(cookBookBean);
-
 				}
 			}
 			/*// lvFoodCookAdapter.setData(localCookBookBeans);
@@ -628,7 +612,7 @@ public class PrivateFragment extends Fragment
 							localCookBookBeans.add(focus - 1, changebean);
 						}
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
+						//
 						e.printStackTrace();
 					}
 				}
@@ -683,7 +667,7 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == REQUEST_CODE) {
 			switch (requestCode) {
@@ -722,7 +706,7 @@ public class PrivateFragment extends Fragment
 							localCookBookBeans.add(0, cookBookBean);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						//
 						e.printStackTrace();
 					}
 				}
@@ -748,7 +732,7 @@ public class PrivateFragment extends Fragment
 			is = urlConn.getInputStream();
 
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
+			//
 			e.printStackTrace();
 		}
 
@@ -928,7 +912,8 @@ public class PrivateFragment extends Fragment
 	/**
 	 * 删除文件夹所有内容
 	 *
-	 */
+	 * @param file
+     */
 	public void deleteFile(File file) {
 
 		if (file.exists()) { // 判断文件是否存在
@@ -983,21 +968,18 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -1037,21 +1019,18 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -1086,13 +1065,11 @@ public class PrivateFragment extends Fragment
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
 								View v = flater.inflate(R.layout.dialog_tishi_cloud, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -1113,19 +1090,16 @@ public class PrivateFragment extends Fragment
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -1191,7 +1165,7 @@ public class PrivateFragment extends Fragment
 								localCookBookBeans.add(0, cookBookBean);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+							//
 							e.printStackTrace();
 						}
 
@@ -1238,7 +1212,6 @@ public class PrivateFragment extends Fragment
 
 	@Override
 	public void onHiddenChanged(boolean hidden) {
-		// TODO Auto-generated method stub
 		Log.i(TAG, "调用onHiddenChanged:" + String.valueOf(hidden));
 		Date curData = new Date();
 		Long curData1;
@@ -1266,13 +1239,11 @@ public class PrivateFragment extends Fragment
 
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
 								pop.dismiss();
 							}
 
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
 								View v = flater.inflate(R.layout.dialog_tishi_local, null);
 								TextView ok = (TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -1304,13 +1275,13 @@ public class PrivateFragment extends Fragment
 //
 //						@Override
 //						public void onclick(pop_dlg pop, View v) {
-//							// TODO Auto-generated method stub
+//							/***/
 //							pop.dismiss();
 //						}
 //
 //						@Override
 //						public View initLayout(pop_dlg pop, LayoutInflater flater) {
-//							// TODO Auto-generated method stub
+//							/***/
 //							View v = flater.inflate(R.layout.dialog_tishi1, null);
 //							TextView ok = (TextView) v.findViewById(R.id.ok);
 //							ok.setOnClickListener(pop);

@@ -10,12 +10,23 @@ package com.gzmelife.app.wxapi;
 
 import android.content.Intent;
 import android.widget.Toast;
+
+import com.gzmelife.app.tools.MyLogger;
+
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
 import cn.sharesdk.wechat.utils.WXMediaMessage;
 import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 
 /** 微信客户端回调activity示例 */
 public class WXEntryActivity extends WechatHandlerActivity {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
 
 	/**
 	 * 处理微信发出的向第三方应用请求app message

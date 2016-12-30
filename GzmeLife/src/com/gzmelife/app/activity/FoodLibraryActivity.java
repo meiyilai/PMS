@@ -11,6 +11,7 @@ import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.adapter.FoodLibraryAdapter;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ListViewForScrollView;
 
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 @ContentView(R.layout.activity_my_food)
-public class FoodLibraryActivity extends BaseActivity implements OnCheckedChangeListener{
+public class FoodLibraryActivity extends BaseActivity implements OnCheckedChangeListener{//
 	@ViewInject(R.id.tv_search)
 	TextView tv_search;
 	
@@ -35,8 +36,22 @@ public class FoodLibraryActivity extends BaseActivity implements OnCheckedChange
 	TextView tv_title_left;
 	FoodLibraryAdapter foodLibraryAdapter ;
 	RadioGroup rg_foodLibrary;
-	
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

@@ -17,8 +17,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.device.Config;
 import com.gzmelife.app.views.TipConfirmView;
 
-/**
- */
+/** 界面【设备】的菜谱、录波文件列表适配器 */
 @SuppressLint("InflateParams")
 public class CookBookAdapter extends BaseAdapter {
 

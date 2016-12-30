@@ -49,10 +49,10 @@ public class JPushReceiver extends BroadcastReceiver {
         	
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            MyLog.i(MyLog.TAG_I_INFO,"=======ID=========" + Config.Id);
+            MyLog.i(MyLog.TAG_I_INFO,"=======ID=========" + Config.id);
             Intent i = new Intent(context, AboutUsActivity.class);
-            if (Config.Id != null) {
-            	i.putExtra("id",Config.Id);
+            if (Config.id != null) {
+            	i.putExtra("id",Config.id);
 			}
 			i.putExtra("flag", KappUtils.FLAG_SYSTEM_MSG_DETAIL);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
@@ -119,7 +119,7 @@ public class JPushReceiver extends BroadcastReceiver {
 				try {
 					JSONObject extraJson = new JSONObject(extras);
 					if (null != extraJson && extraJson.length() > 0) {
-						Config.Id = extraJson.getString("id");
+						Config.id = extraJson.getString("id");
 //						msgIntent.putExtra("id", Id);
 					}
 				} catch (JSONException e) {

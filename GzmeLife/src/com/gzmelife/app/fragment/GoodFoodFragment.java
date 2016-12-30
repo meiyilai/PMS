@@ -70,6 +70,7 @@ import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.IOnFocusListenable;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.MyScrollView;
 import com.gzmelife.app.tools.MyScrollView.OnScrollListener;
 import com.gzmelife.app.tools.ShowDialogUtil;
@@ -78,10 +79,15 @@ import com.gzmelife.app.views.MyListView;
 import com.gzmelife.app.views.SlideShowView;
 import com.gzmelife.app.views.bannerview.BannerView;
 
+/**
+ * 界面【美食】
+ */
 public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		IOnFocusListenable, SwipeRefreshLayout.OnRefreshListener,
 		com.gzmelife.app.views.bannerview.BannerView.OnItemClickListener {
-	
+
+	MyLogger HHDLog=MyLogger.HHDLog();
+
 	CookFoodBeanAdapter cookFoodBeanAdapter;
 	GVClassAdapter gvClassAdapter;
 	GridViewForScrollView gv_foodclass;
@@ -141,28 +147,28 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 	private Handler mHandler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
-			case REFRESH_COMPLETE:
-				// mDatas.addAll(Arrays.asList("Lucene", "Canvas", "Bitmap"));
-				// mAdapter.notifyDataSetChanged();
-				updatePmsStatus();
-				findAd();
-				findSecondCookBook();
-				showStandardLib();
-				RadioButton radioButton = (RadioButton) getView().findViewById(
-						rb_group.getCheckedRadioButtonId());
-				int id = rb_group.getCheckedRadioButtonId();
-				if (id == 2131362078) {
-					rb_new.setChecked(true);
-					showCookBook(1);
-				} else if (id == 2131362070) {
-					rb_hot.setChecked(true);
-					showCookBook(2);
-				} else if (id == 2131362071) {
-					rb_recommend.setChecked(true);
-					showCookBook(3);
-				}
-				mSwipeLayout.setRefreshing(false);
-				break;
+				case REFRESH_COMPLETE:
+					// mDatas.addAll(Arrays.asList("Lucene", "Canvas", "Bitmap"));
+					// mAdapter.notifyDataSetChanged();
+					updatePmsStatus();
+					findAd();
+					findSecondCookBook();
+					showStandardLib();
+					RadioButton radioButton = (RadioButton) getView().findViewById(
+							rb_group.getCheckedRadioButtonId());
+					int id = rb_group.getCheckedRadioButtonId();
+					if (id == 2131362078) {
+						rb_new.setChecked(true);
+						showCookBook(1);
+					} else if (id == 2131362070) {
+						rb_hot.setChecked(true);
+						showCookBook(2);
+					} else if (id == 2131362071) {
+						rb_recommend.setChecked(true);
+						showCookBook(3);
+					}
+					mSwipeLayout.setRefreshing(false);
+					break;
 
 			}
 		};
@@ -171,7 +177,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+							 Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView-->");
 		return LayoutInflater.from(getActivity()).inflate(
 				R.layout.fragment_goodfood, null);
@@ -180,7 +186,6 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		// showAd();
 		Log.i(TAG, "onActivityCreated-->");
@@ -189,7 +194,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		try {
 			registerBoradcastReceiver();
 		} catch (Exception e) {
-			// TODO: handle exception
+			//
 		}
 		// IntentFilter intentFilter = new IntentFilter();
 		// intentFilter.addAction(KappUtils.ACTION_PMS_STATUS);
@@ -205,7 +210,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		try {
 			getActivity().registerReceiver(receiver, myIntentFilter);
 		} catch (Exception e) {
-			// TODO: handle exception
+			//
 		}
 	}
 
@@ -220,8 +225,8 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 	};
 
 	private void initView() {
-		Log.i(TAG, "initView-->");
-		// TODO Auto-generated method stub
+		//Log.i(TAG, "initView-->");
+		HHDLog.v("initView-->");
 		context = this.getActivity();
 		rb_group = (RadioGroup) getView().findViewById(R.id.rb_group);
 		// slideshowView = new SlideShowView(context);
@@ -232,10 +237,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		mSwipeLayout = (SwipeRefreshLayout) getView().findViewById(
 				R.id.id_swipe_ly);
 		mSwipeLayout.setOnRefreshListener(this);
-		mSwipeLayout.setColorScheme(android.R.color.holo_green_dark,
-				android.R.color.holo_green_light,
-				android.R.color.holo_orange_light,
-				android.R.color.holo_red_light);
+		mSwipeLayout.setColorScheme(android.R.color.holo_green_dark, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
 		rb_new = (RadioButton) getView().findViewById(R.id.rb_new);
 		rb_hot = (RadioButton) getView().findViewById(R.id.rb_hot);
 		rb_recommend = (RadioButton) getView().findViewById(R.id.rb_recommend);
@@ -247,7 +249,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		iv_titleLeft.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!TextUtils.isEmpty(Config.SERVER_HOST_NAME)) { // 未连接，点击无效
+				if (!TextUtils.isEmpty(Config.serverHostName)) { // 未连接，点击无效
 					startActivity(new Intent(context,
 							DeviceDetailActivity.class));
 				}
@@ -305,23 +307,22 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// TODO Auto-generated method stub
 				switch (checkedId) {
-				case R.id.rb_new:
-					flag1 = 1;
-					showCookBook(1);
-					break;
-				case R.id.rb_hot:
-					flag1 = 2;
-					showCookBook(2);
-					break;
-				case R.id.rb_recommend:
-					flag1 = 3;
-					showCookBook(3);
-					break;
-				default:
-					flag1 = 0;
-					break;
+					case R.id.rb_new:
+						flag1 = 1;
+						showCookBook(1);
+						break;
+					case R.id.rb_hot:
+						flag1 = 2;
+						showCookBook(2);
+						break;
+					case R.id.rb_recommend:
+						flag1 = 3;
+						showCookBook(3);
+						break;
+					default:
+						flag1 = 0;
+						break;
 				}
 			}
 		});
@@ -330,21 +331,21 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
-				case R.id.rb_cookbook:
-					Log.i(TAG, "点击rb_cookbook");
-					
-					myScrollView.setVisibility(View.VISIBLE);
-					fl_cookbook.setVisibility(View.VISIBLE);
-					lv_foodclass.setVisibility(View.GONE);
-					break;
-				case R.id.rb_good:
-					Log.i(TAG, "点击rb_good");
-					myScrollView.setVisibility(View.GONE);
-					lv_foodclass.setVisibility(View.VISIBLE);
-					fl_cookbook.setVisibility(View.GONE);
-					break;
-				default:
-					break;
+					case R.id.rb_cookbook:
+						Log.i(TAG, "点击rb_cookbook");
+
+						myScrollView.setVisibility(View.VISIBLE);
+						fl_cookbook.setVisibility(View.VISIBLE);
+						lv_foodclass.setVisibility(View.GONE);
+						break;
+					case R.id.rb_good:
+						Log.i(TAG, "点击rb_good");
+						myScrollView.setVisibility(View.GONE);
+						lv_foodclass.setVisibility(View.VISIBLE);
+						fl_cookbook.setVisibility(View.GONE);
+						break;
+					default:
+						break;
 				}
 			}
 		});
@@ -370,8 +371,8 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 			@Override
 			public void onClick(View v) {
-				Log.i(TAG, "onClick-->");
-				// TODO Auto-generated method stub
+				//Log.i(TAG, "onClick-->");
+				HHDLog.v("onClick-->");
 				// Toast.makeText(getActivity(), "点击了", 0).show();
 				// MainActivity activity = (MainActivity) getActivity();
 				// activity.localFlag = 1;
@@ -380,7 +381,8 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 				Intent intent = new Intent(getActivity(),
 						CollectionActivity.class);
 				intent.putExtra("FLAG", "flag");
-				Log.i(TAG, "btn_localcookbook onClick->跳转CollectionActivity：flag：");
+				//Log.i(TAG, "btn_localcookbook onClick->跳转CollectionActivity：flag：");
+				HHDLog.v("btn_localcookbook onClick->跳转CollectionActivity：flag：");
 				startActivity(intent);
 				// android.app.FragmentManager fm =
 				// activity.getFragmentManager();
@@ -404,8 +406,8 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 	}
 
 	private void initScroll() {
-		// TODO Auto-generated method stub
-		Log.i(TAG, "initScroll-->");
+		//Log.i(TAG, "initScroll-->");
+		HHDLog.v("initScroll-->");
 		myScrollView = (MyScrollView) getView().findViewById(R.id.scroll);
 		search01 = (LinearLayout) getView().findViewById(R.id.search01);
 		search02 = (LinearLayout) getView().findViewById(R.id.search02);
@@ -447,22 +449,22 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
+		HHDLog.v("界面【美食】");
 		updatePmsStatus();
 	}
 
 	private void updatePmsStatus() {
 		Log.i(TAG, "updatePmsStatus-->");
-		if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+		if (TextUtils.isEmpty(Config.serverHostName)) {
 			iv_titleLeft.setImageResource(R.drawable.icon05);
 		} else {
-			if (Config.PMS_ERRORS.size() > 0) {
+			if (Config.PMS_Errors.size() > 0) {
 				iv_titleLeft.setImageResource(R.drawable.icon06);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			}
-			if (Config.isConnext = true) {
+			if (Config.isConnect = true) {
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.icon06);
@@ -503,8 +505,8 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 				try {
 					obj = new JSONObject(result);
 					findSecondCategoryBeanList = gson.fromJson(obj
-							.getJSONObject("data")
-							.getJSONArray("menuCategorys").toString(),
+									.getJSONObject("data")
+									.getJSONArray("menuCategorys").toString(),
 							new TypeToken<List<FindSecondCategoryBean>>() {
 							}.getType());
 
@@ -520,19 +522,16 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -540,9 +539,9 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 	}
 
-	private void showCookBook(final int flag) {
-		// 美食最新、最热、推荐菜谱
-		Log.i(TAG, "showCookBook("+String.valueOf(flag)+")-->");
+	private void showCookBook(final int flag) {// 美食最新、最热、推荐菜谱
+		//Log.i(TAG, "showCookBook("+String.valueOf(flag)+")-->");
+		HHDLog.v("showCookBook("+String.valueOf(flag)+")-->");
 		showDlg();
 		RequestParams params = new RequestParams(UrlInterface.URL_FINDMENUBOOK);
 		params.addBodyParameter("categoryId", "");
@@ -558,10 +557,9 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 				JSONObject obj;
 				try {
 					obj = new JSONObject(result);
-					categoryCoonFoodMenuBeanList = gson.fromJson(obj
-							.getJSONObject("data").getJSONArray("menubooks")
-							.toString(),
+					categoryCoonFoodMenuBeanList = gson.fromJson(obj.getJSONObject("data").getJSONArray("menubooks").toString(),
 							new TypeToken<List<CoonFoodMenuBean>>() {
+								//
 							}.getType());
 					flagState = flag;
 
@@ -585,20 +583,17 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 //				KappUtils.showToast(context, "获取数据失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -634,7 +629,7 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 								new StandardFoodMaterialAdapter.OnReceiver() {
 									@Override
 									public void onClick(int groupPosition,
-											int position, int ChildPosition) {
+														int position, int ChildPosition) {
 										Log.i(TAG, "net StandardFoodMaterialAdapter.OnReceiver()--onClick--:"+"");
 										if (position != -1) {
 											Intent intent = new Intent(
@@ -647,9 +642,8 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 													position);
 											intent.putExtra("ChildPosition",
 													ChildPosition);
-											Log.i(TAG, "net StandardFoodMaterialAdapter.OnReceiver()--onClick--:"+"跳转："
-													+ "CookBookStandardFoodMaterialDetailsActivity");
-											
+											//Log.i(TAG, "net StandardFoodMaterialAdapter.OnReceiver()--onClick--:"+"跳转：" + "CookBookStandardFoodMaterialDetailsActivity");
+											HHDLog.v("net StandardFoodMaterialAdapter.OnReceiver()--onClick--:"+"跳转：" + "CookBookStandardFoodMaterialDetailsActivity");
 											startActivity(intent);
 										}
 									}
@@ -719,7 +713,6 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 					// ////
 					// getBitmap(goodFoodFinAdBeanList.get(i).getLogoPath());
 					// // } catch (IOException e) {
-					// // // TODO Auto-generated catch block
 					// // e.printStackTrace();
 					// // }
 					// }
@@ -754,19 +747,16 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -793,28 +783,27 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == -1) {
 			switch (requestCode) {
-			case 1001:
-				String result = data.getExtras().getString("flagState");
-				MyLog.d("解析结果：" + result);
-				if (result.equals(1)) {
-					rb_new.setChecked(true);
-					showCookBook(1);
-				} else if (result.equals(2)) {
-					rb_hot.setChecked(true);
-					showCookBook(2);
-				} else if (result.equals(3)) {
-					rb_recommend.setChecked(true);
-					showCookBook(3);
-				}
+				case 1001:
+					String result = data.getExtras().getString("flagState");
+					MyLog.d("解析结果：" + result);
+					if (result.equals(1)) {
+						rb_new.setChecked(true);
+						showCookBook(1);
+					} else if (result.equals(2)) {
+						rb_hot.setChecked(true);
+						showCookBook(2);
+					} else if (result.equals(3)) {
+						rb_recommend.setChecked(true);
+						showCookBook(3);
+					}
 
-				break;
+					break;
 			}
 		}
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
-		// TODO Auto-generated method stub
 		if (hasFocus) {
 			searchLayoutTop = rlayout.getBottom();// 获取searchLayout的顶部位置
 		}
@@ -822,49 +811,47 @@ public class GoodFoodFragment extends Fragment implements OnScrollListener,
 
 	@Override
 	public void onRefresh() {
-		// TODO Auto-generated method stub
 		if(isNetworkAvailable(getContext())==true){
 			mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
 		}else{
 			KappUtils.showToast(context, "获取数据失败");
 		}
-		
+
 	}
 
-	/** 
-     * 检测当的网络（WLAN、3G/2G）状态 
-     * @param context Context 
-     * @return true 表示网络可用 
-     */  
-    public static boolean isNetworkAvailable(Context context) {  
-        ConnectivityManager connectivity = (ConnectivityManager) context  
-                .getSystemService(Context.CONNECTIVITY_SERVICE);  
-        if (connectivity != null) {  
-            NetworkInfo info = connectivity.getActiveNetworkInfo();  
-            if (info != null && info.isConnected())   
-            {  
-                // 当前网络是连接的  
-                if (info.getState() == NetworkInfo.State.CONNECTED)   
-                {  
-                    // 当前所连接的网络可用  
-                    return true;  
-                }  
-            }  
-        }  
-        return false;  
-    }
-	
+	/**
+	 * 检测当的网络（WLAN、3G/2G）状态
+	 * @param context Context
+	 * @return true 表示网络可用
+	 */
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivity = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivity != null) {
+			NetworkInfo info = connectivity.getActiveNetworkInfo();
+			if (info != null && info.isConnected())
+			{
+				// 当前网络是连接的
+				if (info.getState() == NetworkInfo.State.CONNECTED)
+				{
+					// 当前所连接的网络可用
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public void onItemClick(View v, int position) {
-		// TODO Auto-generated method stub
 		Intent intent = new Intent(context, NetCookBookDetailActivity.class);
 		intent.putExtra("menuBookId",
 				String.valueOf(goodFoodFinAdBeanList.get(position).getId()));
 		(context).startActivity(intent);
 	}
-	
+
 	public void reloadUI(){
-		if (!TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+		if (!TextUtils.isEmpty(Config.serverHostName)) {
 			iv_titleLeft.setImageResource(R.drawable.icon04);
 		} else {
 			iv_titleLeft.setImageResource(R.drawable.icon05);

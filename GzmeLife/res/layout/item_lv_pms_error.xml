@@ -1,23 +1,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-   <LinearLayout style="@style/ll_normal" >
+    <!-- 错误显示的适配器布局 -->
+
+   <LinearLayout style="@style/ll_normal_error2016">
 
         <TextView
             android:id="@+id/tv_title"
             style="@style/tv_black_normal"
-            android:text="错误:" />
+             />
+       <!--android:text="错误:"-->
 
         <TextView
             android:id="@+id/tv_error"
             style="@style/tv_title_normal"
-            android:layout_marginLeft="@dimen/spacing_normal"
-            android:text="" />
+            android:layout_marginLeft="10dp"
+            android:text="错误描述" />
     </LinearLayout>
 
-    <include layout="@layout/view_gray_line" />
+    <!--<include layout="@layout/view_gray_line"/>-->
 
 </LinearLayout>

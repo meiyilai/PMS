@@ -74,7 +74,7 @@ public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		final LocalFoodMaterialLevelThree bean = list.get(position);
-		HHDLog.v("遍历食材名称："+list.get(position).getName()+"_遍历食材UID："+list.get(position).getId()+" "+list.get(position).getUid()+" "+list.get(position).getPid());
+		//HHDLog.v("遍历食材名称："+list.get(position).getName()+"_遍历食材UID："+list.get(position).getId()+" "+list.get(position).getUid()+" "+list.get(position).getPid());
 		viewHolder.cb_taste.setText(bean.getName());
 		viewHolder.cb_taste.setChecked(list.get(position).isChecked());
 		viewHolder.cb_taste.setEnabled(true);
@@ -85,9 +85,9 @@ public class MyCookFoodMaterialChildAdapter extends BaseAdapter {
 				viewHolder.cb_taste.setChecked(list.get(position).isChecked());
 				if (onReceiver != null) {
 					if (flag == 0) {
-						onReceiver.onCheckChange(bean.getId() + "",bean.getId() + "", list.get(position).isChecked());
+						onReceiver.onCheckChange(bean.getId() + "",bean.getUid() + "", list.get(position).isChecked());/** TODO:调用选择事件 */
 					} else if (flag == 1) {
-						onReceiver.onCheckChange(bean.getName(),bean.getId() + "", list.get(position).isChecked());
+						onReceiver.onCheckChange(bean.getName(),bean.getUid() + "", list.get(position).isChecked());/** TODO:调用选择事件 */
 					}
 				}
 				HHDLog.v("点击了“我的食材库”的："+list.get(position).getName());

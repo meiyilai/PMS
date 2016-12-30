@@ -18,9 +18,15 @@ import com.gzmelife.app.fragment.DeviceFragment;
 import com.gzmelife.app.fragment.GoodFoodFragment;
 import com.gzmelife.app.fragment.PersonalCenterFragment;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
-public class MainActivity extends BaseActivity implements
+import java.util.List;
+
+public class MainActivity extends BaseActivity implements//
 		OnCheckedChangeListener,OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	public FrameLayout fl_content;
 	public RadioGroup rg_mian;
 	public RadioButton rb_device;
@@ -38,14 +44,26 @@ public class MainActivity extends BaseActivity implements
 	String TAG = "MainActivity";
 
 	String state;
-	
-	//点击本地菜谱1确认点击0未点击
+
+	/** 点击本地菜谱1确认点击0未点击 */
 	public static int localFlag=0;
 
 	private int flag = 0;
 	
 	public String flagState="";
-	
+
+	//TODO 2016
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {
+		//先判断socket连接状态//TODO
+		deviceFragment.success(cookBookFileList, status, progress, total);
+	}
+	@Override
+	public void failure(int flag) {
+		deviceFragment.failure(flag);
+	}
+	//TODO 2016
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -113,6 +131,7 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		HHDLog.v("");
 		if (group.getId() == R.id.rg_mian) {
 			hide();
 			ft = fragmentManager.beginTransaction();
@@ -229,6 +248,7 @@ public class MainActivity extends BaseActivity implements
 
 	
 	private void hide() {
+		HHDLog.v("");
 		ft = fragmentManager.beginTransaction();
 		if (cookBookFragment != null) {
 			ft.hide(cookBookFragment);
@@ -247,13 +267,16 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
+		HHDLog.v("");
 	}
-	//fargment跳转fargment方法
+
+	/**
+	 * fargment跳转fargment方法
+	 * @param localF
+     */
 	public void setVis(int localF) {
-		// TODO Auto-generated method stub
-		
+		HHDLog.v("");
+
 		if(localF==1){
 			rb_cookBook.setChecked(true);
 		}else if(localF==2){
@@ -271,18 +294,21 @@ public class MainActivity extends BaseActivity implements
 			cookBookFragment.flagSstate=2;
 		}
 	}
-	
-	//fargment跳转fargment方法
-		public void setView(String localF) {
-			// TODO Auto-generated method stub
-			initView();
-			if(localF.equals("1")){
-				goodFoodFragment.flag1=1;
-			}else if(localF.equals("2")){
-				goodFoodFragment.flag1=2;
-			}else if(localF.equals("3")){
-				goodFoodFragment.flag1=3;
-			}
+
+	/**
+	 * fargment跳转fargment方法
+	 * @param localF
+     */
+	public void setView(String localF) {
+		HHDLog.v("");
+		initView();
+		if (localF.equals("1")) {
+			goodFoodFragment.flag1 = 1;
+		} else if (localF.equals("2")) {
+			goodFoodFragment.flag1 = 2;
+		} else if (localF.equals("3")) {
+			goodFoodFragment.flag1 = 3;
 		}
+	}
 
 }

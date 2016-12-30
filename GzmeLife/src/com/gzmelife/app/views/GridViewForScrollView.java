@@ -35,7 +35,7 @@ public class GridViewForScrollView extends GridView {
 	}	
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
+		/***/
 		return  isTouch;
 	}
 

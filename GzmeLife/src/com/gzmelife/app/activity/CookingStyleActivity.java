@@ -27,10 +27,11 @@ import com.gzmelife.app.bean.CookingStyleBean;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.GridViewForScrollView;
 
 @ContentView(R.layout.activity_cooking_style)
-public class CookingStyleActivity extends BaseActivity implements OnClickListener{
+public class CookingStyleActivity extends BaseActivity implements OnClickListener{//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.gv_data)
@@ -42,7 +43,22 @@ public class CookingStyleActivity extends BaseActivity implements OnClickListene
 	private UserInfoBean bean;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

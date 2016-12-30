@@ -47,10 +47,11 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.device.Config;
 import com.gzmelife.app.tools.DensityUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.ShowDialogUtil;
 
 @ContentView(R.layout.my_cookbook)
-public class MyCookBookActivity extends BaseActivity implements
+public class MyCookBookActivity extends BaseActivity implements//
 OnMenuItemClickListener, OnItemClickListener{
 	private ImageView iv_titleLeft;
 	private Context context;
@@ -72,16 +73,24 @@ OnMenuItemClickListener, OnItemClickListener{
 	private String state;
 	public  int flag = 0;
 	public  int flagSstate = 0;
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
+	protected void onResume() {
 		super.onResume();
+		HHDLog.v("");
 		updatePmsStatus();
 	}
-	
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		showCollectionCookBookMenu();
 		netCookBookBeans = new ArrayList<CookBookBean>();
@@ -184,7 +193,7 @@ OnMenuItemClickListener, OnItemClickListener{
 		iv_titleLeft.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (!TextUtils.isEmpty(Config.SERVER_HOST_NAME)) { // 未连接，点击无效
+				if (!TextUtils.isEmpty(Config.serverHostName)) { // 未连接，点击无效
 					startActivity(new Intent(context,
 							DeviceDetailActivity.class));
 				}
@@ -195,15 +204,15 @@ OnMenuItemClickListener, OnItemClickListener{
 	}
 	
 	private void updatePmsStatus() {
-		if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+		if (TextUtils.isEmpty(Config.serverHostName)) {
 			iv_titleLeft.setImageResource(R.drawable.icon05);
 		} else {
-			if (Config.PMS_ERRORS.size() > 0) {
+			if (Config.PMS_Errors.size() > 0) {
 				iv_titleLeft.setImageResource(R.drawable.icon06);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			}
-			if(Config.isConnext=true){
+			if(Config.isConnect =true){
 				iv_titleLeft.setImageResource(R.drawable.icon04);
 			}else{
 				iv_titleLeft.setImageResource(R.drawable.icon06);
@@ -315,21 +324,21 @@ OnMenuItemClickListener, OnItemClickListener{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -371,21 +380,21 @@ OnMenuItemClickListener, OnItemClickListener{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -431,19 +440,19 @@ OnMenuItemClickListener, OnItemClickListener{
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

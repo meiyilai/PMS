@@ -30,6 +30,7 @@ import com.gzmelife.app.bean.SerachFoodBean;
 import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 @ContentView(R.layout.activity_good_my_food_search)
-public class MyFoodMangerSearchActivity extends BaseActivity {
+public class MyFoodMangerSearchActivity extends BaseActivity {//
 	@ViewInject(R.id.lv_food)
 	ListView lv_food;
 
@@ -68,9 +69,23 @@ public class MyFoodMangerSearchActivity extends BaseActivity {
 	private List<String> selectedList = new ArrayList<String>(); // 选中了的食材的名字
 	private FoodMangerSearchAdapter lvFoodSearchAdapter;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		initView();
 
@@ -102,7 +117,7 @@ public class MyFoodMangerSearchActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				String searchContent = et_search.getText().toString().trim();
 				if ("".equals(searchContent)) {
 					KappUtils.showToast(MyFoodMangerSearchActivity.this, "请输入您要查询的菜名");
@@ -117,7 +132,7 @@ public class MyFoodMangerSearchActivity extends BaseActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				if(serachFoodBeanList.size()!=0||serachFoodBeanList!=null){
 					serachFoodBeanList.remove(position);
 					lvFoodSearchAdapter.notifyDataSetChanged();
@@ -130,7 +145,7 @@ public class MyFoodMangerSearchActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				LocalFoodMaterialLevelOne bean1 = new LocalFoodMaterialLevelOne();
 				bean1.setName(serachFoodBeanList.get(position).getC_name());
 					SerachFoodBean bean2 = new SerachFoodBean();
@@ -180,19 +195,19 @@ public class MyFoodMangerSearchActivity extends BaseActivity {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

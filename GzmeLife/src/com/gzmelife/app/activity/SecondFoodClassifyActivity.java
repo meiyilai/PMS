@@ -18,6 +18,7 @@ import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.adapter.CookFoodBeanAdapter;
 import com.gzmelife.app.adapter.GvSecondClassifyAdapter;
 import com.gzmelife.app.bean.CoonFoodMenuBean;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.pop_dlg;
 import com.gzmelife.app.tools.pop_dlg.dialog;
 import com.gzmelife.app.views.MyListView;
@@ -37,7 +38,7 @@ import android.widget.TextView;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 @ContentView(R.layout.activity_second_food_classify)
-public class SecondFoodClassifyActivity extends BaseActivity {
+public class SecondFoodClassifyActivity extends BaseActivity {//
 	@ViewInject(R.id.rv_goodfood)
 	GridView gv_food;
 	GvSecondClassifyAdapter secondClassifyAdapter;
@@ -48,6 +49,21 @@ public class SecondFoodClassifyActivity extends BaseActivity {
 	private String TAG="SecondFoodClassifyActivity";
 	private String categoryId;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		
@@ -61,7 +77,7 @@ public class SecondFoodClassifyActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				Log.i(TAG, "gv_food.setOnItemClickListener->onItemClick");
 				Intent intent = new Intent(SecondFoodClassifyActivity.this,
 						NetCookBookDetailActivity.class);
@@ -84,7 +100,7 @@ public class SecondFoodClassifyActivity extends BaseActivity {
 
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		// TODO Auto-generated method stub
+		/***/
 		if (arg1 == RESULT_OK) {
 			int num = arg2.getIntExtra("nunber", 0);
 			super.onActivityResult(arg0, arg1, arg2);
@@ -125,14 +141,14 @@ public class SecondFoodClassifyActivity extends BaseActivity {
 							
 							@Override
 							public void onclick(pop_dlg pop, View v) {
-								// TODO Auto-generated method stub
+								/***/
 								SecondFoodClassifyActivity.this.finish();
 								pop.dismiss();
 							}
 							
 							@Override
 							public View initLayout(pop_dlg pop, LayoutInflater flater) {
-								// TODO Auto-generated method stub
+								/***/
 								View v=flater.inflate(R.layout.dialog_tishi1, null);
 								TextView ok=(TextView) v.findViewById(R.id.ok);
 								ok.setOnClickListener(pop);
@@ -153,19 +169,19 @@ public class SecondFoodClassifyActivity extends BaseActivity {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 

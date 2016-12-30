@@ -46,7 +46,7 @@ import com.gzmelife.app.views.GridViewForScrollView;
 
 /** 美食-三级食材(美食) */
 @ContentView(R.layout.activity_cook_book_standard_food_material_details)
-public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
+public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity //
 		implements android.view.View.OnClickListener {
 
 	MyLogger HHDLog = MyLogger.HHDLog();
@@ -57,22 +57,16 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 	TextView tv_selectNum;
 	@ViewInject(R.id.tv_all)
 	TextView tv_all;
-
 	@ViewInject(R.id.layout_manage)
 	View layout_manage;
-
 	@ViewInject(R.id.btn_titleRight)
 	Button btn_titleRight;
-
 	@ViewInject(R.id.rv_goodfood)
 	RecyclerView rv_goodfood;
-
 	@ViewInject(R.id.iv_car)
 	ImageView iv_car;
-
 	@ViewInject(R.id.gv_food)
 	GridViewForScrollView gv_food;
-
 	@ViewInject(R.id.tv_title_left)
 	TextView tv_title_left;
 
@@ -91,6 +85,20 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 
 	private Context context;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 
@@ -152,7 +160,7 @@ public class CookBookStandardFoodMaterialDetailsActivity extends BaseActivity
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
 					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(selectedList.get(i));
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					//bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}

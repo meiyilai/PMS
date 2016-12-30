@@ -9,17 +9,17 @@ public class RecyclerViewForScrollView extends RecyclerView {
 
 	public RecyclerViewForScrollView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
+		//
 	}
 
 	public RecyclerViewForScrollView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
+		//
 	}
 
 	public RecyclerViewForScrollView(Context arg0, AttributeSet arg1, int arg2) {
 		super(arg0, arg1, arg2);
-		// TODO Auto-generated constructor stub
+		//
 	}
 
 	@Override

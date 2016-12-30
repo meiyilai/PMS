@@ -25,11 +25,16 @@ import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.bean.UserInfoBean;
+import com.gzmelife.app.device.SocketService;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.umeng.update.UmengUpdateAgent;
 
+/**
+ * 界面【欢迎页】
+ */
 @ContentView(R.layout.activity_welcome)
 public class WelcomeActivity extends Activity {
 
@@ -41,6 +46,13 @@ public class WelcomeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
+
+		//TODO 2016
+		startService(new Intent(this, SocketService.class));
+		Intent intent = new Intent(this, SocketService.class);
+		startService(intent);/** 启动服务 */
+		// TODO 2016
+
 		preferences = getSharedPreferences("phone", Context.MODE_PRIVATE);
 		x.view().inject(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(true);
@@ -160,16 +172,19 @@ public class WelcomeActivity extends Activity {
 		});
 	}
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
+		HHDLog.v("界面【欢迎页】");
+
 		 JPushInterface.onResume(this);
 	}
 	
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
+		/***/
 		super.onPause();
 		JPushInterface.onPause(this);
 	}

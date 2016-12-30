@@ -19,8 +19,10 @@ import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLogger;
 
+import java.util.List;
+
 @ContentView(R.layout.activity_add_new_foodmaterial)
-public class AddNewFoodMaterialActivity extends BaseActivity implements
+public class AddNewFoodMaterialActivity extends BaseActivity implements//
 		OnClickListener {
 
 	MyLogger HHDLog = MyLogger.HHDLog();
@@ -36,6 +38,13 @@ public class AddNewFoodMaterialActivity extends BaseActivity implements
 
 	private Context context;
 
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 
@@ -75,7 +84,7 @@ public class AddNewFoodMaterialActivity extends BaseActivity implements
 
 				bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 				bean2.setName(foodMaterialName);
-				HHDLog.e("这里需要保存UID到本地？");
+				HHDLog.v("保存食材到本地");
 				//bean2.setUid()
 				if(!catogoryName.equals("自定义食材")){
 					if (FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2) == -1) {

@@ -91,7 +91,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 	@Override
 	public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
 		viewHolder.mTxt.setText(mDatas.get(i).getScName());
-		HHDLog.e("--->i=" + i + ",position=" + position);
+		HHDLog.v("--->i=" + i + ",position=" + position);
 		if (position == i) {
 			viewHolder.mTxt.setSelected(true);
 			if (mOnItemClickListener != null) {

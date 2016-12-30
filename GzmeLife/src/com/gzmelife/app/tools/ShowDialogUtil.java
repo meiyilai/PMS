@@ -39,16 +39,11 @@ public class ShowDialogUtil {
 		// dlg.setView(view);
 		dlg.setCancelable(false);
 		dlg.setOnKeyListener(new OnKeyListener() {
-
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				// TODO Auto-generated method stub
-				if (keyCode == KeyEvent.KEYCODE_SEARCH)
-				{
+				if (keyCode == KeyEvent.KEYCODE_SEARCH) {
 					return true;
-				}
-				else
-				{
+				} else {
 					return false; //默认返回 false
 				}
 			}
@@ -60,7 +55,6 @@ public class ShowDialogUtil {
 		tv_title = (TextView) note_view.findViewById(R.id.tv_title);
 		btn_cancel = (Button) note_view.findViewById(R.id.btn_cancel);
 		btn_cancel.setVisibility(visibleButton);
-
 		btn_cancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -73,7 +67,6 @@ public class ShowDialogUtil {
 
 		dlg.show();
 		dlg.getWindow().setContentView(note_view);
-
 		WindowManager.LayoutParams params = dlg.getWindow().getAttributes();
 		params.width = width;
 		params.height = height;
@@ -94,16 +87,11 @@ public class ShowDialogUtil {
 		// dlg.setView(view);
 		dlg.setCancelable(false);
 		dlg.setOnKeyListener(new OnKeyListener() {
-
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				// TODO Auto-generated method stub
-				if (keyCode == KeyEvent.KEYCODE_SEARCH)
-				{
+				if (keyCode == KeyEvent.KEYCODE_SEARCH) {
 					return true;
-				}
-				else
-				{
+				} else {
 					return false; //默认返回 false
 				}
 			}
@@ -136,7 +124,7 @@ public class ShowDialogUtil {
 		return dlg;
 	}
 
-	/** 20161009设置是否显示取消按钮 */
+	/** 设置是否显示取消按钮 20161009 */
 	public static void setCancelButton(int visibility) {
 		btn_cancel.setVisibility(visibility);
 	}
@@ -151,12 +139,31 @@ public class ShowDialogUtil {
 		return getShowDialog(context, R.layout.dialog_progressbar, 0, 0, false);
 	}
 
-	public static AlertDialog getShowDialog(Activity context, int layout,
-											int x, int y, boolean isclickmiss) {
+	/**
+	 * 警示框 2016
+	 *
+	 * @param context		上下文
+	 * @param layout		布局
+	 * @param x			X轴（左上角）
+	 * @param y			Y轴（左上角）
+	 * @param isclickmiss	是否可以取消
+     * @return				返回警示框实例
+     */
+	public static AlertDialog getShowDialog(Activity context, int layout, int x, int y, boolean isclickmiss) {
 		AlertDialog.Builder ab = new AlertDialog.Builder(context);
+		/** 捕获返回键的事件 2016 */
+		/*ab.setOnKeyListener(new OnKeyListener() {
+			@Override
+			public boolean onKey(DialogInterface dialogInterface, int keyCode, KeyEvent keyEvent) {
+				if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0) {
+					return false;
+				}
+				return false;
+			}
+		});*/
 		AlertDialog dlg = ab.create();
 		if (isclickmiss) {
-			dlg.setCanceledOnTouchOutside(false);
+			dlg.setCanceledOnTouchOutside(false);//对话框的外面点击取消事件
 		} else {
 			dlg.setCancelable(false);
 		}
@@ -167,8 +174,7 @@ public class ShowDialogUtil {
 		lp.y = y;
 		// dlg.setView(view);
 
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View note_view = inflater.inflate(layout, null);
 		ImageView iv_dialog_img = (ImageView) note_view.findViewById(R.id.iv_dialog_img);
 		if (iv_dialog_img != null) {
@@ -177,15 +183,13 @@ public class ShowDialogUtil {
 		}
 		pb_circle = (ProgressBar) note_view.findViewById(R.id.pb_circle);
 		tv_title = (TextView) note_view.findViewById(R.id.tv_title);
-
 		dlg.show();
-
 		dlg.getWindow().setContentView(note_view);
 		// dlg.getWindow().setContentView(R.layout.aboutpop);
-
 		return dlg;
 	}
 
+	/** 进度条 2016 */
 	public static void setProgress(int now, int all) {
 		if (pb_circle != null) {
 			pb_circle.setProgress(now * 100 / all);

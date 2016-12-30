@@ -37,19 +37,19 @@ public class GvSecondClassifyAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+		/***/
 		return categoryCoonFoodMenuBeanList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
+		/***/
 		return position;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
+		/***/
 		return position;
 	}
 
@@ -89,7 +89,7 @@ public class GvSecondClassifyAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+					/***/
 					Intent intent = new Intent(context,
 							NetCookBookDetailActivity.class);
 					System.out.println("position===" + position % 2);
@@ -111,7 +111,7 @@ public class GvSecondClassifyAdapter extends BaseAdapter {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+					/***/
 					Intent intent = new Intent(context,
 							NetCookBookDetailActivity.class);
 					System.out.println("position===" + position % 2);

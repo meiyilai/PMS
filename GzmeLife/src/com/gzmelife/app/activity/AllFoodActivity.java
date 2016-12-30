@@ -21,6 +21,7 @@ import com.gzmelife.app.adapter.StandardFoodMaterialAdapter;
 import com.gzmelife.app.bean.CategoryFirstBean;
 import com.gzmelife.app.bean.FindTowMenuCategoryFirstBean;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
  *
  */
 @ContentView(R.layout.activity_allfood)
-public class AllFoodActivity extends BaseActivity {
+public class AllFoodActivity extends BaseActivity {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.lv)
@@ -53,6 +54,20 @@ public class AllFoodActivity extends BaseActivity {
 
 	LvAllFoodClassAdapter lvAllFoodClassAdapter;
 
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

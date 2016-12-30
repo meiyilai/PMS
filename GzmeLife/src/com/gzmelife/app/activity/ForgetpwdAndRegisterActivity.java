@@ -27,15 +27,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
-import com.gzmelife.app.bean.CoonFoodMenuBean;
 import com.gzmelife.app.bean.LoginBean;
 import com.gzmelife.app.bean.UserInfoBean;
-import com.gzmelife.app.tools.DataUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 
 @ContentView(R.layout.activity_forgetpwd_and_register)
-public class ForgetpwdAndRegisterActivity extends BaseActivity implements
+public class ForgetpwdAndRegisterActivity extends BaseActivity implements//
 		OnClickListener {
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
@@ -65,6 +64,21 @@ public class ForgetpwdAndRegisterActivity extends BaseActivity implements
 	public static String code;
 	LoginBean bean = new LoginBean();
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -243,7 +257,7 @@ public class ForgetpwdAndRegisterActivity extends BaseActivity implements
 						KappUtils.showToast(context, "获取验证码成功，请注意查收！");
 					} 
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
+					//
 					e.printStackTrace();
 				}
 

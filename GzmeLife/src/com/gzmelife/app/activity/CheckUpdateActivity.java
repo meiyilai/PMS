@@ -31,7 +31,6 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.bean.UpdatePmsBean;
 import com.gzmelife.app.device.Config;
-import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.tools.FileUtil;
 import com.gzmelife.app.tools.HttpDownloader;
 import com.gzmelife.app.tools.KappUtils;
@@ -45,10 +44,10 @@ import com.umeng.update.UpdateStatus;
 
 @ContentView(R.layout.activity_check_update)
 /**
- * 更新PMS版本界面（当前PMS版本号为）
+ * 界面【更新固件】
  *
  */
-public class CheckUpdateActivity extends BaseActivity implements OnClickListener {
+public class CheckUpdateActivity extends BaseActivity implements OnClickListener {//
 
 	MyLogger HHDLog=MyLogger.HHDLog();
 
@@ -69,8 +68,6 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 	
 	private String urlfilepath;
 	
-	private SocketTool socketTool;
-	
 	private Dialog pDlg;
 	private  List<UpdatePmsBean> list;
 	
@@ -79,13 +76,74 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 	private File localPmsFile;
 	
 	private String fileName="";
-	
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {
+		switch (status) {
+			case 7:
+				handler.sendEmptyMessage(2);
+				break;
+			case 8:
+				ShowDialogUtil.setProgress(progress, total);
+				if (TextUtils.isEmpty(Config.serverHostName)) {
+					closePDlg();
+					System.out.println("更新失败停止" + 1 + "");
+				}
+				// timeCntHeart++;
+				// timeCntHeartNow++;
+				// if(timeCntHeart==0){
+				// a=now;
+				// }
+				// if(timeCntHeart%5==0){
+				// b=now;
+				// }
+				// if(){
+				//
+				// }
+				break;
+			case 0:
+				closePDlg();
+				System.out.println("更新失败停止" + 20 + "");
+				break;
+		}
+	}
+	@Override
+	public void failure(int flag) {
+		closePDlg();
+		handler.sendEmptyMessage(1);
+	}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		
 		context = this;
 		initView();
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		//TODO 2016
+		bindSocketService();
+		//TODO 2016
+		handler.sendEmptyMessage(Config.MSG_RE_BIND);
+
+		HHDLog.v("界面【更新固件】");
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		//TODO 2016
+		unbindSocketService();
+		//TODO 2016
+	}
+
+	/** 关闭 */
 	public void closePDlg() {
 		if (pDlg != null && pDlg.isShowing()) {
 			pDlg.dismiss();
@@ -103,12 +161,11 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.update_pms:
-				if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+				if (TextUtils.isEmpty(Config.serverHostName)) {
 					KappUtils.showToast(context, "暂未连接设备，请连接");
 				} else {
 					downLoadMenuBookFile();
 				}
-				
 				break;
 			case R.id.btn_updateApp:
 				isNewest = "当前已经是最新版本";
@@ -126,9 +183,9 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 					        		KappUtils.showToast(context, isNewest);
 					        	}
 					            break;
-	//				        case UpdateStatus.NoneWifi: // none wifi
-	//				            Toast.makeText(mContext, "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
-	//				            break;
+				        	//case UpdateStatus.NoneWifi: // none wifi
+				            	//Toast.makeText(mContext, "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
+				            	//break;
 					        case UpdateStatus.Timeout: // time out
 					        	KappUtils.showToast(context, "获取超时，请稍后重试");
 					            break;
@@ -147,73 +204,84 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 		public boolean handleMessage(Message msg) {
 			closePDlg();
 			switch (msg.what) {
-			case 0:
-				pDlg = ShowDialogUtil.getShowDialog(CheckUpdateActivity.this, R.layout.dialog_progressbar_2,
-						FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, 0, 0, false);
-				ShowDialogUtil.setTitle("正在更新PMS固件，请稍候");
-				break;
-			case 1:
-				closePDlg();
-				KappUtils.showToast(context, "更新PMS固件失败");
-				try {
-				File file = new File(FileUtil.SDPATH+"pms/"+ list.get(0).getName()+".bin");
-				if(file.exists()){
-					file.delete();
-				}
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				break;
-			case 2:
-				KappUtils.showToast(context, "更新PMS固件成功");
-				fileName = list.get(0).getName();
-				update_pms_text.setText("当前PMS版本号为:	" + fileName);
-				break;
+				case 0:
+					pDlg = ShowDialogUtil.getShowDialog(CheckUpdateActivity.this, R.layout.dialog_progressbar_2,
+							FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, 0, 0, false);
+					ShowDialogUtil.setTitle("正在更新PMS固件，请稍候");
+					break;
+				case 1:
+					closePDlg();
+					KappUtils.showToast(context, "更新PMS固件失败");
+					try {
+						File file = new File(FileUtil.SDPATH + "pms/" + list.get(0).getName() + ".bin");
+						if (file.exists()) {
+							file.delete();
+						}
+					} catch (Exception e) {
+						//
+					}
+					break;
+				case 2:
+					KappUtils.showToast(context, "更新PMS固件成功");
+					fileName = list.get(0).getName();
+					update_pms_text.setText("当前PMS版本号为:	" + fileName);
+					break;
+				case Config.MSG_RE_BIND:
+					bindSocketService();
+					handler.sendEmptyMessage(Config.MSG_CHECK_BIND);
+					break;
+				case Config.MSG_CHECK_BIND:
+					if (socketService == null) {//判断下确保已经绑定服务
+						handler.sendEmptyMessage(Config.MSG_RE_BIND);
+						HHDLog.w("判断是否已经绑定服务=" + (socketService == null));
+					} else {
+						//loadList();
+						HHDLog.w("判断是否已经绑定服务=" + (socketService == null));
+					}
+					break;
 
-			case 5001:// 进度条开始
-				processer = ShowDialogUtil.getShowDialog(CheckUpdateActivity.this, R.layout.dialog_progressbar_2,
-						RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, 0, 0,
-						false);
-				break;
-			case 5002:// 进度完下载中
-				Bundle bu = msg.getData();
+				case 5001:// 进度条开始
+					processer = ShowDialogUtil.getShowDialog(CheckUpdateActivity.this, R.layout.dialog_progressbar_2,
+							RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT, 0, 0,
+							false);
+					break;
+				case 5002:// 进度完下载中
+					Bundle bu = msg.getData();
+					ShowDialogUtil.setProgress(bu.getInt("cursize"), bu.getInt("allSize"));
+					break;
+				case 5003:// 进度条完成
+					if (processer != null && processer.isShowing()) {
+						processer.dismiss();
+						processer = null;
 
-				ShowDialogUtil.setProgress(bu.getInt("cursize"), bu.getInt("allSize"));
-				break;
-			case 5003:// 进度条完成
-				if (processer != null && processer.isShowing()) {
-					processer.dismiss();
-					processer = null;
-
-				}
-				
-				// localPMSFileStatus.setDirty();
-				// KappUtils.showToast(
-				// CheckUpdateActivity.this,
-				// "下载完成");
-				break;
-			case 5004:// 进度条失败
-				// Bundle bu1=msg.getData();
-				// int code=bu1.getInt("code");
-				// if(code==-1)
-				// KappUtils.showToast(context, "下载发生错误");
-				// if(code==1)
-				// KappUtils.showToast(
-				// CheckUpdateActivity.this,
-				// "该菜谱已下载！");
-				if (processer != null && processer.isShowing()) {
-					processer.dismiss();
-					processer = null;
-				}
-				break;
+					}
+					// localPMSFileStatus.setDirty();
+					// KappUtils.showToast(
+					// CheckUpdateActivity.this,
+					// "下载完成");
+					break;
+				case 5004:// 进度条失败
+					// Bundle bu1=msg.getData();
+					// int code=bu1.getInt("code");
+					// if(code==-1)
+					// KappUtils.showToast(context, "下载发生错误");
+					// if(code==1)
+					// KappUtils.showToast(
+					// CheckUpdateActivity.this,
+					// "该菜谱已下载！");
+					if (processer != null && processer.isShowing()) {
+						processer.dismiss();
+						processer = null;
+					}
+					break;
 			}
-			
-			
 			return false;
 		}
 	});
 	
 	private File curUpdata_pms_file;
+
+	/** 获取当前PMS版本号 */
 	public void getFile() {
 		localPmsFile = new File(FileUtil.SDPATH+"pms/");
 		if (localPmsFile.isDirectory()) {
@@ -233,26 +301,22 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 		}
 	}
 	
-	
-	private void downLoadMenuBookFile() {
-		// 下载
-//		showDlg();
-		RequestParams params = new RequestParams(
-				UrlInterface.URL_UPDATE_PMS);
 
+	/** 下载 */
+	private void downLoadMenuBookFile() {
+//		showDlg();
+		RequestParams params = new RequestParams(UrlInterface.URL_UPDATE_PMS);
 		x.http().post(params, new CommonCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
-//				closeDlg();
-				
+				//closeDlg();
 				Gson gson = new Gson();
 				JSONObject obj;
 				try {
 					obj = new JSONObject(result.trim());
-					list= gson.fromJson(obj
-							.getJSONObject("data")
-							.getJSONArray("fileUpdate").toString(),
+					list = gson.fromJson(obj.getJSONObject("data").getJSONArray("fileUpdate").toString(),
 							new TypeToken<List<UpdatePmsBean>>() {
+								//
 							}.getType());
 					String msg = obj.getString("msg");
 					//update_pms_text.setText("当前PMS版本号为:	" + list.get(0).getName());
@@ -260,9 +324,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 						KappUtils.showToast(context, msg);
 					} else {
 						if(fileName!=null&&fileName.equals(list.get(0).getName())){
-							KappUtils.showToast(
-									CheckUpdateActivity.this,
-									"当前PMS程序已经是最新版本");
+							KappUtils.showToast(CheckUpdateActivity.this, "当前PMS程序已经是最新版本");
 						}else {
 						new Thread(new Runnable() {
 							@Override
@@ -270,9 +332,7 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 								Looper.prepare();
 								try {
 									if(fileName!=null&&fileName.equals(list.get(0).getName())){
-										KappUtils.showToast(
-												CheckUpdateActivity.this,
-												"当前PMS程序已经是最新版本");
+										KappUtils.showToast(CheckUpdateActivity.this, "当前PMS程序已经是最新版本");
 									}else{
 										if(curUpdata_pms_file!=null){
 											curUpdata_pms_file.delete();
@@ -282,19 +342,17 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void onStart(int cursize, int allSize) {
-												// TODO Auto-generated method stub
 												Message msg=new Message();
 												msg.what=5001;
-//												processer.show();
+												//processer.show();
 												handler.sendMessage(msg);
 											}
 											
 											@Override
 											public void onLoading(int cursize, int allSize) {
-												// TODO Auto-generated method stub
 												Message msg=new Message();
 												msg.what=5002;
-//												processer.show();
+												//processer.show();
 												Bundle bu=new Bundle();
 												bu.putInt("cursize", cursize);
 												bu.putInt("allSize", allSize);
@@ -304,11 +362,9 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void onError(int code) {
-												// TODO Auto-generated method stub
-//												Log.i(TAG, "onLoading");
 												Message msg=new Message();
 												msg.what=5004;
-//												processer.show();
+												//processer.show();
 												Bundle bu=new Bundle();
 												bu.putInt("code", code);
 												msg.setData(bu);
@@ -317,17 +373,13 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 											
 											@Override
 											public void OnComplete(int code) {
-												// TODO Auto-generated method stub
 												Message msg=new Message();
 												msg.what=5003;
-//												processer.show();
+												//processer.show();
 												handler.sendMessage(msg);
 											}
 										});
-										result1 = httpDownLoader
-												.downfilePms(UrlInterface.URL_HOST
-														+ list.get(0).getPath(), "pms/",
-														list.get(0).getName()+".bin" );
+										result1 = httpDownLoader.downfilePms(UrlInterface.URL_HOST + list.get(0).getPath(), "pms/", list.get(0).getName()+".bin" );
 										// showDlg();
 										if (result1 != null) {
 //											fileResult = 0;
@@ -340,28 +392,22 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 //												}
 //											}
 											if(result1.length()!=0){
-											if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+											if (TextUtils.isEmpty(Config.serverHostName)) {
 												KappUtils.showToast(context, "暂未连接设备，请连接");
 											} else {
-												if (Config.isConnext = true) {
+												if (Config.isConnect = true) {
 													sendFileToPMS();
 												}
 											}
 											}
 										}  else if (result1 == null) {
 //											fileResult = -1;
-											KappUtils.showToast(
-													CheckUpdateActivity.this,
-//													"更新PMS程序失败");
-													"从服务器下载PMS程序失败");
+											KappUtils.showToast(CheckUpdateActivity.this,"从服务器下载PMS程序失败");/*"更新PMS程序失败");*/
 										}
 									}
-									
-
 								} catch (Exception e) {
-									// TODO: handle exception
+									//
 								}
-
 								Looper.loop();
 							}
 						}).start();
@@ -374,24 +420,20 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(CheckUpdateActivity.this, "更新PMS程序失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(CheckUpdateActivity.this, "更新PMS程序失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
-
 		});
 
 	}
@@ -400,73 +442,10 @@ public class CheckUpdateActivity extends BaseActivity implements OnClickListener
 	private void sendFileToPMS() {
 		handler.sendEmptyMessage(0);
 
-		if (socketTool == null) {
-			socketTool = new SocketTool(context, new SocketTool.OnReceiver() {
-				@Override
-				public void onSuccess(List<String> cookBookFileList, int flag,
-						int now, int all) {
-					switch (flag) {
-					case 7:
-						handler.sendEmptyMessage(2);
-						break;
-					case 8:
-						ShowDialogUtil.setProgress(now, all);
-						if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
-							closePDlg();
-							System.out.println("更新失败停止" + 1 + "");
-						}
-						// timeCntHeart++;
-						// timeCntHeartNow++;
-						// if(timeCntHeart==0){
-						// a=now;
-						// }
-						// if(timeCntHeart%5==0){
-						// b=now;
-						// }
-						// if(){
-						//
-						// }
-						break;
-					case 0:
-						closePDlg();
-						System.out.println("更新失败停止" + 20 + "");
-						break;
-					}
-				}
-
-				@Override
-				public void onFailure(int flag) {
-					closePDlg();
-					handler.sendEmptyMessage(1);
-				}
-			});
-		}
-		
-		if (!socketTool.isStartHeartTimer()) {
-			// socketTool.heartTimer;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					Looper.prepare();
-					socketTool.closeSocket();
-					socketTool.initClientSocket(); // 根据不同的ip，建立不同的socket
-					socketTool.uploadFirmwareInfo();
-					socketTool.startHeartTimer();
-					HHDLog.w("这里启动了心跳");
-					Looper.loop();
-				}
-			}).start();
-
-		} else {
-			// socketTool.initClientSocket(); // 根据不同的ip，建立不同的socket
-			socketTool.uploadCookbookInfo();
-		}
-		// new Thread(new Runnable() {
-		// @Override
-		// public void run() {
-		//
-		// }
-		// }).start();
+		//if (socket断开){关闭，重新打开}//TODO 需要完善
+		//socketService.uploadFirmwareInfo();
+		socketService.uploadCookbookInfo();
+		HHDLog.w("升级PMS设备固件");
 	}
 	
 }

@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.gzmelife.app.R;
 import com.gzmelife.app.bean.DeviceNameAndIPBean;
 
+
+/** 界面【我的设备中心】的列表适配器 */
 public class DeviceCenterAdapter extends BaseAdapter {
 	Context context;
 

@@ -3,23 +3,30 @@ package com.gzmelife.app.bean;
 import org.xutils.db.annotation.Column;
 import org.xutils.db.annotation.Table;
 
+/** PMS设备对象类 */
 @Table(name = "deviceNameAndIPBean")
 public class DeviceNameAndIPBean {
+	/** 数据库序号 */
 	@Column(isId = true, name = "id")
 	private int id;
+	/** PMS名称 */
 	@Column(name = "name")
 	private String name;
+	/** PMSWiFi名称 */
 	@Column(name = "wifiName")
 	private String wifiName;
+	/** PMS上次IP地址 */
 	@Column(name = "ip")
 	private String ip;
-	
+
+	/** 设置PMS的名称 2016 */
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	/** 获取设备的IP地址 2016 */
 	public String getIp() {
 		return ip;
 	}
@@ -41,7 +48,7 @@ public class DeviceNameAndIPBean {
 
 	@Override
 	public String toString() {
-		return "id:" + id + ";name:" + name + ";wifiName:" + wifiName + ";ip:" + ip;
+		return "ID：" + id + "；名称：" + name + "；WiFi：" + wifiName + "；IP地址：" + ip;
 	}	
 	
 	public boolean isSame(DeviceNameAndIPBean b) {

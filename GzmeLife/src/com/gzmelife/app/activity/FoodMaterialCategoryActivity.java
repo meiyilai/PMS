@@ -30,7 +30,7 @@ import com.gzmelife.app.tools.MyLogger;
 
 @SuppressLint("InflateParams")
 @ContentView(R.layout.activity_food_material_category)
-public class FoodMaterialCategoryActivity extends BaseActivity implements OnClickListener {
+public class FoodMaterialCategoryActivity extends BaseActivity implements OnClickListener {//
 
 	MyLogger HHDLog =MyLogger.HHDLog();
 
@@ -43,7 +43,14 @@ public class FoodMaterialCategoryActivity extends BaseActivity implements OnClic
 	
 	private List<CategoryFirstBean> categoryFirstBeanList = new ArrayList<CategoryFirstBean>();
 	private StandardFoodMaterialAdapter standardAdapter;
-	
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

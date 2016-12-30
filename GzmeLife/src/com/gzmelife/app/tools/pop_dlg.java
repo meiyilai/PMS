@@ -19,7 +19,7 @@ private View mview;
 private LayoutInflater inflater;
 private AlertDialog myDialog;
 public pop_dlg(Context context,dialog dialog) {
-	// TODO Auto-generated constructor stub
+	//
 	mcontext=context;
 	mdialog=dialog;
 	inflater=LayoutInflater.from(mcontext);
@@ -41,7 +41,7 @@ public void pop(){
 }
 @Override
 public void onClick(View arg0) {
-	// TODO Auto-generated method stub
+	/***/
 	mdialog.onclick(this,arg0);
 }
 public void dismiss(){

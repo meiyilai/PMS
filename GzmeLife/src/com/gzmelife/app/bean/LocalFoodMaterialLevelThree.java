@@ -17,11 +17,11 @@ public class LocalFoodMaterialLevelThree {
 	@Column(isId = true, name = "id")
 	private int fsId;//食材在数据库的顺序
 	@Column(name = "name")
-	private String fsName;
+	private String fsName;//食材的名称
 	@Column(name = "uid")
 	private String uid;//食材的UID
 	@Column(name = "weight")
-	private int weight;
+	private int weight;//食材的重量
 	@Column(name = "pid")
 	private int pid; // 一级的ID
 	private boolean isChecked;
@@ -43,7 +43,7 @@ public class LocalFoodMaterialLevelThree {
 	}
 	public LocalFoodMaterialLevelThree setId(int id) {
 		this.fsId = id;
-		HHDLog.e(id+"="+fsId);
+		HHDLog.v(id+"="+fsId);
 		return this;
 	}
 	
@@ -53,7 +53,7 @@ public class LocalFoodMaterialLevelThree {
 	
 	public LocalFoodMaterialLevelThree setName(String name) {
 		this.fsName = name;
-		HHDLog.e(name+"="+fsName);
+		HHDLog.v(name+"="+fsName);
 		return this;
 	}
 
@@ -62,7 +62,7 @@ public class LocalFoodMaterialLevelThree {
 	}
 	public LocalFoodMaterialLevelThree setUid(String uid) {
 		this.uid = uid;
-		HHDLog.e(uid+"="+ this.uid);
+		HHDLog.v(uid+"="+ this.uid);
 		return this;
 	}
 

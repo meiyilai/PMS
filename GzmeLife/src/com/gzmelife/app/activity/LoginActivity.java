@@ -1,6 +1,7 @@
 package com.gzmelife.app.activity;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,10 +37,11 @@ import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 
 @ContentView(R.layout.actvitiy_login)
-public class LoginActivity extends BaseActivity implements OnClickListener,
+public class LoginActivity extends BaseActivity implements OnClickListener,//
 		PlatformActionListener {
 	@ViewInject(R.id.et_phone)
 	EditText et_phone;
@@ -62,6 +64,21 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	String TAG = "LoginActivity";
 	private Handler handler;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -78,7 +95,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 			@Override
 			public boolean handleMessage(Message msg) {
-				// TODO Auto-generated method stub
+				/***/
 				switch (msg.what) {
 				case 0:
 					KappUtils.showToast(context, "已取消");
@@ -321,7 +338,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onCancel(Platform platform, int action) {
-		// TODO Auto-generated method stub
+		/***/
 		if (action == Platform.ACTION_USER_INFOR) {
 			handler.sendEmptyMessage(0);
 		}
@@ -330,7 +347,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	@Override
 	public void onComplete(Platform platform, int action,
 			HashMap<String, Object> arg2) {
-		// TODO Auto-generated method stub
+		/***/
 		// 解析部分用户资料字段
 		if (action == Platform.ACTION_USER_INFOR) {
 			PlatformDb platDB = platform.getDb();
@@ -352,7 +369,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onError(Platform platform, int action, Throwable throwable) {
-		// TODO Auto-generated method stub
+		/***/
 		if (action == Platform.ACTION_USER_INFOR) {
 			String name = platform.getDb().getPlatformNname();
 			Message msg = new Message();

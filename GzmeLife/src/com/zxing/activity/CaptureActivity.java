@@ -1,6 +1,7 @@
 package com.zxing.activity;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 
 import android.content.Intent;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.gzmelife.app.R;
-import com.gzmelife.app.activity.BaseActivity;
+import com.gzmelife.app.activity.BaseActivity;//
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
@@ -30,7 +31,7 @@ import com.zxing.view.ViewfinderView;
  * Initial the camera
  * @author Ryan.Tang
  */
-public class CaptureActivity extends BaseActivity implements Callback {
+public class CaptureActivity extends BaseActivity implements Callback {//
 	private CaptureActivityHandler handler;
 	private ViewfinderView viewfinderView;
 	private boolean hasSurface;
@@ -42,6 +43,13 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

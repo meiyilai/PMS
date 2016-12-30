@@ -24,7 +24,6 @@ import com.google.gson.reflect.TypeToken;
 import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
-import com.gzmelife.app.activity.BaseActivity;
 import com.gzmelife.app.activity.LoginActivity;
 import com.gzmelife.app.activity.NetCookBookDetailActivity;
 import com.gzmelife.app.activity.StandardFoodMaterialDetailsActivity;

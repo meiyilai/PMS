@@ -16,11 +16,13 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.device.Config;
 
 /**
+ * 显示错误代码的适配器
  */
 @SuppressLint("InflateParams")
 public class PMSErrorAdapter extends BaseAdapter {
 
     private Context context;
+    /** 存放错误代码的容器 2016 */
     private List<String> list;
     
     private OnReceiver onReceiver;
@@ -57,8 +59,8 @@ public class PMSErrorAdapter extends BaseAdapter {
         if (null == convertView) {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_lv_pms_error, null);
-            viewHolder.tv_error = (TextView) convertView.findViewById(R.id.tv_error);
             viewHolder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+            viewHolder.tv_error = (TextView) convertView.findViewById(R.id.tv_error);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -69,13 +71,13 @@ public class PMSErrorAdapter extends BaseAdapter {
         } else {
         	viewHolder.tv_title.setVisibility(View.INVISIBLE);
         }
-        viewHolder.tv_error.setText(Html.fromHtml("<u>" + Config.errorDesc[Integer.parseInt(list.get(position))] + "</u>"));
+        viewHolder.tv_error.setText(Html.fromHtml("<u>" + Config.PMS_ErrorDesc[Integer.parseInt(list.get(position))] + "</u>"));
         
         convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (onReceiver != null) {
-					onReceiver.onClick(Config.errorDesc[Integer.parseInt(list.get(position))]);
+					onReceiver.onClick(Config.PMS_ErrorDesc[Integer.parseInt(list.get(position))]);
 				}
 			}
 		});

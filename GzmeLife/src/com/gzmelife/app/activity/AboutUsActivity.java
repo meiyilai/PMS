@@ -11,10 +11,13 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.ProgressWebView;
 
+import java.util.List;
+
 @ContentView(R.layout.activity_webview)
-public class AboutUsActivity extends BaseActivity {
+public class AboutUsActivity extends BaseActivity {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 
@@ -26,7 +29,13 @@ public class AboutUsActivity extends BaseActivity {
 	private String name;
 
 	// private Context context;
-
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -38,9 +47,16 @@ public class AboutUsActivity extends BaseActivity {
 		try {
 			name = getIntent().getStringExtra("name");
 		} catch (Exception e) {
-			// TODO: handle exception
+			//
 		}
 		initView();
+	}
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
 	}
 
 	@SuppressWarnings("deprecation")

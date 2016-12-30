@@ -184,14 +184,37 @@
         <item name="android:textSize">@dimen/font_small</item>
     </style>
 
+    <!--设备状态界面文本样式（灰色） 2016-->
     <style name="tv_gray_normal">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
+    <!--设备状态界面文本样式（白色加粗18） 2016-->
+    <style name="tv_whiteBold_normal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
 
-    <style name="tv_et_blackdark_normal">
+    <!--右边外边距为空-->
+    <style name="iv_nullRight">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/spacing_normal</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_normal</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_normal</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+  <style name="tv_et_blackdark_normal">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/black_dark</item>
@@ -245,6 +268,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/spacing_normal</item>
         <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="ll_normal_error">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/spacing_normal</item>
+    </style>
+    <style name="ll_normal_error2016">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/spacing_normal</item>
     </style>
 
     <style name="ll_normal_2">

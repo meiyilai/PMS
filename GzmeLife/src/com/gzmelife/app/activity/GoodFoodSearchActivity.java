@@ -38,6 +38,7 @@ import com.gzmelife.app.dao.FoodMaterialDAO;
 import com.gzmelife.app.tools.GoodFoodSQLiteOpenHelper;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.RecordSQLiteOpenHelper;
 import com.gzmelife.app.views.MyListView;
 import com.gzmelife.app.views.TipConfirmView;
@@ -72,7 +73,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class GoodFoodSearchActivity extends BaseActivity implements
+public class GoodFoodSearchActivity extends BaseActivity implements//
 		OnClickListener {
 	MyListView listView;
 	MyListView lv_food;
@@ -98,9 +99,24 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 	private MySearchHosAdapter myAdapter;
 	LvfoodSearchAdapter lvFoodSearchAdapter;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_goods_foods_search);
 		if (KappAppliction.getLiLogin() == 1) {
@@ -205,20 +221,20 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				// TODO Auto-generated method stub
+				/***/
 				// mSearchAutoAdapter.performFiltering(s);
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
+				/***/
 
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
+				/***/
 
 				String tempName = et_search.getText().toString();
 				// 根据tempName去模糊查询数据库中有没有数据
@@ -230,7 +246,7 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				String searchContent = et_search.getText().toString().trim();
 				if ("".equals(searchContent)) {
 					KappUtils.showToast(GoodFoodSearchActivity.this,
@@ -247,7 +263,7 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				/***/
 				GoodFoodSearchActivity.this.finish();
 			}
 		});
@@ -257,7 +273,7 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					final int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 				// if (searchAutoDataList.size() != 0
 				// || searchAutoDataList != null) {
 				// SearchAutoData searchAutoData = mSearchAutoAdapter.mObjects
@@ -299,7 +315,7 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
+				/***/
 
 				TextView textView = (TextView) view
 						.findViewById(R.id.auto_content);
@@ -422,19 +438,19 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -477,7 +493,7 @@ public class GoodFoodSearchActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 
 	}
 

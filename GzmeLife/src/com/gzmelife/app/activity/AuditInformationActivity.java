@@ -25,13 +25,14 @@ import com.gzmelife.app.adapter.AuditInformationAdapter;
 import com.gzmelife.app.bean.MyUploadCookbookBean;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 @ContentView(R.layout.activity_audit_information)
-public class AuditInformationActivity extends BaseActivity {
+public class AuditInformationActivity extends BaseActivity {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	
@@ -49,7 +50,22 @@ public class AuditInformationActivity extends BaseActivity {
 //	private int pageSize = 10;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

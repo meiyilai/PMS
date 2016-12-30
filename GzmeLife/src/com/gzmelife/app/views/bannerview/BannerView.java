@@ -231,7 +231,7 @@ public class BannerView extends LinearLayout {
 
 			@Override
 			public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
-				// TODO Auto-generated method stub
+				/***/
 				// iv.setImageBitmap(arg2);
 			}
 

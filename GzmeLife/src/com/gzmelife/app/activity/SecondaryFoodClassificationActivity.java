@@ -37,7 +37,7 @@ import com.gzmelife.app.tools.MyLogger;
 
 /** 美食三级食材 */
 @ContentView(R.layout.activity_secondary_food_classification)
-public class SecondaryFoodClassificationActivity extends BaseActivity {
+public class SecondaryFoodClassificationActivity extends BaseActivity {//
 
 	MyLogger HHDLog = MyLogger.HHDLog();
 
@@ -53,6 +53,20 @@ public class SecondaryFoodClassificationActivity extends BaseActivity {
 	private List<CategorySecondBean> mDatas;
 	private List<LocalFoodMaterialLevelThree> foods;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -65,7 +79,7 @@ public class SecondaryFoodClassificationActivity extends BaseActivity {
 		}
 		for (int i = 0; i < 8; i++) {
 			foods.add(new LocalFoodMaterialLevelThree().setName("食材" + i));
-			HHDLog.e("这里需要保存UID到本地？");
+			HHDLog.v("保存食材到本地？");
 			//bean2.setUid()
 		}
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

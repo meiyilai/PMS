@@ -30,11 +30,12 @@ import com.gzmelife.app.adapter.MyDeviceAdapter;
 import com.gzmelife.app.bean.MyDeviceBean;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.TipConfirmView;
 import com.zxing.activity.CaptureActivity;
 
 @ContentView(R.layout.activity_my_device)
-public class MyDeviceActivity extends BaseActivity implements OnClickListener {
+public class MyDeviceActivity extends BaseActivity implements OnClickListener {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 
@@ -55,6 +56,21 @@ public class MyDeviceActivity extends BaseActivity implements OnClickListener {
 
 	private Context context;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);

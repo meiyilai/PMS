@@ -76,7 +76,6 @@ import com.gzmelife.app.bean.CookBookMenuBookBean;
 import com.gzmelife.app.bean.CookBookMenuBookCommentsBean;
 import com.gzmelife.app.bean.CookBookMenuBookStepsBean;
 import com.gzmelife.app.bean.UserInfoBean;
-import com.gzmelife.app.device.SocketTool;
 import com.gzmelife.app.fragment.PrivateFragment;
 import com.gzmelife.app.tools.CameraUtil;
 import com.gzmelife.app.tools.FileUtils;
@@ -84,6 +83,7 @@ import com.gzmelife.app.tools.HttpDownloader;
 import com.gzmelife.app.tools.ImgLoader;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.PmsFile;
 import com.gzmelife.app.tools.ShowDialogUtil;
 import com.gzmelife.app.bean.TimeNode;
@@ -92,8 +92,11 @@ import com.gzmelife.app.views.TipConfirmView;
 
 @SuppressLint("NewApi")
 @ContentView(R.layout.activity_net_cook_book_detail)
-public class NetCookBooksDetailActivity extends BaseActivity implements
+public class NetCookBooksDetailActivity extends BaseActivity implements//
 		OnClickListener {
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+
 	@ViewInject(R.id.lv_step)
 	ListViewForScrollView lv_step;
 	@ViewInject(R.id.lv_comment)
@@ -130,7 +133,6 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 	CookBookStepAdapter cookBookStopAdapter;
 	String sdPath = null;
-	private SocketTool socketTool;
 	public static String filePath;
 	private Dialog pDlg;
 	List<TimeNode> listTimeNode;
@@ -163,6 +165,14 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 	int nunber;
 	private int fileResult = 110;
 
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -197,20 +207,17 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 	@Override
 	protected void onRestart() {
-		// TODO Auto-generated method stub
 		super.onRestart();
-
 	}
 
 	@Override
 	protected void onResume() {
-
 		super.onResume();
+		HHDLog.v("界面【菜谱详情】（“上传菜谱记录”跳转）");
 	}
 
 	@Override
 	protected void onStop() {
-
 		super.onStop();
 	}
 
@@ -308,13 +315,12 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 			et_describe.setText(pmsFile.text);
 			StringBuffer material = new StringBuffer();
 			listTimeNode.clear();
-			MyLog.d("pmsFile.listTimeNode != null : "
-					+ (pmsFile.listTimeNode != null));
+			//MyLog.d("pmsFile.listTimeNode != null : " + (pmsFile.listTimeNode != null));
+			HHDLog.v("pmsFile.listTimeNode != null : " + (pmsFile.listTimeNode != null));
 			if (pmsFile.listTimeNode != null) {
 				for (int i = 0; i < pmsFile.listTimeNode.size(); i++) {
 					for (int j = 0; j < pmsFile.listTimeNode.get(i).FoodNames.length; j++) {
-						if (!TextUtils
-								.isEmpty(pmsFile.listTimeNode.get(i).FoodNames[j])) {
+						if (!TextUtils.isEmpty(pmsFile.listTimeNode.get(i).FoodNames[j])) {
 							material.append(pmsFile.listTimeNode.get(i).FoodNames[j]);
 							if (i != pmsFile.listTimeNode.size() - 1
 									&& j != pmsFile.listTimeNode.get(i).FoodNames.length - 1) {
@@ -334,7 +340,7 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 		}
 	}
 
-	private void sendFileToPMS() {
+	/*private void sendFileToPMS() {
 		handler.sendEmptyMessage(0);
 		if (socketTool == null) {
 			socketTool = new SocketTool(context, new SocketTool.OnReceiver() {
@@ -368,7 +374,7 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 				socketTool.uploadCookbookInfo();
 			}
 		}).start();
-	}
+	}*/
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@SuppressLint("NewApi")
@@ -442,7 +448,8 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 				JSONObject obj;
 				try {
 					obj = new JSONObject(result.trim());
-					System.out.println(">>>>>>>result=====" + result);
+					//System.out.println(">>>>>>>result=====" + result);
+					HHDLog.v(">>>>>>>result=====" + result);
 					// 菜谱
 					CookBookMenuBookBean bean = gson.fromJson(obj
 							.getJSONObject("data").getJSONObject("menuBook")
@@ -483,15 +490,12 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 					// cookBookMenuBookStepsBeanList);
 					lv_step.setAdapter(cookBookStopAdapter);
 					// 菜谱评论
-					cookBookMenuBookCommentsBeanList = gson
-							.fromJson(
-									obj.getJSONObject("data")
-											.getJSONArray("menubookcomments")
-											.toString(),
+					cookBookMenuBookCommentsBeanList = gson.fromJson(
+									obj.getJSONObject("data").getJSONArray("menubookcomments").toString(),
 									new TypeToken<List<CookBookMenuBookCommentsBean>>() {
+										//
 									}.getType());
-					lvCommentAdapter = new LvCommentAdapter(context,
-							cookBookMenuBookCommentsBeanList);
+					lvCommentAdapter = new LvCommentAdapter(context, cookBookMenuBookCommentsBeanList);
 					lv_comment.setAdapter(lvCommentAdapter);
 
 					// for (int i = 0; i < standardAdapter.getGroupCount(); i++)
@@ -506,19 +510,16 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -566,21 +567,18 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -610,7 +608,8 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 					} else {
 						return;
 					}
-					System.out.println(">>>>result====" + result);
+					//System.out.println(">>>>result====" + result);
+					HHDLog.v(">>>>result====" + result);
 					// 菜谱
 					// CookBookMenuBookBean bean = gson.fromJson(obj
 					// .getJSONObject("data").getJSONObject("menuBook")
@@ -619,8 +618,8 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 					// CookBookBeanDataBean mallBeanGson = gson.fromJson(result,
 					// new TypeToken<CookBookBeanDataBean>(){}.getType());
 
-					System.out.println("collectionIdSave>>>>>>>>"
-							+ collectionId);
+					//System.out.println("collectionIdSave>>>>>>>>" + collectionId);
+					HHDLog.v("collectionIdSave>>>>>>>>" + collectionId);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -628,21 +627,18 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBooksDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBooksDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -650,14 +646,12 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 	}
 
+	/** 下载菜谱 */
 	private void downLoadMenuBookFile() {
-		// 下载
 		showDlg();
-		RequestParams params = new RequestParams(
-				UrlInterface.URL_DOWNLOADMENUBOOKFILE);
+		RequestParams params = new RequestParams(UrlInterface.URL_DOWNLOADMENUBOOKFILE);
 		params.addBodyParameter("id", menuBookId);
 		params.addBodyParameter("uid", user.getId());
-
 		x.http().post(params, new CommonCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
@@ -677,33 +671,25 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 								Looper.prepare();
 								try {
 									HttpDownloader httpDownLoader = new HttpDownloader();
-									int result1 = httpDownLoader
-											.downfile(UrlInterface.URL_HOST
-													+ urlfilepath, "pms/",
-													bookName);
+									int result1 = httpDownLoader.downfile(UrlInterface.URL_HOST + urlfilepath, "pms/", bookName  + ".pms");//20161114
 									// showDlg();
 									if (result1 == 0) {
 										fileResult = 0;
 										localPMSFileStatus.setDirty();
 										KappUtils.showToast(
-												NetCookBooksDetailActivity.this,
-												"下载成功！");
+												NetCookBooksDetailActivity.this, "下载成功！");
 									} else if (result1 == 1) {
 										fileResult = 1;
 										KappUtils.showToast(
-												NetCookBooksDetailActivity.this,
-												"该菜谱已下载！");
+												NetCookBooksDetailActivity.this, "该菜谱已下载！");
 									} else if (result1 == -1) {
 										fileResult = -1;
 										KappUtils.showToast(
-												NetCookBooksDetailActivity.this,
-												"下载失败！");
+												NetCookBooksDetailActivity.this, "下载失败！");
 									}
-
 								} catch (Exception e) {
-									// TODO: handle exception
+									//
 								}
-
 								Looper.loop();
 							}
 						}).start();
@@ -727,23 +713,33 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 				}
 			}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBooksDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 				KappUtils.showToast(NetCookBooksDetailActivity.this, "收藏菜谱失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
@@ -771,10 +767,10 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 				ShowDialogUtil.setTitle("正在传送菜谱，请稍候");
 				break;
 			case 1:
-				KappUtils.showToast(context, "上传文件到智能锅失败");
+				KappUtils.showToast(context, "上传文件到智能灶失败");
 				break;
 			case 2:
-				KappUtils.showToast(context, "上传文件到智能锅成功");
+				KappUtils.showToast(context, "上传文件到智能灶成功");
 				break;
 			}
 			return false;
@@ -783,12 +779,7 @@ public class NetCookBooksDetailActivity extends BaseActivity implements
 
 	@Override
 	protected void onDestroy() {
-
 		super.onDestroy();
-		if (socketTool != null) {
-			socketTool.closeSocket();
-			socketTool = null;
-		}
 	}
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

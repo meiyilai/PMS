@@ -16,6 +16,7 @@ import org.xutils.x;
 import org.xutils.common.Callback.CommonCallback;
 import org.xutils.http.RequestParams;
 
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.views.SwipeMenu;
 import com.gzmelife.app.views.SwipeMenuItem;
 import com.google.gson.Gson;
@@ -63,7 +64,7 @@ import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class CollectionActivity extends BaseActivity implements
+public class CollectionActivity extends BaseActivity implements//
 OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 	TextView tv_title;
 	TextView tv_title_left;
@@ -93,9 +94,17 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 	private CookBookBean str;
 
 	String flagsString;
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_collection);
 		Log.i(TAG, "onCreate-->");
@@ -176,7 +185,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 				}
 				Log.i(TAG, "name:"+name+"name2:"+name2);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				//
 				e.printStackTrace();
 			}
 
@@ -331,7 +340,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 								localCookBookBeans.add(0, cookBookBean);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+							//
 							e.printStackTrace();
 						}
 
@@ -368,13 +377,13 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 
 				@Override
 				public void onclick(pop_dlg pop, View v) {
-					// TODO Auto-generated method stub
+					/***/
 					pop.dismiss();
 				}
 
 				@Override
 				public View initLayout(pop_dlg pop, LayoutInflater flater) {
-					// TODO Auto-generated method stub
+					/***/
 					View v=flater.inflate(R.layout.dialog_tishi_local, null);
 					TextView ok=(TextView) v.findViewById(R.id.ok);
 					TextView tv_content=(TextView) v.findViewById(R.id.tv_content);
@@ -388,21 +397,21 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 	}
 	//	@Override
 	//	public void onResume() {
-	//		// TODO Auto-generated method stub
+	//		/***/
 	//		super.onResume();
 	//		updatePmsStatus();
 	//	}
 
 	private void updatePmsStatus() {
-		if (TextUtils.isEmpty(Config.SERVER_HOST_NAME)) {
+		if (TextUtils.isEmpty(Config.serverHostName)) {
 			iv_titleLeft.setImageResource(R.drawable.ic_arrow_left);
 		} else {
-			if (Config.PMS_ERRORS.size() > 0) {
+			if (Config.PMS_Errors.size() > 0) {
 				iv_titleLeft.setImageResource(R.drawable.ic_arrow_left);
 			} else {
 				iv_titleLeft.setImageResource(R.drawable.ic_arrow_left);
 			}
-			if(Config.isConnext=true){
+			if(Config.isConnect =true){
 				iv_titleLeft.setImageResource(R.drawable.ic_arrow_left);
 			}else{
 				iv_titleLeft.setImageResource(R.drawable.ic_arrow_left);
@@ -412,7 +421,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
+		/***/
 		Log.i(TAG, "onItemClick-->");
 		if (rg_foodOption.getCheckedRadioButtonId() == R.id.rb_cookbook) {
 			Intent intent = new Intent(context,
@@ -594,7 +603,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 							localCookBookBeans.add(focus - 1, changebean);
 						}
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
+						//
 						e.printStackTrace();
 					}
 				}
@@ -607,7 +616,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 	}	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
+		/***/
 		Log.i(TAG, "onActivityResult-->requestCode:"+String.valueOf(requestCode)+"resultCode:"+String.valueOf(resultCode));
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == REQUEST_CODE) {
@@ -647,7 +656,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 							localCookBookBeans.add(0, cookBookBean);
 						}
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						//
 						e.printStackTrace();
 					}
 				}
@@ -759,21 +768,21 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -814,21 +823,21 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				KappUtils.showToast(context, "删除失败");
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -875,19 +884,19 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
@@ -956,7 +965,7 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 								localCookBookBeans.add(0, cookBookBean);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
+							//
 							e.printStackTrace();
 						}
 
@@ -995,10 +1004,11 @@ OnMenuItemClickListener, OnItemClickListener, IXListViewListener {
 		lv_food.stopLoadMore();
 
 	}
+
+	MyLogger HHDLog = MyLogger.HHDLog();
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
-		
 		super.onResume();
+		HHDLog.v("");
 	}
 }

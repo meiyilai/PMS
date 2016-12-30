@@ -27,13 +27,14 @@ import com.gzmelife.app.adapter.SystemMsgAdapter;
 import com.gzmelife.app.bean.SystemMsgBean;
 import com.gzmelife.app.tools.DateUtil;
 import com.gzmelife.app.tools.KappUtils;
+import com.gzmelife.app.tools.MyLogger;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 @ContentView(R.layout.activity_audit_information)
-public class SystemMsgActivity extends BaseActivity {
+public class SystemMsgActivity extends BaseActivity {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	@ViewInject(R.id.tv_title_left)
@@ -47,7 +48,22 @@ public class SystemMsgActivity extends BaseActivity {
 	private int page = 1;
 	
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

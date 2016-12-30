@@ -8,8 +8,10 @@ import org.xutils.db.annotation.Table;
  * 标准食材库一级
  */
 public class LocalFoodMaterialLevelOne {
+	/** 保存本地的一级ID */
 	@Column(isId = true, name = "id")
 	private int id;
+	/** 保存本地的一级名称 */
 	@Column(name = "name")
 	private String name;
 	

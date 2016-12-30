@@ -11,7 +11,6 @@ import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelOne;
 import com.gzmelife.app.bean.LocalFoodMaterialLevelThree;
 import com.gzmelife.app.bean.SerachFoodBean;
-import com.gzmelife.app.tools.MyLog;
 import com.gzmelife.app.tools.MyLogger;
 
 public class FoodMaterialDAO {
@@ -43,6 +42,7 @@ public class FoodMaterialDAO {
 				e.printStackTrace();
 			}
 			categoryId = getFoodMaterialId(bean);
+			HHDLog.v("id="+bean.getId()+"，name="+bean.getName()+"，uid="+bean.getUid()+"，weight="+bean.getWeight()+"，pid="+bean.getPid());
 			return categoryId;
 		} else {
 			return -1;
@@ -68,7 +68,7 @@ public class FoodMaterialDAO {
 	/** 删除本地食材 */
 	public static void deleteLocalFoodMaterialLevelThree(List<String> idList) {
 		if (idList == null || idList.size() == 0) {
-			MyLog.d("要删除的食材id参数有误");
+			HHDLog.v("要删除的食材id参数有误");
 			return;
 		}
 		for (String str : idList) {
@@ -84,7 +84,7 @@ public class FoodMaterialDAO {
 	/** 删除本地食材 */
 	public static void deleteLocalFoodMaterialLevelThreeById(List idList) {
 		if (idList == null || idList.size() == 0) {
-			MyLog.d("要删除的食材id参数有误");
+			HHDLog.v("要删除的食材id参数有误");
 			return;
 		}
 		for (int i = 0; i < idList.size(); i++) {
@@ -126,7 +126,8 @@ public class FoodMaterialDAO {
 					bean.setId(model.getInt("id"));
 					bean.setPid(model.getInt("pid"));
 					bean.setName(model.getString("name"));
-					HHDLog.e("这里需要保存UID到本地？");
+					bean.setUid(model.getString("uid"));
+					//HHDLog.v("保存食材到本地？");
 					////bean2.setUid()
 					list.add(bean);
 				}
@@ -141,17 +142,14 @@ public class FoodMaterialDAO {
 			int categoryId) {
 		ArrayList<String> list = new ArrayList<String>();
 		try {
-			List<DbModel> dbModels = KappAppliction.db
-					.findDbModelAll(new SqlInfo(
-							"SELECT * FROM localFoodMaterialLevelThree WHERE pid="
-									+ categoryId));
+			List<DbModel> dbModels = KappAppliction.db.findDbModelAll(new SqlInfo("SELECT * FROM localFoodMaterialLevelThree WHERE pid=" + categoryId));
 			if (dbModels != null) {
 				for (DbModel model : dbModels) {
 					LocalFoodMaterialLevelThree bean = new LocalFoodMaterialLevelThree();
 					bean.setId(model.getInt("id"));
 					bean.setPid(model.getInt("pid"));
 					bean.setName(model.getString("name"));
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					//bean2.setUid()
 					list.add(model.getString("name"));
 				}
@@ -180,8 +178,7 @@ public class FoodMaterialDAO {
 	/** 获取本地食材的分类ID，不存在返回-1 */
 	public static int getCategoryIds(String name) {
 		try {
-			DbModel bean = KappAppliction.db.findDbModelFirst(new SqlInfo(
-					"SELECT id FROM localFoodMaterialLevelThree WHERE name='"
+			DbModel bean = KappAppliction.db.findDbModelFirst(new SqlInfo("SELECT id FROM localFoodMaterialLevelThree WHERE name='"
 							+ name + "'"));
 			if (bean != null) {
 				return bean.getInt("id");
@@ -195,9 +192,7 @@ public class FoodMaterialDAO {
 	/** 获取本地食材的ID，不存在返回-1 */
 	public static int getFoodMaterialId(LocalFoodMaterialLevelThree bean) {
 		try {
-			DbModel dbModel = KappAppliction.db.findDbModelFirst(new SqlInfo(
-					"SELECT id FROM localFoodMaterialLevelThree WHERE name='"
-							+ bean.getName() + "' and pid=" + bean.getPid()));
+			DbModel dbModel = KappAppliction.db.findDbModelFirst(new SqlInfo("SELECT id FROM localFoodMaterialLevelThree WHERE name='" + bean.getName() + "' and pid=" + bean.getPid()));
 			if (dbModel != null) {
 				return dbModel.getInt("id");
 			}
@@ -210,10 +205,9 @@ public class FoodMaterialDAO {
 	/** 获取本地食材的ID，不存在返回-1 */
 	public static int getFoodMaterialId(SerachFoodBean bean) {
 		try {
-			DbModel dbModel = KappAppliction.db.findDbModelFirst(new SqlInfo(
-					"SELECT id FROM localFoodMaterialLevelThree WHERE name='"
-							+ bean.getName() + "' and pid=" + bean.getC_id()));
+			DbModel dbModel = KappAppliction.db.findDbModelFirst(new SqlInfo("SELECT id FROM localFoodMaterialLevelThree WHERE name='" + bean.getName() + "' and pid=" + bean.getC_id()));
 			if (dbModel != null) {
+				//HHDLog.v(dbModel.getInt("uid")+"==============================================================================");
 				return dbModel.getInt("id");
 			}
 		} catch (DbException e) {

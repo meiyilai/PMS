@@ -46,7 +46,7 @@ import com.gzmelife.app.views.GridViewForScrollView;
 
 /** 个人中心-三级食材(食材库管理) */
 @ContentView(R.layout.activity_standard_food_material_details)
-public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
+public class StandardFoodMaterialDetailsActivity extends BaseActivity implements//
 		android.view.View.OnClickListener {
 
 	MyLogger HHDLog = MyLogger.HHDLog();
@@ -86,6 +86,20 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 	private int count, ChildPosition;
 	private Context context;
 
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 
@@ -140,7 +154,7 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
 					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(selectedList.get(i));
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					//bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}
@@ -204,8 +218,8 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 		if (p > mDatas.size() - 3) {
 			p = mDatas.size();
 		}
-
-		System.out.println(">>>p======" + p);
+		//System.out.println(">>>p======" + p);
+		HHDLog.v("p=" +p);
 		linearLayoutManager.scrollToPosition(ChildPosition);
 		rv_goodfood.setLayoutManager(linearLayoutManager);
 
@@ -215,7 +229,8 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 				.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
 					@Override
 					public void onItemClick(View view, int position,int pos) {
-						System.out.println(">>>>pos===" + pos);
+						//System.out.println(">>>>pos===" + pos);
+						HHDLog.v("pos=" +pos);
 						for (int i = 0; i < rv_goodfood.getChildCount(); i++) {
 							rv_goodfood.getChildAt(i).findViewById(R.id.tv)
 									.setSelected(false);
@@ -251,8 +266,8 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 		x.http().post(params, new CommonCallback<String>() {
 			@Override
 			public void onSuccess(String result) {
-				Log.i(TAG, "修改步骤UID  net getById-->onSuccess:"+result);
-
+				//Log.i(TAG, "修改步骤UID  net getById-->onSuccess:"+result);
+				HHDLog.v("修改步骤UID成功="+result);
 				closeDlg();
 				Gson gson = new Gson();
 				JSONObject obj;
@@ -269,7 +284,6 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 								
 								@Override
 								public void onCheckChange(String name, String id, boolean isChecked) {
-									// TODO Auto-generated method stub
 									if (isChecked) {
 										selectedList.add(name);
 									} else {
@@ -290,22 +304,18 @@ public class StandardFoodMaterialDetailsActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
 				closeDlg();
 			}
-
 		});
 	}
 

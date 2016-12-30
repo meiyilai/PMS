@@ -3,7 +3,7 @@ package com.gzmelife.Status;
 import android.util.Log;
 
 /**
- * 该类是记录上传智能锅数据的状态记录类，
+ * 该类是记录上传智能灶数据的状态记录类，
  * 该类公共变量isDirty，
  * 使用方法：在整个程序中，任何地方都是new出一个smartPotStatu实例
  * 调用公开的方法，就可以实现同步

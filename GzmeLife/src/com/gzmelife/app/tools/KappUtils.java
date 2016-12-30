@@ -16,11 +16,15 @@ import com.gzmelife.app.device.Config;
 
 @SuppressLint("InflateParams")
 public class KappUtils {
+
+	static MyLogger HHDLog = MyLogger.HHDLog();
+
 	public static final String FLAG_FAQ_DETAIL_1 = "FAQ_detail_1";
 	public static final String FLAG_FAQ_DETAIL = "FAQ_detail";
 	public static final String FLAG_ABOUT_US = "about_us";
 	public static final String FLAG_SYSTEM_MSG_DETAIL = "system_msg_detail";
-	
+
+	/** PMS状态的广播地址 */
 	public static final String ACTION_PMS_STATUS = "com.gzmelife.app.action.pmsstatus";
 	 private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
          'e', 'f'};
@@ -46,11 +50,12 @@ public class KappUtils {
 		}
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 		int ipAddress = wifiInfo.getIpAddress();
-		Config.LOCAL_IP = DataUtil.getIp(ipAddress);
+		Config.localIP = DataUtil.getIp(ipAddress);
 		Config.clientPort = DataUtil.getIpEndByte(ipAddress);
-		Config.BROADCAST_IP = Config.LOCAL_IP.substring(0, Config.LOCAL_IP.lastIndexOf('.') + 1) + "255";
+		Config.broadcastIp = Config.localIP.substring(0, Config.localIP.lastIndexOf('.') + 1) + "255";
 //		MyLog.i(MyLog.TAG_I_INFO, "Config.BROADCAST_IP = " + Config.BROADCAST_IP);
-		MyLog.i(MyLog.TAG_I_INFO, "本机IP:" + Config.LOCAL_IP);
+		//MyLog.i(MyLog.TAG_I_INFO, "本机IP:" + Config.LOCAL_IP);
+		HHDLog.w("手机IP=" + Config.localIP);
 	}
 	
 	 public static String md5(String str) {

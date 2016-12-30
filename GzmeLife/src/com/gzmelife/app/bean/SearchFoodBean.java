@@ -9,14 +9,19 @@ public class SearchFoodBean {
 
     MyLogger HHDLog = MyLogger.HHDLog();
 
+    /** 食材的ID=UID */
     private String id;
+    /** 食材的名称 */
     private String name;
+    /** 一级分类的ID */
     private String c_id;
+    /** 一级分类的名称 */
     private String c_name;
+    /** 食材的UID */
     private String uid;
 
     public String getId() {
-        HHDLog.e(id);
+        HHDLog.v(id);
         return id;
     }
 
@@ -25,7 +30,7 @@ public class SearchFoodBean {
     }
 
     public String getName() {
-        HHDLog.e(name);
+        HHDLog.v(name);
         return name;
     }
 
@@ -34,7 +39,7 @@ public class SearchFoodBean {
     }
 
     public String getC_id() {
-        HHDLog.e(c_id);
+        HHDLog.v(c_id);
         return c_id;
     }
 
@@ -43,7 +48,7 @@ public class SearchFoodBean {
     }
 
     public String getC_name() {
-        HHDLog.e(c_name);
+        HHDLog.v(c_name);
         return c_name;
     }
 
@@ -52,7 +57,7 @@ public class SearchFoodBean {
     }
 
     public String getUid() {
-        HHDLog.e(uid);
+        HHDLog.v(uid);
         return uid;
     }
 

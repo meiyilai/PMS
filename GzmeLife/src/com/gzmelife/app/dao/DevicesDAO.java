@@ -8,6 +8,7 @@ import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.bean.DeviceNameAndIPBean;
 import com.gzmelife.app.tools.MyLog;
 
+/** 设备信息数据库 */
 public class DevicesDAO {
 	/** 保存，先查询数据库内是否存在，不存在时才进行保存 */
 	public void save(DeviceNameAndIPBean bean) {

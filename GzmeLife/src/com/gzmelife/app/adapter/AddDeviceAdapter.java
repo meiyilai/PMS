@@ -15,6 +15,9 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.bean.DeviceNameAndIPBean;
 import com.gzmelife.app.tools.MyLog;
 
+/**
+ * 设备列表Adapter_界面【添加设备】左边（设备中心）
+ */
 @SuppressLint("InflateParams")
 public class AddDeviceAdapter extends BaseAdapter {
 
@@ -24,7 +27,8 @@ public class AddDeviceAdapter extends BaseAdapter {
 	private Context context;
 	
 	private OnReceiver onReceiver;
-	
+
+    /** 设备列表Adapter构造方法_界面【添加设备】左边（设备中心） */
 	public AddDeviceAdapter(Context context, List<DeviceNameAndIPBean> list, OnReceiver onReceiver) {
 		this.context = context;
 		this.list = list;
@@ -67,7 +71,7 @@ public class AddDeviceAdapter extends BaseAdapter {
 			holder.view_gap.setVisibility(View.VISIBLE);
 		}
 		final DeviceNameAndIPBean bean = list.get(position);
-		holder.tv_name.setText("我的电磁炉-" + bean.getName());
+		holder.tv_name.setText("我的智能灶-" + bean.getName());
 		
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -80,7 +84,8 @@ public class AddDeviceAdapter extends BaseAdapter {
 		
 		return convertView;
 	}
-	
+
+    /** 20161212响应点击事件（自定义接口回调） */
 	public interface OnReceiver {
 		void onClick(int position);
 	}

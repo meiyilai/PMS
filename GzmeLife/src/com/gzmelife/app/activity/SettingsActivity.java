@@ -1,6 +1,7 @@
 package com.gzmelife.app.activity;
 
 import java.io.File;
+import java.util.List;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -14,17 +15,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 import cn.jpush.android.api.JPushInterface;
 
 import com.gzmelife.app.R;
 import com.gzmelife.app.tools.DataCleanManager;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 @ContentView(R.layout.activity_settings)
-public class SettingsActivity extends BaseActivity implements android.view.View.OnClickListener {
+public class SettingsActivity extends BaseActivity implements OnClickListener {//
 	@ViewInject(R.id.tv_title)
 	TextView tv_title;
 	
@@ -40,7 +43,22 @@ public class SettingsActivity extends BaseActivity implements android.view.View.
 	@ViewInject(R.id.tv_title_left)
 	TextView tv_title_left;
 	private Context context;
-	
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		

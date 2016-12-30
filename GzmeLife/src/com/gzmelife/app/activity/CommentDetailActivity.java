@@ -1,5 +1,6 @@
 package com.gzmelife.app.activity;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +16,8 @@ import com.google.gson.Gson;
 import com.gzmelife.app.KappAppliction;
 import com.gzmelife.app.R;
 import com.gzmelife.app.UrlInterface;
-import com.gzmelife.app.tools.DataUtil;
 import com.gzmelife.app.tools.KappUtils;
-import com.gzmelife.app.views.ContainsEmojiEditText;
+import com.gzmelife.app.tools.MyLogger;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -29,11 +29,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 @SuppressLint("NewApi")
 @ContentView(R.layout.activity_comment_detail)
-public class CommentDetailActivity extends BaseActivity implements
+public class CommentDetailActivity extends BaseActivity implements//
 		OnClickListener {
 	// 菜谱ID
 	private String menuBookId;
@@ -42,9 +41,24 @@ public class CommentDetailActivity extends BaseActivity implements
 	private EditText et_content;
 	private Button bt_content;
 
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
+		/***/
 		super.onCreate(arg0);
 		menuBookId = getIntent().getStringExtra("menuBookId");
 		getviews();
@@ -71,7 +85,7 @@ public class CommentDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 				Gson gson = new Gson();
 				JSONObject obj;
@@ -94,19 +108,19 @@ public class CommentDetailActivity extends BaseActivity implements
 
 			@Override
 			public void onError(Throwable ex, boolean isOnCallback) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onCancelled(CancelledException cex) {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 
 			@Override
 			public void onFinished() {
-				// TODO Auto-generated method stub
+				/***/
 				closeDlg();
 			}
 		});
@@ -114,7 +128,7 @@ public class CommentDetailActivity extends BaseActivity implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		/***/
 		switch (v.getId()) {
 		case R.id.bt_content:
 			if (et_content.getText().toString().equals("")) {

@@ -37,7 +37,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class SearchDetailActivity extends BaseActivity {
+public class SearchDetailActivity extends BaseActivity {//
 
 	MyLogger HHDLog = MyLogger.HHDLog();
 
@@ -49,6 +49,14 @@ public class SearchDetailActivity extends BaseActivity {
 	private String name;
 	UserInfoBean user;
 
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -82,7 +90,7 @@ public class SearchDetailActivity extends BaseActivity {
 					LocalFoodMaterialLevelThree bean2 = new LocalFoodMaterialLevelThree();
 					bean2.setPid(FoodMaterialDAO.saveLocalFoodMaterialLevelOne(bean1));
 					bean2.setName(nameStr);
-					HHDLog.e("这里需要保存UID到本地？");
+					HHDLog.v("保存食材到本地？");
 					////bean2.setUid()
 					FoodMaterialDAO.saveLocalFoodMaterialLevelThree(bean2);
 				}

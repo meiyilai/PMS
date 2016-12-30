@@ -19,8 +19,7 @@ import com.gzmelife.app.R;
 import com.gzmelife.app.device.Config;
 import com.gzmelife.app.tools.MyLog;
 
-/**
- */
+/** 显示设备的Adapter_界面【直连模式】左边（添加新设备） */
 @SuppressLint("InflateParams")
 public class PMSWifiAdapter extends BaseAdapter {
 
@@ -74,7 +73,7 @@ public class PMSWifiAdapter extends BaseAdapter {
         String connectedSsid = new EspWifiAdminSimple(context).getWifiConnectedSsid();
         MyLog.d("position=" + position + ",connectedSsid=" + connectedSsid);
         // 直连模式下，只有此wifi等于手机所连的wifi，且等于手机所连接的PMS设备名字，才算是直连模式下的已连接(可能存在PMS设备名字还未清除但是wifi已断开、wifi未断开但与PMS的连接已断开)
-        if (!TextUtils.isEmpty(connectedSsid) && bean.SSID.equals(connectedSsid) && bean.SSID.equals(Config.SERVER_HOST_NAME)) {
+        if (!TextUtils.isEmpty(connectedSsid) && bean.SSID.equals(connectedSsid) && bean.SSID.equals(Config.serverHostName)) {
     		viewHolder.btn_connect.setText("已连接");
     		viewHolder.btn_connect.setBackgroundResource(R.drawable.shape_gray_bg);
     		viewHolder.tv_status.setText("已连接");
@@ -96,6 +95,7 @@ public class PMSWifiAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /** 自定义接口回调 */
     public interface OnReceiver {
     	void onClick(int position);
     }

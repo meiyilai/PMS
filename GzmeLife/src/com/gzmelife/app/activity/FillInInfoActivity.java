@@ -34,13 +34,14 @@ import com.gzmelife.app.bean.UserInfoBean;
 import com.gzmelife.app.tools.CameraUtil;
 import com.gzmelife.app.tools.KappUtils;
 import com.gzmelife.app.tools.MyLog;
+import com.gzmelife.app.tools.MyLogger;
 import com.gzmelife.app.tools.SharedPreferenceUtil;
 import com.gzmelife.app.views.CircleImageView;
 import com.gzmelife.app.views.ListViewForScrollView;
 import com.zxing.activity.CaptureActivity;
 
 @ContentView(R.layout.activity_fillininfo)
-public class FillInInfoActivity extends BaseActivity implements OnClickListener {
+public class FillInInfoActivity extends BaseActivity implements OnClickListener {//
 
 	DeviceAdapter deviceAdapter;
 	@ViewInject(R.id.lv_device)
@@ -74,6 +75,22 @@ public class FillInInfoActivity extends BaseActivity implements OnClickListener 
 	String urlHeadPath;
 	String singid;
 	String name;
+
+
+	MyLogger HHDLog = MyLogger.HHDLog();
+	@Override
+	protected void onResume() {
+		super.onResume();
+		HHDLog.v("");
+	}
+
+	//TODO 2016
+	/** Socket状态监听 */
+	@Override
+	public void success(List<String> cookBookFileList, int status, int progress, int total) {}
+	@Override
+	public void failure(int flag) {}
+	//TODO 2016
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
